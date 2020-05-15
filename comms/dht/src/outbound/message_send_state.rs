@@ -21,8 +21,17 @@
 // USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 use futures::{stream::FuturesUnordered, Future, StreamExt};
-use std::ops::Index;
+use std::{
+    ops::Index,
+    time::{Duration, Instant},
+};
 use tari_comms::message::{MessageTag, MessagingReplyRx};
+use tokio::time;
+
+pub enum TimeoutResult<T> {
+    Timeout(T),
+    Ok(T),
+}
 
 #[derive(Debug)]
 pub struct MessageSendState {
@@ -107,6 +116,58 @@ impl MessageSendStates {
         }
 
         (succeeded, failed)
+    }
+
+    pub async fn wait_timeout(self, timeout: Duration, n: usize) -> TimeoutResult<(Vec<MessageTag>, Vec<MessageTag>)> {
+        self.wait_timeout_if(timeout, |count| count >= n)
+    }
+
+    async fn wait_timeout_if<P>(
+        self,
+        mut timeout: Duration,
+        predicate: P,
+    ) -> TimeoutResult<(Vec<MessageTag>, Vec<MessageTag>)>
+    where
+        P: FnMut(usize) -> bool,
+    {
+        if self.is_empty() {
+            return TimeoutResult::Ok((Vec::new(), Vec::new()));
+        }
+
+        let start = Instant::now();
+        let mut count = 0;
+        let mut unordered = self.into_futures_unordered();
+        loop {
+            match time::timeout(timeout, unordered.next()).await {
+                Ok(Some((tag, result))) => {
+                    match result {
+                        Ok(_) => {
+                            count += 1;
+                            succeeded.push(tag);
+                        },
+                        Err(_) => {
+                            failed.push(tag);
+                        },
+                    }
+                    if (predicate)(count) {
+                        break TimeoutResult::Timeout((succeeded, failed));
+                    }
+                },
+                Ok(None) => {
+                    break TimeoutResult::Ok((succeeded, failed));
+                },
+                Err(_) => {
+                    break TimeoutResult::Timeout((succeeded, failed));
+                },
+            }
+
+            match timeout.checked_sub(start.elapsed()) {
+                Some(ts) => {
+                    timeout = ts;
+                },
+                None => break TimeoutResult::Timeout((succeeded, failed)),
+            }
+        }
     }
 
     /// Wait for the result of a single send. This should not be used when this container contains multiple send states.
