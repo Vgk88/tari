@@ -112,7 +112,9 @@ impl DhtActorMock {
             },
             SelectPeers(_, reply_tx) => {
                 let lock = self.state.select_peers.read().unwrap();
-                reply_tx.send(lock.iter().cloned().map(Arc::new).collect()).unwrap();
+                reply_tx
+                    .send(lock.iter().cloned().map(|p| p.node_id).collect())
+                    .unwrap();
             },
             GetMetadata(key, reply_tx) => {
                 let _ = reply_tx.send(Ok(self

@@ -96,7 +96,6 @@ fn test_listening_lagging() {
         MmrCacheConfig::default(),
         MempoolServiceConfig::default(),
         LivenessConfig {
-            enable_auto_join: false,
             auto_ping_interval: Some(Duration::from_millis(100)),
             ..Default::default()
         },

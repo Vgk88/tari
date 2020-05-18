@@ -27,7 +27,7 @@ use super::{
 };
 use crate::{
     multiplexing::{Control, IncomingSubstreams, Substream, SubstreamCounter, Yamux},
-    peer_manager::{NodeId, Peer, PeerFeatures},
+    peer_manager::{NodeId, PeerFeatures},
     protocol::{ProtocolId, ProtocolNegotiation},
     runtime,
 };
@@ -41,10 +41,7 @@ use log::*;
 use multiaddr::Multiaddr;
 use std::{
     fmt,
-    sync::{
-        atomic::{AtomicUsize, Ordering},
-        Arc,
-    },
+    sync::atomic::{AtomicUsize, Ordering},
     time::{Duration, Instant},
 };
 use tari_shutdown::Shutdown;
@@ -58,7 +55,8 @@ static ID_COUNTER: AtomicUsize = AtomicUsize::new(0);
 pub fn create(
     connection: Yamux,
     peer_addr: Multiaddr,
-    peer: Arc<Peer>,
+    peer_node_id: NodeId,
+    peer_features: PeerFeatures,
     direction: ConnectionDirection,
     event_notifier: mpsc::Sender<ConnectionManagerEvent>,
     our_supported_protocols: Vec<ProtocolId>,
@@ -67,15 +65,23 @@ pub fn create(
     trace!(
         target: LOG_TARGET,
         "(Peer={}) Socket successfully upgraded to multiplexed socket",
-        peer.node_id.short_str()
+        peer_node_id.short_str()
     );
     let (peer_tx, peer_rx) = mpsc::channel(PEER_REQUEST_BUFFER_SIZE);
     let id = ID_COUNTER.fetch_add(1, Ordering::Relaxed); // Monotonic
     let substream_counter = connection.substream_counter();
-    let peer_conn = PeerConnection::new(id, peer_tx, peer.clone(), peer_addr, direction, substream_counter);
+    let peer_conn = PeerConnection::new(
+        id,
+        peer_tx,
+        peer_node_id.clone(),
+        peer_features,
+        peer_addr,
+        direction,
+        substream_counter,
+    );
     let peer_actor = PeerConnectionActor::new(
         id,
-        peer.node_id.clone(),
+        peer_node_id,
         direction,
         connection,
         peer_rx,
@@ -104,7 +110,8 @@ pub type ConnId = usize;
 #[derive(Clone, Debug)]
 pub struct PeerConnection {
     id: ConnId,
-    peer: Arc<Peer>,
+    peer_node_id: NodeId,
+    peer_features: PeerFeatures,
     request_tx: mpsc::Sender<PeerConnectionRequest>,
     address: Multiaddr,
     direction: ConnectionDirection,
@@ -116,7 +123,8 @@ impl PeerConnection {
     pub(crate) fn new(
         id: ConnId,
         request_tx: mpsc::Sender<PeerConnectionRequest>,
-        peer: Arc<Peer>,
+        peer_node_id: NodeId,
+        peer_features: PeerFeatures,
         address: Multiaddr,
         direction: ConnectionDirection,
         substream_counter: SubstreamCounter,
@@ -125,7 +133,8 @@ impl PeerConnection {
         Self {
             id,
             request_tx,
-            peer,
+            peer_node_id,
+            peer_features,
             address,
             direction,
             started_at: Instant::now(),
@@ -133,18 +142,12 @@ impl PeerConnection {
         }
     }
 
-    /// Returns the peer associated with this peer connection.
-    /// WARNING: This is not kept in-sync with the peer database
-    pub fn peer(&self) -> Arc<Peer> {
-        self.peer.clone()
-    }
-
     pub fn peer_node_id(&self) -> &NodeId {
-        &self.peer.node_id
+        &self.peer_node_id
     }
 
     pub fn peer_features(&self) -> PeerFeatures {
-        self.peer.features
+        self.peer_features
     }
 
     pub fn direction(&self) -> ConnectionDirection {
@@ -212,11 +215,12 @@ impl fmt::Display for PeerConnection {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> Result<(), fmt::Error> {
         write!(
             f,
-            "Id = {}, Node ID = {}, Direction = {}, Peer Address = {}",
+            "Id = {}, Node ID = {}, Direction = {}, Peer Address = {}, Features = {:?}",
             self.id,
-            self.peer.node_id.short_str(),
-            self.direction.to_string(),
-            self.address.to_string()
+            self.peer_node_id.short_str(),
+            self.direction,
+            self.address,
+            self.peer_features,
         )
     }
 }

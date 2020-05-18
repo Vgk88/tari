@@ -19,15 +19,15 @@
 //  SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
 //  WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE
 //  USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-
+use super::{
+    config::ConnectivityConfig,
+    connection_pool::ConnectionStatus,
+    manager::ConnectivityManager,
+    requester::{ConnectivityEvent, ConnectivityRequester},
+    selection::ConnectivitySelection,
+};
 use crate::{
     connection_manager::ConnectionManagerError,
-    connectivity::{
-        config::ConnectivityConfig,
-        connection_pool::ConnectionStatus,
-        manager::ConnectivityManager,
-        requester::{ConnectivityEvent, ConnectivityRequester, ConnectivitySelection},
-    },
     peer_manager::{Peer, PeerFeatures},
     test_utils::{
         mocks::{create_connection_manager_mock, create_peer_connection_mock_pair, ConnectionManagerMockState},
@@ -72,6 +72,7 @@ fn setup_connectivity_manager(
         peer_manager: peer_manager.clone(),
         shutdown_signal: shutdown.to_signal(),
     }
+    .create()
     .spawn();
 
     (
@@ -98,12 +99,8 @@ async fn add_test_peers(peer_manager: &PeerManager, n: usize) -> Vec<Peer> {
 
 #[tokio_macros::test_basic]
 async fn connecting_peers() {
-    let config = ConnectivityConfig {
-        min_desired_peers: 5,
-        ..Default::default()
-    };
     let (mut connectivity, mut event_stream, node_identity, peer_manager, mut cm_mock_state, _shutdown) =
-        setup_connectivity_manager(config);
+        setup_connectivity_manager(Default::default());
     let peers = add_test_peers(&peer_manager, 10).await;
 
     let connections = future::join_all(
@@ -120,20 +117,12 @@ async fn connecting_peers() {
     let mut events = collect_stream!(event_stream, take = 1, timeout = Duration::from_secs(10));
     unpack_enum!(ConnectivityEvent::ConnectivityStateInitialized = &*events.remove(0).unwrap());
 
-    // First 5 succeeded
+    // All connections succeeded
     for conn in &connections {
         cm_mock_state.publish_event(ConnectionManagerEvent::PeerConnected(conn.clone()));
     }
 
-    let events = collect_stream!(event_stream, take = 10, timeout = Duration::from_secs(10));
-    let n = events
-        .iter()
-        .find_map(|event| match &**event.as_ref().unwrap() {
-            ConnectivityEvent::ConnectivityStateReady(n) => Some(n),
-            _ => None,
-        })
-        .unwrap();
-    assert_eq!(*n, 5);
+    let _events = collect_stream!(event_stream, take = 11, timeout = Duration::from_secs(10));
 
     let connection_states = connectivity.get_all_connection_states().await.unwrap();
     assert_eq!(connection_states.len(), 10);
@@ -144,13 +133,9 @@ async fn connecting_peers() {
 }
 
 #[tokio_macros::test_basic]
-async fn add_many_eligible_peers() {
-    let config = ConnectivityConfig {
-        min_desired_peers: 5,
-        ..Default::default()
-    };
+async fn add_many_managed_peers() {
     let (mut connectivity, mut event_stream, node_identity, peer_manager, mut cm_mock_state, _shutdown) =
-        setup_connectivity_manager(config);
+        setup_connectivity_manager(Default::default());
     let peers = add_test_peers(&peer_manager, 10).await;
 
     let connections = future::join_all(
@@ -164,7 +149,7 @@ async fn add_many_eligible_peers() {
     .collect::<Vec<_>>();
 
     connectivity
-        .add_eligible_peers(peers.iter().map(|p| p.node_id.clone()).collect())
+        .add_managed_peers(peers.iter().map(|p| p.node_id.clone()).collect())
         .await
         .unwrap();
 
@@ -188,12 +173,13 @@ async fn add_many_eligible_peers() {
     let n = events
         .iter()
         .find_map(|event| match &**event.as_ref().unwrap() {
-            ConnectivityEvent::ConnectivityStateReady(n) => Some(n),
+            ConnectivityEvent::ConnectivityStateOnline(n) => Some(n),
+            ConnectivityEvent::ConnectivityStateDegraded(_) => None,
             ConnectivityEvent::PeerConnected(_) => None,
             e => panic!("Unexpected ConnectivityEvent {:?}", e),
         })
         .unwrap();
-    assert_eq!(*n, 5);
+    assert!(*n > 1);
 
     let connection_states = connectivity.get_all_connection_states().await.unwrap();
     assert_eq!(connection_states.len(), 10);
@@ -232,14 +218,13 @@ async fn ban_peer() {
     let peer = add_test_peers(&peer_manager, 1).await.pop().unwrap();
     let (_, _, conn, _) = create_peer_connection_mock_pair(1, node_identity.to_peer(), peer.clone()).await;
 
-    let mut events = collect_stream!(event_stream, take = 2, timeout = Duration::from_secs(10));
+    let mut events = collect_stream!(event_stream, take = 1, timeout = Duration::from_secs(10));
     unpack_enum!(ConnectivityEvent::ConnectivityStateInitialized = &*events.remove(0).unwrap());
-    // Minimum required peers is 0 by default, so connectivity is immediately in the READY state
-    unpack_enum!(ConnectivityEvent::ConnectivityStateReady(_n) = &*events.remove(0).unwrap());
 
     cm_mock_state.publish_event(ConnectionManagerEvent::PeerConnected(conn.clone()));
-    let mut events = collect_stream!(event_stream, take = 1, timeout = Duration::from_secs(10));
+    let mut events = collect_stream!(event_stream, take = 2, timeout = Duration::from_secs(10));
     unpack_enum!(ConnectivityEvent::PeerConnected(_conn) = &*events.remove(0).unwrap());
+    unpack_enum!(ConnectivityEvent::ConnectivityStateOnline(_n) = &*events.remove(0).unwrap());
 
     let conn = connectivity.get_connection(peer.node_id.clone()).await.unwrap();
     assert!(conn.is_some());
@@ -264,7 +249,7 @@ async fn ban_peer() {
 #[tokio_macros::test_basic]
 async fn peer_selection() {
     let config = ConnectivityConfig {
-        min_desired_peers: 10,
+        min_connectivity: 1.0,
         ..Default::default()
     };
     let (mut connectivity, mut event_stream, node_identity, peer_manager, mut cm_mock_state, _shutdown) =
@@ -283,7 +268,7 @@ async fn peer_selection() {
     .collect::<Vec<_>>();
 
     connectivity
-        .add_eligible_peers(peers.iter().take(5).map(|p| p.node_id.clone()).collect())
+        .add_managed_peers(peers.iter().take(5).map(|p| p.node_id.clone()).collect())
         .await
         .unwrap();
 
@@ -295,7 +280,7 @@ async fn peer_selection() {
     }
 
     // Wait for all peers to be connected (i.e. for the connection manager events to be received)
-    let mut _events = collect_stream!(event_stream, take = 11, timeout = Duration::from_secs(10));
+    let mut _events = collect_stream!(event_stream, take = 12, timeout = Duration::from_secs(10));
 
     let conns = connectivity
         .select_connections(ConnectivitySelection::random_nodes(10, vec![connections[0]
@@ -310,6 +295,7 @@ async fn peer_selection() {
         .select_connections(ConnectivitySelection::closest_to(
             connections.last().unwrap().peer_node_id().clone(),
             5,
+            vec![],
         ))
         .await
         .unwrap();

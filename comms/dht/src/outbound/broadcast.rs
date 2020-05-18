@@ -49,7 +49,7 @@ use rand::rngs::OsRng;
 use std::{sync::Arc, task::Poll};
 use tari_comms::{
     message::{MessageExt, MessageTag},
-    peer_manager::{NodeIdentity, Peer},
+    peer_manager::{NodeId, NodeIdentity, Peer},
     pipeline::PipelineError,
     types::{Challenge, CommsPublicKey},
     utils::signature,
@@ -289,7 +289,7 @@ where S: Service<DhtOutboundMessage, Response = (), Error = PipelineError>
                         Ok(Some(peer)) => {
                             // Set the reply_tx so that it can be used later
                             reply_tx = Some(discovery_reply_tx);
-                            peers = vec![Arc::new(peer)];
+                            peers = vec![peer.node_id];
                         },
                         Ok(None) => {
                             // Message sent to 0 peers
@@ -339,11 +339,7 @@ where S: Service<DhtOutboundMessage, Response = (), Error = PipelineError>
         }
     }
 
-    async fn select_peers(
-        &mut self,
-        broadcast_strategy: BroadcastStrategy,
-    ) -> Result<Vec<Arc<Peer>>, DhtOutboundError>
-    {
+    async fn select_peers(&mut self, broadcast_strategy: BroadcastStrategy) -> Result<Vec<NodeId>, DhtOutboundError> {
         self.dht_requester
             .select_peers(broadcast_strategy)
             .await
@@ -398,7 +394,7 @@ where S: Service<DhtOutboundMessage, Response = (), Error = PipelineError>
     #[allow(clippy::too_many_arguments)]
     async fn generate_send_messages(
         &mut self,
-        selected_peers: Vec<Arc<Peer>>,
+        selected_peers: Vec<NodeId>,
         destination: NodeDestination,
         dht_message_type: DhtMessageType,
         encryption: OutboundEncryption,
@@ -420,14 +416,14 @@ where S: Service<DhtOutboundMessage, Response = (), Error = PipelineError>
         // Construct a DhtOutboundMessage for each recipient
         let messages = selected_peers
             .into_iter()
-            .map(|peer| {
+            .map(|node_id| {
                 let (reply_tx, reply_rx) = oneshot::channel();
                 let tag = MessageTag::new();
                 let send_state = MessageSendState::new(tag, reply_rx);
                 (
                     DhtOutboundMessage {
                         tag,
-                        destination_peer: peer,
+                        destination_node_id: node_id,
                         destination: destination.clone(),
                         dht_message_type,
                         network: self.target_network,
@@ -599,10 +595,8 @@ mod test {
         let requests = spy.take_requests();
         assert!(requests
             .iter()
-            .any(|msg| msg.destination_peer.node_id == example_peer.node_id));
-        assert!(requests
-            .iter()
-            .any(|msg| msg.destination_peer.node_id == other_peer.node_id));
+            .any(|msg| msg.destination_node_id == example_peer.node_id));
+        assert!(requests.iter().any(|msg| msg.destination_node_id == other_peer.node_id));
     }
 
     #[test]

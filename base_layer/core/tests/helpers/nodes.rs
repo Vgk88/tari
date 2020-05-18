@@ -241,6 +241,15 @@ impl BaseNodeBuilder {
     }
 }
 
+pub fn wait_until_online(runtime: &mut Runtime, nodes: &[&NodeInterfaces]) {
+    for node in nodes {
+        runtime
+            .block_on(node.comms.connectivity().wait_online(Duration::from_secs(10)))
+            .map_err(|err| format!("Node '{}' failed to go online {:?}", node.node_identity.node_id(), err))
+            .unwrap();
+    }
+}
+
 // Creates a network with two Base Nodes where each node in the network knows the other nodes in the network.
 pub fn create_network_with_2_base_nodes(
     runtime: &mut Runtime,
@@ -338,6 +347,8 @@ pub fn create_network_with_2_base_nodes_with_config(
             interval = Duration::from_millis(1000)
         );
     });
+
+    wait_until_online(runtime, &[&alice_node, &bob_node]);
 
     (alice_node, bob_node, consensus_manager)
 }
@@ -479,13 +490,11 @@ where
     TSink: Sink<Arc<PeerMessage>> + Clone + Unpin + Send + Sync + 'static,
     TSink::Error: Error + Send + Sync,
 {
-    let (comms, dht) = initialize_local_test_comms(node_identity, publisher, data_path, Duration::from_secs(2 * 60))
-        .await
-        .unwrap();
-
-    for p in peers {
-        comms.peer_manager().add_peer(p.to_peer()).await.unwrap();
-    }
+    let peers = peers.into_iter().map(|p| p.to_peer()).collect();
+    let (comms, dht) =
+        initialize_local_test_comms(node_identity, publisher, data_path, Duration::from_secs(2 * 60), peers)
+            .await
+            .unwrap();
 
     (comms, dht)
 }
@@ -523,7 +532,6 @@ fn setup_base_node_services(
             liveness_service_config,
             Arc::clone(&subscription_factory),
             dht.dht_requester(),
-            comms.connection_manager(),
         ))
         .add_initializer(BaseNodeServiceInitializer::new(
             subscription_factory.clone(),

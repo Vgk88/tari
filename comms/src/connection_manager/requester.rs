@@ -33,9 +33,9 @@ use tokio::sync::broadcast;
 #[derive(Debug)]
 pub enum ConnectionManagerRequest {
     /// Dial a given peer by node id.
-    /// Parameters:
-    /// 1. Node Id to dial
     DialPeer(NodeId, oneshot::Sender<Result<PeerConnection, ConnectionManagerError>>),
+    /// Cancels a pending dial if one exists
+    CancelDial(NodeId),
     /// Register a oneshot to get triggered when the node is listening, or has failed to listen
     NotifyListening(oneshot::Sender<Multiaddr>),
     /// Retrieve an active connection for a given node id if one exists.
@@ -109,22 +109,39 @@ impl ConnectionManagerRequester {
     /// Attempt to connect to a remote peer
     pub async fn dial_peer(&mut self, node_id: NodeId) -> Result<PeerConnection, ConnectionManagerError> {
         let (reply_tx, reply_rx) = oneshot::channel();
-        self.sender
-            .send(ConnectionManagerRequest::DialPeer(node_id, reply_tx))
-            .await
-            .map_err(|_| ConnectionManagerError::SendToActorFailed)?;
+        self.send_dial_peer(node_id, reply_tx).await?;
         reply_rx
             .await
             .map_err(|_| ConnectionManagerError::ActorRequestCanceled)?
     }
 
-    /// Send instruction to ConnectionManager to dial a peer without waiting for a result.
-    pub(crate) async fn send_dial_peer(&mut self, node_id: NodeId) -> Result<(), ConnectionManagerError> {
-        let (reply_tx, _) = oneshot::channel();
+    /// Send instruction to ConnectionManager to dial a peer and return the result on the given oneshot
+    pub async fn cancel_dial(&mut self, node_id: NodeId) -> Result<(), ConnectionManagerError> {
+        self.sender
+            .send(ConnectionManagerRequest::CancelDial(node_id))
+            .await
+            .map_err(|_| ConnectionManagerError::SendToActorFailed)?;
+        Ok(())
+    }
+
+    /// Send instruction to ConnectionManager to dial a peer and return the result on the given oneshot
+    pub(crate) async fn send_dial_peer(
+        &mut self,
+        node_id: NodeId,
+        reply_tx: oneshot::Sender<Result<PeerConnection, ConnectionManagerError>>,
+    ) -> Result<(), ConnectionManagerError>
+    {
         self.sender
             .send(ConnectionManagerRequest::DialPeer(node_id, reply_tx))
             .await
             .map_err(|_| ConnectionManagerError::SendToActorFailed)?;
+        Ok(())
+    }
+
+    /// Send instruction to ConnectionManager to dial a peer without waiting for a result.
+    pub(crate) async fn send_dial_peer_no_reply(&mut self, node_id: NodeId) -> Result<(), ConnectionManagerError> {
+        let (reply_tx, _) = oneshot::channel();
+        self.send_dial_peer(node_id, reply_tx).await?;
         Ok(())
     }
 

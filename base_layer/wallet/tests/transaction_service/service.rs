@@ -183,7 +183,6 @@ pub fn setup_transaction_service<T: TransactionBackend + Clone + 'static>(
         .add_initializer(LivenessInitializer::new(
             LivenessConfig {
                 auto_ping_interval: Some(Duration::from_secs(10)),
-                enable_auto_join: false,
                 refresh_neighbours_interval: Default::default(),
                 refresh_random_pool_interval: Default::default(),
                 random_peer_selection_ratio: 0.0,
@@ -191,7 +190,6 @@ pub fn setup_transaction_service<T: TransactionBackend + Clone + 'static>(
             },
             Arc::clone(&subscription_factory),
             dht.dht_requester(),
-            comms.connection_manager(),
         ))
         .finish();
 
@@ -2850,7 +2848,6 @@ fn test_resend_of_tx_on_pong_event<T: TransactionBackend + Clone + 'static>(back
             None,
             Metadata::new(),
             true,
-            true,
         ))))) {
             Ok(_) => {
                 break;
@@ -2889,7 +2886,6 @@ fn test_resend_of_tx_on_pong_event<T: TransactionBackend + Clone + 'static>(back
             bob_node_identity.node_id().clone(),
             None,
             Metadata::new(),
-            true,
             true,
         )))))
         .unwrap();

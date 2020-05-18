@@ -31,7 +31,6 @@ use std::{convert::TryInto, sync::Arc};
 use tari_comms::{
     message::{InboundMessage, MessageExt, MessageTag},
     multiaddr::Multiaddr,
-    net_address::MultiaddressesWithStats,
     peer_manager::{NodeId, NodeIdentity, Peer, PeerFeatures, PeerFlags, PeerManager},
     transports::MemoryTransport,
     types::{CommsDatabase, CommsPublicKey, CommsSecretKey},
@@ -189,14 +188,7 @@ pub fn make_peer_manager() -> Arc<PeerManager> {
 pub fn create_outbound_message(body: &[u8]) -> DhtOutboundMessage {
     DhtOutboundMessage {
         tag: MessageTag::new(),
-        destination_peer: Arc::new(Peer::new(
-            CommsPublicKey::default(),
-            NodeId::default(),
-            MultiaddressesWithStats::new(vec![]),
-            PeerFlags::empty(),
-            PeerFeatures::COMMUNICATION_NODE,
-            &[],
-        )),
+        destination_node_id: NodeId::default(),
         destination: Default::default(),
         dht_message_type: Default::default(),
         network: Network::LocalTest,

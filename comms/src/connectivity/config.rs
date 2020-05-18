@@ -22,17 +22,23 @@
 
 use std::time::Duration;
 
-#[derive(Debug)]
+#[derive(Debug, Clone, Copy)]
 pub struct ConnectivityConfig {
-    pub min_desired_peers: usize,
+    /// This factor is used to calculate the threshold to transition connectivity to an online state.
+    /// To change the status to ONLINE, this must be true: `num_connected >= num_peers * min_connectivity`
+    pub min_connectivity: f32,
     pub connection_pool_refresh_interval: Duration,
+    pub reaper_min_inactive_age: Duration,
+    pub max_offline_failures: usize,
 }
 
 impl Default for ConnectivityConfig {
     fn default() -> Self {
         Self {
-            min_desired_peers: 0,
+            min_connectivity: 0.3,
             connection_pool_refresh_interval: Duration::from_secs(30),
+            reaper_min_inactive_age: Duration::from_millis(60),
+            max_offline_failures: 3,
         }
     }
 }

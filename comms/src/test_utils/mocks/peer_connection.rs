@@ -68,7 +68,8 @@ pub async fn create_peer_connection_mock_pair(
         PeerConnection::new(
             1,
             tx1,
-            Arc::new(peer_in),
+            peer_in.node_id,
+            peer_in.features,
             listen_addr.clone(),
             ConnectionDirection::Inbound,
             mock_state_in.substream_counter(),
@@ -77,7 +78,8 @@ pub async fn create_peer_connection_mock_pair(
         PeerConnection::new(
             2,
             tx2,
-            Arc::new(peer_out),
+            peer_out.node_id,
+            peer_out.features,
             listen_addr,
             ConnectionDirection::Outbound,
             mock_state_out.substream_counter(),

@@ -167,13 +167,16 @@ impl ConnectionPool {
             .unwrap_or(ConnectionStatus::NotConnected)
     }
 
-    pub fn get_unused_connections_mut(&mut self) -> Vec<&mut PeerConnection> {
-        self.filter_connections_mut(|conn| conn.age() > Duration::from_secs(10) && conn.substream_count() == 0)
+    pub fn get_inactive_connections_mut(&mut self, min_age: Duration) -> Vec<&mut PeerConnection> {
+        self.filter_connections_mut(|conn| conn.age() > min_age && conn.substream_count() == 0)
     }
 
     pub(in crate::connectivity) fn filter_drain<P>(&mut self, mut predicate: P) -> Vec<PeerConnectionState>
     where P: FnMut(&PeerConnectionState) -> bool {
-        let (keep, remove) = self.connections.drain().partition::<Vec<_>, _>(|(_, c)| (predicate)(c));
+        let (keep, remove) = self
+            .connections
+            .drain()
+            .partition::<Vec<_>, _>(|(_, c)| !(predicate)(c));
         self.connections = keep.into_iter().collect::<HashMap<_, _>>();
         remove.into_iter().map(|(_, s)| s).collect()
     }
@@ -211,12 +214,38 @@ impl ConnectionPool {
         self.connections.remove(node_id).and_then(|c| c.into_connection())
     }
 
-    pub fn count_connected(&self) -> usize {
-        self.count_status(ConnectionStatus::Connected)
+    pub fn count_connected_nodes(&self) -> usize {
+        self.connections
+            .values()
+            .filter(|c| {
+                c.connection()
+                    .filter(|c| c.is_connected() && c.peer_features().is_node())
+                    .is_some()
+            })
+            .count()
+    }
+
+    pub fn count_connected_clients(&self) -> usize {
+        self.connections
+            .values()
+            .filter(|c| {
+                c.connection()
+                    .filter(|c| c.is_connected() && c.peer_features().is_client())
+                    .is_some()
+            })
+            .count()
     }
 
     pub fn count_failed(&self) -> usize {
         self.count_status(ConnectionStatus::Failed)
+    }
+
+    pub fn count_disconnected(&self) -> usize {
+        self.count_status(ConnectionStatus::Disconnected)
+    }
+
+    pub fn count_entries(&self) -> usize {
+        self.connections.len()
     }
 
     fn count_status(&self, status: ConnectionStatus) -> usize {

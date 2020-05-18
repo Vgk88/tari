@@ -24,8 +24,16 @@ use super::connection_pool::ConnectionPool;
 use crate::{peer_manager::NodeId, PeerConnection};
 use rand::{rngs::OsRng, seq::SliceRandom};
 
-pub fn select_closest<'a>(pool: &'a ConnectionPool, node_id: &NodeId) -> Vec<&'a PeerConnection> {
-    let mut nodes = pool.filter_connections(|conn| conn.is_connected() && conn.peer_features().is_node());
+#[derive(Debug, Clone)]
+pub enum ConnectivitySelection {
+    RandomNodes(usize, Vec<NodeId>),
+    ClosestTo(Box<NodeId>, usize, Vec<NodeId>),
+}
+
+pub fn select_closest<'a>(pool: &'a ConnectionPool, node_id: &NodeId, exclude: &[NodeId]) -> Vec<&'a PeerConnection> {
+    let mut nodes = pool.filter_connections(|conn| {
+        conn.is_connected() && conn.peer_features().is_node() && !exclude.contains(conn.peer_node_id())
+    });
 
     nodes.sort_by(|a, b| {
         let dist_a = a.peer_node_id().distance(node_id);

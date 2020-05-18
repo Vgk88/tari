@@ -22,9 +22,11 @@
 use super::{
     config::ConnectivityConfig,
     connection_pool::{ConnectionPool, ConnectionStatus},
+    connection_stats::PeerConnectionStats,
     error::ConnectivityError,
-    requester::{ConnectivityEvent, ConnectivityRequest, ConnectivitySelection},
+    requester::{ConnectivityEvent, ConnectivityRequest},
     selection,
+    selection::ConnectivitySelection,
 };
 use crate::{
     connection_manager::ConnectionManagerRequester,
@@ -34,13 +36,12 @@ use crate::{
     PeerConnection,
     PeerManager,
 };
-use futures::{
-    channel::{mpsc, oneshot},
-    stream::Fuse,
-    StreamExt,
-};
+use futures::{channel::mpsc, stream::Fuse, StreamExt};
 use log::*;
+use nom::lib::std::collections::hash_map::Entry;
 use std::{
+    cmp,
+    collections::HashMap,
     fmt,
     sync::Arc,
     time::{Duration, Instant},
@@ -68,16 +69,13 @@ impl ConnectivityManager {
             connection_manager: self.connection_manager,
             peer_manager: self.peer_manager.clone(),
             event_tx: self.event_tx,
+            connection_stats: HashMap::new(),
 
-            eligible_peers: Vec::new(),
+            managed_peers: Vec::new(),
 
             shutdown_signal: Some(self.shutdown_signal),
             pool: ConnectionPool::new(),
         }
-    }
-
-    pub fn spawn(self) -> JoinHandle<()> {
-        self.create().spawn()
     }
 }
 
@@ -87,6 +85,27 @@ pub enum ConnectivityStatus {
     Online,
     Degraded,
     Offline,
+}
+
+macro_rules! is_fn {
+    ($name: ident, $($enum_key:ident)::+) => {
+        pub fn $name(&self) -> bool {
+            match self {
+                $($enum_key)::+ => true,
+                _ => false
+            }
+        }
+    }
+}
+
+impl ConnectivityStatus {
+    is_fn!(is_initializing, ConnectivityStatus::Initializing);
+
+    is_fn!(is_online, ConnectivityStatus::Online);
+
+    is_fn!(is_offline, ConnectivityStatus::Offline);
+
+    is_fn!(is_degraded, ConnectivityStatus::Degraded);
 }
 
 impl fmt::Display for ConnectivityStatus {
@@ -103,8 +122,9 @@ pub struct ConnectivityManagerActor {
     shutdown_signal: Option<ShutdownSignal>,
     peer_manager: Arc<PeerManager>,
     event_tx: broadcast::Sender<Arc<ConnectivityEvent>>,
+    connection_stats: HashMap<NodeId, PeerConnectionStats>,
 
-    eligible_peers: Vec<NodeId>,
+    managed_peers: Vec<NodeId>,
     pool: ConnectionPool,
 }
 
@@ -133,7 +153,7 @@ impl ConnectivityManagerActor {
         .fuse();
 
         self.publish_event(ConnectivityEvent::ConnectivityStateInitialized);
-        self.check_connectivity_status();
+        // self.update_connectivity_status();
 
         loop {
             futures::select! {
@@ -143,7 +163,9 @@ impl ConnectivityManagerActor {
 
                 event = connection_manager_events.select_next_some() => {
                     if let Ok(event) = event {
-                        self.handle_connection_manager_event(&event).await;
+                        if let Err(err) = self.handle_connection_manager_event(&event).await {
+                            error!(target:LOG_TARGET, "Error handling connection manager event: {:?}", err);
+                        }
                     }
                 },
 
@@ -165,11 +187,25 @@ impl ConnectivityManagerActor {
         use ConnectivityRequest::*;
         trace!(target: LOG_TARGET, "Request: {:?}", req);
         match req {
-            AddEligiblePeers(node_ids) => {
-                self.add_eligible_peers(node_ids).await;
+            GetConnectivityStatus(reply_tx) => {
+                let _ = reply_tx.send(self.status);
+            },
+            DialPeer(node_id, reply_tx) => {
+                if let Err(err) = self.connection_manager.send_dial_peer(node_id, reply_tx).await {
+                    error!(
+                        target: LOG_TARGET,
+                        "Failed to send dial request to connection manager: {:?}", err
+                    );
+                }
+            },
+            AddManagedPeers(node_ids) => {
+                self.add_managed_peers(node_ids).await;
+            },
+            RemovePeer(node_id) => {
+                self.remove_peer(node_id).await;
             },
             SelectConnections(selection, reply_tx) => {
-                self.select_connections(selection, reply_tx).await;
+                let _ = reply_tx.send(self.select_connections(selection).await);
             },
             GetConnection(node_id, reply_tx) => {
                 let _ = reply_tx.send(
@@ -191,35 +227,52 @@ impl ConnectivityManagerActor {
     }
 
     async fn refresh_connection_pool(&mut self) -> Result<(), ConnectivityError> {
-        self.disconnect_unused_connections().await;
-
-        // Attempt to connect all eligible peers: Failed, Disconnected or NotConnection will be dialed
-        self.try_connect_eligible_peers().await?;
-
+        debug!(
+            target: LOG_TARGET,
+            "Performing connection pool cleanup/refresh. (#Entries = {}, #Connected={}, #Failed={}, #Disconnected={}, \
+             #Clients={})",
+            self.pool.count_entries(),
+            self.pool.count_connected_nodes(),
+            self.pool.count_failed(),
+            self.pool.count_disconnected(),
+            self.pool.count_connected_clients()
+        );
+        self.disconnect_inactive_connections().await;
+        // Attempt to connect all managed peers: Failed, Disconnected or NotConnection will be dialed
+        self.try_connect_managed_peers().await?;
         // Remove disconnected/failed peers from the connection pool
         self.clean_connection_pool();
-
+        self.update_connectivity_status();
         Ok(())
     }
 
-    async fn try_connect_eligible_peers(&mut self) -> Result<(), ConnectivityError> {
-        for node_id in &self.eligible_peers {
+    async fn try_connect_managed_peers(&mut self) -> Result<(), ConnectivityError> {
+        for node_id in &self.managed_peers {
             match self.pool.get_connection_status(node_id) {
-                ConnectionStatus::Failed | ConnectionStatus::Disconnected => {
+                ConnectionStatus::Failed => {
                     let status = self.pool.set_status(node_id, ConnectionStatus::Retrying);
                     info!(
                         target: LOG_TARGET,
-                        "{} peer '{}' is eligible for connection. Retrying.", status, node_id
+                        "{} peer '{}' is managed. Retrying.", status, node_id
                     );
-                    self.connection_manager.send_dial_peer(node_id.clone()).await?;
+                    self.connection_manager.send_dial_peer_no_reply(node_id.clone()).await?;
+                },
+                ConnectionStatus::Disconnected => {
+                    let status = self.pool.set_status(node_id, ConnectionStatus::Retrying);
+                    info!(
+                        target: LOG_TARGET,
+                        "{} peer '{}' is managed. Retrying.", status, node_id
+                    );
+                    self.connection_manager.send_dial_peer_no_reply(node_id.clone()).await?;
+                    // self.send_dial_request(node_id.clone()).await?;
                 },
                 ConnectionStatus::NotConnected => {
                     let status = self.pool.set_status(node_id, ConnectionStatus::Connecting);
                     info!(
                         target: LOG_TARGET,
-                        "{} peer '{}' is eligible for connection. Connecting.", status, node_id
+                        "{} peer '{}' is managed. Connecting.", status, node_id
                     );
-                    self.connection_manager.send_dial_peer(node_id.clone()).await?;
+                    self.connection_manager.send_dial_peer_no_reply(node_id.clone()).await?;
                 },
                 _ => {},
             }
@@ -228,11 +281,23 @@ impl ConnectivityManagerActor {
         Ok(())
     }
 
-    async fn disconnect_unused_connections(&mut self) {
-        let connections = self.pool.get_unused_connections_mut();
+    async fn disconnect_inactive_connections(&mut self) {
+        let connections = self
+            .pool
+            .get_inactive_connections_mut(self.config.reaper_min_inactive_age);
         for conn in connections {
+            if !conn.is_connected() {
+                continue;
+            }
+
+            info!(
+                target: LOG_TARGET,
+                "Disconnecting '{}' because connection was inactive",
+                conn.peer_node_id().short_str()
+            );
             if let Err(err) = conn.disconnect().await {
-                warn!(
+                // Already disconnected
+                debug!(
                     target: LOG_TARGET,
                     "Peer '{}' already disconnected. Error: {:?}",
                     conn.peer_node_id().short_str(),
@@ -243,58 +308,71 @@ impl ConnectivityManagerActor {
     }
 
     fn clean_connection_pool(&mut self) {
-        let eligible_peers = self.eligible_peers.clone();
+        let managed_peers = self.managed_peers.clone();
         let cleared_states = self.pool.filter_drain(|state| {
             (state.status() == ConnectionStatus::Failed || state.status() == ConnectionStatus::Disconnected) &&
-                !eligible_peers.contains(state.node_id())
+                !managed_peers.contains(state.node_id())
         });
-        info!(
-            target: LOG_TARGET,
-            "Cleared {} disconnected/failed connection states",
-            cleared_states.len()
-        );
-        debug!(
-            target: LOG_TARGET,
-            "Cleared connection states: {}",
-            cleared_states
-                .iter()
-                .map(ToString::to_string)
-                .collect::<Vec<_>>()
-                .join(", ")
-        )
+        if !cleared_states.is_empty() {
+            info!(
+                target: LOG_TARGET,
+                "Cleared {} disconnected/failed connection states",
+                cleared_states.len()
+            );
+            debug!(
+                target: LOG_TARGET,
+                "Cleared connection states:\n{}",
+                cleared_states
+                    .iter()
+                    .map(ToString::to_string)
+                    .collect::<Vec<_>>()
+                    .join("\n")
+            )
+        }
     }
 
     async fn select_connections(
         &self,
         selection: ConnectivitySelection,
-        reply_tx: oneshot::Sender<Result<Vec<PeerConnection>, ConnectivityError>>,
-    )
+    ) -> Result<Vec<PeerConnection>, ConnectivityError>
     {
         use ConnectivitySelection::*;
         debug!(target: LOG_TARGET, "Selection query: {:?}", selection);
+        debug!(
+            target: LOG_TARGET,
+            "Connected peers = {}",
+            self.pool.count_connected_nodes()
+        );
         let conns = match selection {
             RandomNodes(n, exclude) => selection::select_random_nodes(&self.pool, n, &exclude),
-            ClosestTo(dest_node_id, n) => {
-                let connections = selection::select_closest(&self.pool, &dest_node_id);
-                connections[0..n].to_vec()
+            ClosestTo(dest_node_id, n, exclude) => {
+                let mut connections = selection::select_closest(&self.pool, &dest_node_id, &exclude);
+                connections.truncate(n);
+                connections.to_vec()
             },
         };
         debug!(target: LOG_TARGET, "Selected {} connections(s)", conns.len());
 
-        let _ = reply_tx.send(Ok(conns.into_iter().cloned().collect()));
+        Ok(conns.into_iter().cloned().collect())
     }
 
-    async fn add_eligible_peers(&mut self, node_ids: Vec<NodeId>) {
+    async fn add_managed_peers(&mut self, node_ids: Vec<NodeId>) {
         let pool = &mut self.pool;
+        let mut should_update_connectivity = false;
         for node_id in node_ids {
-            if !self.eligible_peers.contains(&node_id) {
-                self.eligible_peers.push(node_id.clone());
+            if !self.managed_peers.contains(&node_id) {
+                self.managed_peers.push(node_id.clone());
+                should_update_connectivity = true;
             }
 
             match pool.insert(node_id.clone()) {
                 ConnectionStatus::Failed => {
+                    info!(
+                        target: LOG_TARGET,
+                        "Retrying connection to failed managed peer '{}'", node_id
+                    );
                     pool.set_status(&node_id, ConnectionStatus::Retrying);
-                    if let Err(err) = self.connection_manager.send_dial_peer(node_id.clone()).await {
+                    if let Err(err) = self.connection_manager.send_dial_peer_no_reply(node_id.clone()).await {
                         error!(
                             target: LOG_TARGET,
                             "Failed to send dial request to connection manager: {:?}", err
@@ -304,8 +382,9 @@ impl ConnectivityManagerActor {
                     }
                 },
                 ConnectionStatus::NotConnected | ConnectionStatus::Disconnected => {
+                    info!(target: LOG_TARGET, "Dialing disconnected managed peer '{}'", node_id);
                     pool.set_status(&node_id, ConnectionStatus::Connecting);
-                    if let Err(err) = self.connection_manager.send_dial_peer(node_id.clone()).await {
+                    if let Err(err) = self.connection_manager.send_dial_peer_no_reply(node_id.clone()).await {
                         error!(
                             target: LOG_TARGET,
                             "Failed to send dial request to connection manager: {:?}", err
@@ -314,32 +393,102 @@ impl ConnectivityManagerActor {
                 },
                 status => info!(
                     target: LOG_TARGET,
-                    "Eligible peer '{}' with connection status {} will not be retried", node_id, status
+                    "Managed peer '{}' added with connection status {}", node_id, status
                 ),
             }
         }
+
+        if should_update_connectivity {
+            self.update_connectivity_status();
+        }
     }
 
-    async fn handle_connection_manager_event(&mut self, event: &ConnectionManagerEvent) {
+    /// Removes a peer from the managed peers. This does not disconnect the peer but will
+    async fn remove_peer(&mut self, node_id: NodeId) -> Option<NodeId> {
+        let pos = self.managed_peers.iter().position(|n| n == &node_id)?;
+        let removed_peer = self.managed_peers.remove(pos);
+        if let Err(err) = self.connection_manager.cancel_dial(removed_peer.clone()).await {
+            error!(
+                target: LOG_TARGET,
+                "Failed to send cancel pending dial request: {:?}", err
+            );
+        }
+        self.update_connectivity_status();
+        Some(removed_peer)
+    }
+
+    fn get_connection_stat_mut(&mut self, node_id: NodeId) -> &mut PeerConnectionStats {
+        match self.connection_stats.entry(node_id) {
+            Entry::Occupied(entry) => entry.into_mut(),
+            Entry::Vacant(entry) => entry.insert(PeerConnectionStats::new()),
+        }
+    }
+
+    fn mark_peer_succeeded(&mut self, node_id: NodeId) {
+        let entry = self.get_connection_stat_mut(node_id);
+        entry.set_connection_success();
+    }
+
+    fn mark_peer_failed(&mut self, node_id: NodeId) -> usize {
+        let entry = self.get_connection_stat_mut(node_id);
+        entry.set_connection_failed();
+        entry.failed_attempts()
+    }
+
+    async fn handle_peer_connection_failure(&mut self, node_id: &NodeId) -> Result<(), ConnectivityError> {
+        if !self.status.is_online() {
+            info!(
+                target: LOG_TARGET,
+                "Not online. Ignoring connection offline event for peer '{}'.", node_id
+            );
+            return Ok(());
+        }
+
+        let num_failed = self.mark_peer_failed(node_id.clone());
+
+        if num_failed > self.config.max_offline_failures {
+            debug!(
+                target: LOG_TARGET,
+                "Marking peer '{}' as offline because this node failed to connect to them {} times",
+                node_id.short_str(),
+                num_failed
+            );
+            self.peer_manager.set_offline(node_id, true).await?;
+            self.connection_stats.remove(node_id);
+            self.publish_event(ConnectivityEvent::PeerOffline(node_id.clone()));
+        }
+
+        Ok(())
+    }
+
+    async fn handle_connection_manager_event(
+        &mut self,
+        event: &ConnectionManagerEvent,
+    ) -> Result<(), ConnectivityError>
+    {
         use ConnectionManagerEvent::*;
-        let (node_id, new_status) = match event {
-            PeerDisconnected(node_id) => (&**node_id, ConnectionStatus::Disconnected),
-            PeerConnected(conn) => {
-                self.pool.insert_connection(conn.clone());
-                self.check_connectivity_status();
-                (conn.peer_node_id(), ConnectionStatus::Connected)
+        let (node_id, new_status, connection) = match event {
+            PeerDisconnected(node_id) => {
+                self.connection_stats.remove(&node_id);
+                (&**node_id, ConnectionStatus::Disconnected, None)
             },
+            PeerConnectWillClose(_, node_id, _) => (&**node_id, ConnectionStatus::Disconnected, None),
+            PeerConnected(conn) => (conn.peer_node_id(), ConnectionStatus::Connected, Some(conn.clone())),
             PeerConnectFailed(node_id, err) => {
                 info!(
                     target: LOG_TARGET,
                     "Connection to peer '{}' failed because '{:?}'", node_id, err
                 );
-                (&**node_id, ConnectionStatus::Failed)
+                self.handle_peer_connection_failure(node_id).await?;
+                (&**node_id, ConnectionStatus::Failed, None)
             },
-            _ => return,
+            _ => return Ok(()),
         };
 
         let old_status = self.pool.set_status(node_id, new_status);
+        if let Some(conn) = connection {
+            self.pool.insert_connection(conn);
+        }
         if old_status != new_status {
             info!(
                 target: LOG_TARGET,
@@ -347,30 +496,34 @@ impl ConnectivityManagerActor {
             );
         }
 
-        let is_eligible = self.eligible_peers.contains(node_id);
+        let is_managed = self.managed_peers.contains(node_id);
         let node_id = node_id.clone();
 
         use ConnectionStatus::*;
         match (old_status, new_status) {
             (_, Connected) => {
-                // This condition is more about `get_connection` returning an option than anything else.
-                // The `PeerConnection` could conceivably be disconnected at any time so `unwrap`ing the
-                // connection is incorrect.
-                if let Some(conn) = self.pool.get_connection(&node_id).cloned() {
-                    self.publish_event(ConnectivityEvent::PeerConnected(conn));
+                self.mark_peer_succeeded(node_id.clone());
+                match self.pool.get_connection(&node_id).cloned() {
+                    Some(conn) => {
+                        self.publish_event(ConnectivityEvent::PeerConnected(conn));
+                    },
+                    None => unreachable!(
+                        "Connection transitioning to CONNECTED state must always have a connection set i.e. \
+                         ConnectionPool::get_connection is Some"
+                    ),
                 }
             },
             (Connected, Disconnected) => {
-                if is_eligible {
-                    self.publish_event(ConnectivityEvent::EligiblePeerDisconnected(node_id));
+                if is_managed {
+                    self.publish_event(ConnectivityEvent::ManagedPeerDisconnected(node_id));
                 } else {
                     self.publish_event(ConnectivityEvent::PeerDisconnected(node_id));
                 }
             },
             (_, Disconnected) => {},
             (_, Failed) => {
-                if is_eligible {
-                    self.publish_event(ConnectivityEvent::EligiblePeerConnectFailed(node_id));
+                if is_managed {
+                    self.publish_event(ConnectivityEvent::ManagedPeerConnectFailed(node_id));
                 } else {
                     self.publish_event(ConnectivityEvent::PeerConnectFailed(node_id));
                 }
@@ -383,32 +536,43 @@ impl ConnectivityManagerActor {
             },
         }
 
-        self.check_connectivity_status();
+        self.update_connectivity_status();
+        Ok(())
     }
 
-    fn check_connectivity_status(&mut self) {
-        let min_peers = self.config.min_desired_peers;
-        let num_connected = self.pool.count_connected();
+    fn update_connectivity_status(&mut self) {
+        // The contract we are making with online/degraded status transitions is as follows:
+        // - If no managed peers are set and a single peer is connected we MUST transition to ONLINE
+        // - Clients MAY handle entering a DEGRADED/OFFLINE status
+        // - If more managed peers are added, the status MAY transition to DEGRADED
+        // - Clients MUST NOT assume that all managed peers are connected when ONLINE
+        let min_peers = cmp::max(
+            (self.managed_peers.len() as f32 * self.config.min_connectivity).ceil() as usize,
+            1,
+        );
+        let num_connected = self.pool.count_connected_nodes();
+        debug!(
+            target: LOG_TARGET,
+            "min_peers = {}, num_connected = {}", min_peers, num_connected
+        );
 
         match num_connected {
             n if n >= min_peers => {
-                self.transition(ConnectivityStatus::Online, n);
+                self.transition(ConnectivityStatus::Online, n, min_peers);
             },
             n if n > 0 && n < min_peers => {
-                if self.status != ConnectivityStatus::Initializing {
-                    self.transition(ConnectivityStatus::Degraded, n);
-                }
+                self.transition(ConnectivityStatus::Degraded, n, min_peers);
             },
             n if n == 0 => {
                 if self.pool.count_failed() > 0 {
-                    self.transition(ConnectivityStatus::Offline, n);
+                    self.transition(ConnectivityStatus::Offline, n, min_peers);
                 }
             },
             _ => unreachable!("num_connected is unsigned and only negative pattern covered on this branch"),
         }
     }
 
-    fn transition(&mut self, next_status: ConnectivityStatus, num_peers: usize) {
+    fn transition(&mut self, next_status: ConnectivityStatus, num_peers: usize, required_num_peers: usize) {
         use ConnectivityStatus::*;
         if self.status != next_status {
             debug!(
@@ -422,15 +586,14 @@ impl ConnectivityManagerActor {
             (_, Online) => {
                 info!(
                     target: LOG_TARGET,
-                    "Connectivity is ONLINE ({}/{} connections)", num_peers, self.config.min_desired_peers
+                    "Connectivity is ONLINE ({}/{} connections)", num_peers, required_num_peers
                 );
-                self.publish_event(ConnectivityEvent::ConnectivityStateReady(num_peers));
+                self.publish_event(ConnectivityEvent::ConnectivityStateOnline(num_peers));
             },
-            (Degraded, Degraded) => {},
-            (Online, Degraded) | (Offline, Degraded) => {
+            (_, Degraded) => {
                 warn!(
                     target: LOG_TARGET,
-                    "Connectivity is DEGRADED ({}/{} connections)", num_peers, self.config.min_desired_peers
+                    "Connectivity is DEGRADED ({}/{} connections)", num_peers, required_num_peers
                 );
                 self.publish_event(ConnectivityEvent::ConnectivityStateDegraded(num_peers));
             },
@@ -438,7 +601,7 @@ impl ConnectivityManagerActor {
             (_, Offline) => {
                 warn!(
                     target: LOG_TARGET,
-                    "Connectivity is OFFLINE (0/{} connections)", self.config.min_desired_peers
+                    "Connectivity is OFFLINE (0/{} connections)", required_num_peers
                 );
                 self.publish_event(ConnectivityEvent::ConnectivityStateOffline);
             },
@@ -455,9 +618,9 @@ impl ConnectivityManagerActor {
     async fn ban_peer(&mut self, node_id: &NodeId, duration: Duration) -> Result<(), ConnectivityError> {
         info!(target: LOG_TARGET, "Banning peer for {}", format_duration(duration));
 
-        if let Some(pos) = self.eligible_peers.iter().position(|n| n == node_id) {
-            let node_id = self.eligible_peers.remove(pos);
-            warn!(target: LOG_TARGET, "Banned eligible peer '{}'", node_id);
+        if let Some(pos) = self.managed_peers.iter().position(|n| n == node_id) {
+            let node_id = self.managed_peers.remove(pos);
+            warn!(target: LOG_TARGET, "Banned managed peer '{}'", node_id);
         }
 
         self.peer_manager.ban_peer_by_node_id(node_id, duration).await?;

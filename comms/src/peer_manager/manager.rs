@@ -54,6 +54,10 @@ impl PeerManager {
         })
     }
 
+    pub async fn count(&self) -> usize {
+        self.peer_storage.read().await.count()
+    }
+
     /// Adds a peer to the routing table of the PeerManager if the peer does not already exist. When a peer already
     /// exist, the stored version will be replaced with the newly provided peer.
     pub async fn add_peer(&self, peer: Peer) -> Result<PeerId, PeerManagerError> {
@@ -86,42 +90,6 @@ impl PeerManager {
             peer_features,
             connection_stats,
             supported_protocols,
-        )
-    }
-
-    /// Set the last connection to this peer as a success
-    pub async fn set_last_connect_success(&self, node_id: &NodeId) -> Result<(), PeerManagerError> {
-        let mut storage = self.peer_storage.write().await;
-        let mut peer = storage.find_by_node_id(node_id)?;
-        peer.connection_stats.set_connection_success();
-        storage.update_peer(
-            &peer.public_key,
-            None,
-            None,
-            None,
-            None,
-            Some(false),
-            None,
-            Some(peer.connection_stats),
-            None,
-        )
-    }
-
-    /// Set the last connection to this peer as a failure
-    pub async fn set_last_connect_failed(&self, node_id: &NodeId) -> Result<(), PeerManagerError> {
-        let mut storage = self.peer_storage.write().await;
-        let mut peer = storage.find_by_node_id(node_id)?;
-        peer.connection_stats.set_connection_failed();
-        storage.update_peer(
-            &peer.public_key,
-            None,
-            None,
-            None,
-            None,
-            None,
-            None,
-            Some(peer.connection_stats),
-            None,
         )
     }
 
@@ -303,8 +271,8 @@ impl PeerManager {
     }
 
     /// Changes the offline flag bit of the peer
-    pub async fn set_offline(&self, public_key: &CommsPublicKey, is_offline: bool) -> Result<NodeId, PeerManagerError> {
-        self.peer_storage.write().await.set_offline(public_key, is_offline)
+    pub async fn set_offline(&self, node_id: &NodeId, is_offline: bool) -> Result<NodeId, PeerManagerError> {
+        self.peer_storage.write().await.set_offline(node_id, is_offline)
     }
 
     /// Adds a new net address to the peer if it doesn't yet exist

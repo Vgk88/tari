@@ -21,13 +21,8 @@
 // USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 use crate::{
-    connection_manager::{
-        ConnectionManagerError,
-        ConnectionManagerEvent,
-        ConnectionManagerRequest,
-        ConnectionManagerRequester,
-        PeerConnection,
-    },
+    connection_manager::{ConnectionManagerError, PeerConnection},
+    connectivity::{ConnectivityEvent, ConnectivityRequest, ConnectivityRequester},
     peer_manager::NodeId,
 };
 use futures::{channel::mpsc, lock::Mutex, stream::Fuse, StreamExt};
@@ -40,29 +35,31 @@ use std::{
 };
 use tokio::{sync::broadcast, task};
 
-pub fn create_connection_manager_mock() -> (ConnectionManagerRequester, ConnectionManagerMock) {
+pub fn create_connectivity_manager_mock() -> (ConnectivityRequester, ConnectivityManagerMock) {
     let (tx, rx) = mpsc::channel(10);
     let (event_tx, _) = broadcast::channel(10);
     (
-        ConnectionManagerRequester::new(tx, event_tx.clone()),
-        ConnectionManagerMock::new(rx.fuse(), event_tx),
+        ConnectivityRequester::new(tx, event_tx.clone()),
+        ConnectivityManagerMock::new(rx.fuse(), event_tx),
     )
 }
 
 #[derive(Debug, Clone)]
-pub struct ConnectionManagerMockState {
+pub struct ConnectivityManagerMockState {
     call_count: Arc<AtomicUsize>,
     calls: Arc<Mutex<Vec<String>>>,
     active_conns: Arc<Mutex<HashMap<NodeId, PeerConnection>>>,
-    event_tx: broadcast::Sender<Arc<ConnectionManagerEvent>>,
+    selected_connections: Arc<Mutex<Vec<PeerConnection>>>,
+    event_tx: broadcast::Sender<Arc<ConnectivityEvent>>,
 }
 
-impl ConnectionManagerMockState {
-    pub fn new(event_tx: broadcast::Sender<Arc<ConnectionManagerEvent>>) -> Self {
+impl ConnectivityManagerMockState {
+    pub fn new(event_tx: broadcast::Sender<Arc<ConnectivityEvent>>) -> Self {
         Self {
             call_count: Arc::new(AtomicUsize::new(0)),
             calls: Arc::new(Mutex::new(Vec::new())),
             event_tx,
+            selected_connections: Arc::new(Mutex::new(Vec::new())),
             active_conns: Arc::new(Mutex::new(HashMap::new())),
         }
     }
@@ -79,6 +76,14 @@ impl ConnectionManagerMockState {
         self.calls.lock().await.drain(..).collect()
     }
 
+    pub async fn get_selected_connections(&self) -> Vec<PeerConnection> {
+        self.selected_connections.lock().await.clone()
+    }
+
+    pub async fn set_selected_connections(&self, conns: Vec<PeerConnection>) {
+        *self.selected_connections.lock().await = conns;
+    }
+
     #[allow(dead_code)]
     pub fn call_count(&self) -> usize {
         self.call_count.load(Ordering::SeqCst)
@@ -90,29 +95,29 @@ impl ConnectionManagerMockState {
     }
 
     #[allow(dead_code)]
-    pub fn publish_event(&mut self, event: ConnectionManagerEvent) {
+    pub fn publish_event(&mut self, event: ConnectivityEvent) {
         self.event_tx.send(Arc::new(event)).unwrap();
     }
 }
 
-pub struct ConnectionManagerMock {
-    receiver: Fuse<mpsc::Receiver<ConnectionManagerRequest>>,
-    state: ConnectionManagerMockState,
+pub struct ConnectivityManagerMock {
+    receiver: Fuse<mpsc::Receiver<ConnectivityRequest>>,
+    state: ConnectivityManagerMockState,
 }
 
-impl ConnectionManagerMock {
+impl ConnectivityManagerMock {
     pub fn new(
-        receiver: Fuse<mpsc::Receiver<ConnectionManagerRequest>>,
-        event_tx: broadcast::Sender<Arc<ConnectionManagerEvent>>,
+        receiver: Fuse<mpsc::Receiver<ConnectivityRequest>>,
+        event_tx: broadcast::Sender<Arc<ConnectivityEvent>>,
     ) -> Self
     {
         Self {
             receiver,
-            state: ConnectionManagerMockState::new(event_tx),
+            state: ConnectivityManagerMockState::new(event_tx),
         }
     }
 
-    pub fn get_shared_state(&self) -> ConnectionManagerMockState {
+    pub fn get_shared_state(&self) -> ConnectivityManagerMockState {
         self.state.clone()
     }
 
@@ -126,8 +131,8 @@ impl ConnectionManagerMock {
         }
     }
 
-    async fn handle_request(&self, req: ConnectionManagerRequest) {
-        use ConnectionManagerRequest::*;
+    async fn handle_request(&self, req: ConnectivityRequest) {
+        use ConnectivityRequest::*;
         self.state.inc_call_count();
         self.state.add_call(format!("{:?}", req)).await;
         match req {
@@ -143,24 +148,15 @@ impl ConnectionManagerMock {
                         .ok_or_else(|| ConnectionManagerError::DialConnectFailedAllAddresses),
                 );
             },
-            CancelDial(_) => {},
-            NotifyListening(_reply_tx) => {},
-            GetActiveConnection(node_id, reply_tx) => {
-                reply_tx
-                    .send(self.state.active_conns.lock().await.get(&node_id).map(Clone::clone))
-                    .unwrap();
+            GetConnectivityStatus(_) => {},
+            AddManagedPeers(_) => {},
+            RemovePeer(_) => {},
+            SelectConnections(_, reply_tx) => {
+                let _ = reply_tx.send(Ok(self.state.get_selected_connections().await));
             },
-            GetActiveConnections(reply_tx) => {
-                reply_tx
-                    .send(self.state.active_conns.lock().await.values().cloned().collect())
-                    .unwrap();
-            },
-            GetNumActiveConnections(reply_tx) => {
-                reply_tx.send(self.state.active_conns.lock().await.len()).unwrap();
-            },
-            DisconnectPeer(node_id) => {
-                let _ = self.state.active_conns.lock().await.remove(&node_id);
-            },
+            GetConnection(_, _) => {},
+            GetAll(_) => {},
+            BanPeer(_, _) => {},
         }
     }
 }

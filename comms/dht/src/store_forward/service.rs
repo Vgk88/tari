@@ -195,10 +195,9 @@ impl StoreAndForwardService {
         }
     }
 
-    pub async fn spawn(self) -> SafResult<()> {
+    pub fn spawn(self) {
         info!(target: LOG_TARGET, "Store and forward service started");
         task::spawn(Self::run(self));
-        Ok(())
     }
 
     async fn run(mut self) {

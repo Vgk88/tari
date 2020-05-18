@@ -113,7 +113,7 @@ where
     W: ContactsBackend + 'static,
 {
     pub fn new(
-        config: WalletConfig,
+        mut config: WalletConfig,
         mut runtime: Runtime,
         wallet_backend: T,
         transaction_backend: U,
@@ -134,20 +134,21 @@ where
         );
         let subscription_factory = Arc::new(subscription_factory);
 
-        let (comms, dht) = runtime.block_on(initialize_comms(config.comms_config.clone(), publisher))?;
+        // Wallet should join the network once online
+        config.comms_config.dht.auto_join = true;
+
+        let (comms, dht) = runtime.block_on(initialize_comms(config.comms_config.clone(), publisher, vec![]))?;
 
         let fut = StackBuilder::new(runtime.handle().clone(), comms.shutdown_signal())
             .add_initializer(CommsOutboundServiceInitializer::new(dht.outbound_requester()))
             .add_initializer(LivenessInitializer::new(
                 LivenessConfig {
                     auto_ping_interval: Some(Duration::from_secs(30)),
-                    enable_auto_join: true,
                     useragent: format!("tari\\wallet\\{}", env!("CARGO_PKG_VERSION")),
                     ..Default::default()
                 },
                 Arc::clone(&subscription_factory),
                 dht.dht_requester(),
-                comms.connection_manager(),
             ))
             .add_initializer(OutputManagerServiceInitializer::new(
                 OutputManagerServiceConfig::default(),

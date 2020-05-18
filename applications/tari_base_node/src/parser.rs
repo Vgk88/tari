@@ -961,7 +961,7 @@ impl Parser {
                     println!();
                     let num_connections = conns.len();
                     let mut table = Table::new();
-                    table.set_titles(vec!["NodeId", "Public Key", "Address", "Direction", "Uptime", "Role"]);
+                    table.set_titles(vec!["NodeId", "Public Key", "Address", "Direction", "Age", "Role"]);
                     for conn in conns {
                         let peer = peer_manager
                             .find_by_node_id(conn.peer_node_id())

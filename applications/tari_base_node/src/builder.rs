@@ -973,6 +973,7 @@ async fn setup_base_node_comms(
         // TODO - make this configurable
         dht: DhtConfig {
             database_url: DbConnectionUrl::File(config.data_dir.join("dht.db")),
+            auto_join: true,
             ..Default::default()
         },
         // TODO: This should be false unless testing locally - make this configurable
@@ -980,7 +981,9 @@ async fn setup_base_node_comms(
         listener_liveness_whitelist_cidrs: config.listener_liveness_whitelist_cidrs.clone(),
         listener_liveness_max_sessions: config.listnener_liveness_max_sessions,
     };
-    let (comms, dht) = initialize_comms(comms_config, publisher)
+
+    let seed_peers = parse_peer_seeds(&config.peer_seeds);
+    let (comms, dht) = initialize_comms(comms_config, publisher, seed_peers)
         .await
         .map_err(|e| e.to_friendly_string())?;
 
@@ -992,8 +995,6 @@ async fn setup_base_node_comms(
         save_as_json(&config.tor_identity_file, hs.tor_identity())
             .map_err(|e| format!("Failed to save tor identity: {:?}", e))?;
     }
-
-    add_peers_to_comms(&comms, parse_peer_seeds(&config.peer_seeds)).await?;
 
     Ok((comms, dht))
 }
@@ -1024,6 +1025,7 @@ async fn setup_wallet_comms(
         // TODO - make this configurable
         dht: DhtConfig {
             database_url: DbConnectionUrl::File(config.data_dir.join("dht-wallet.db")),
+            auto_join: true,
             ..Default::default()
         },
         // TODO: This should be false unless testing locally - make this configurable
@@ -1031,7 +1033,9 @@ async fn setup_wallet_comms(
         listener_liveness_whitelist_cidrs: Vec::new(),
         listener_liveness_max_sessions: 0,
     };
-    let (comms, dht) = initialize_comms(comms_config, publisher)
+
+    let seed_peers = parse_peer_seeds(&config.peer_seeds);
+    let (comms, dht) = initialize_comms(comms_config, publisher, seed_peers)
         .await
         .map_err(|e| format!("Could not create comms layer: {:?}", e))?;
 
@@ -1044,38 +1048,7 @@ async fn setup_wallet_comms(
             .map_err(|e| format!("Failed to save tor identity: {:?}", e))?;
     }
 
-    add_peers_to_comms(&comms, vec![base_node_peer]).await?;
-
     Ok((comms, dht))
-}
-
-/// Adds a new peer to the base node
-/// ## Parameters
-/// `comms_node` - A reference to the comms node. This is the communications stack
-/// `peers` - A list of peers to be added to the comms node, the current node identity of the comms stack is excluded if
-/// found in the list.
-///
-/// ## Returns
-/// A Result to determine if the call was successful or not, string will indicate the reason on error
-async fn add_peers_to_comms(comms: &CommsNode, peers: Vec<Peer>) -> Result<(), String> {
-    for p in peers {
-        let peer_desc = p.to_string();
-        info!(target: LOG_TARGET, "Adding seed peer [{}]", peer_desc);
-
-        if &p.public_key == comms.node_identity().public_key() {
-            info!(
-                target: LOG_TARGET,
-                "Attempting to add yourself [{}] as a seed peer to comms layer, ignoring request", peer_desc
-            );
-            continue;
-        }
-        comms
-            .peer_manager()
-            .add_peer(p)
-            .await
-            .map_err(|e| format!("Could not add peer {} to comms layer: {}", peer_desc, e))?;
-    }
-    Ok(())
 }
 
 /// Asynchronously registers services of the base node
@@ -1121,7 +1094,6 @@ where
         .add_initializer(LivenessInitializer::new(
             LivenessConfig {
                 auto_ping_interval: Some(Duration::from_secs(30)),
-                enable_auto_join: true,
                 refresh_neighbours_interval: Duration::from_secs(3 * 60),
                 random_peer_selection_ratio: 0.4,
                 useragent: format!("tari\\basenode\\{}", env!("CARGO_PKG_VERSION")),
@@ -1129,7 +1101,6 @@ where
             },
             subscription_factory,
             dht.dht_requester(),
-            comms.connection_manager(),
         ))
         .add_initializer(ChainMetadataServiceInitializer)
         .finish()
@@ -1160,14 +1131,11 @@ async fn register_wallet_services(
         .add_initializer(LivenessInitializer::new(
             LivenessConfig{
                 auto_ping_interval: None,
-                enable_auto_join: true,
                 useragent: format!("tari\\wallet\\{}", env!("CARGO_PKG_VERSION")),
                 ..Default::default()
             },
             subscription_factory.clone(),
             wallet_dht.dht_requester(),
-    wallet_comms.connection_manager()
-
     ))
         // Wallet services
         .add_initializer(OutputManagerServiceInitializer::new(

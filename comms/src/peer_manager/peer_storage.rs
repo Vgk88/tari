@@ -81,6 +81,10 @@ where DS: KeyValueStore<PeerId, Peer>
         })
     }
 
+    pub fn count(&self) -> usize {
+        self.node_id_index.len()
+    }
+
     /// Adds a peer to the routing table of the PeerManager if the peer does not already exist. When a peer already
     /// exists, the stored version will be replaced with the newly provided peer.
     pub fn add_peer(&mut self, mut peer: Peer) -> Result<PeerId, PeerManagerError> {
@@ -224,7 +228,7 @@ where DS: KeyValueStore<PeerId, Peer>
             .peer_db
             .get(&peer_key)
             .map_err(PeerManagerError::DatabaseError)?
-            .expect("public_key index and peer database are out of sync"))
+            .expect("node_id_index and peer database are out of sync"))
     }
 
     /// Find the peer with the provided PublicKey
@@ -354,8 +358,7 @@ where DS: KeyValueStore<PeerId, Peer>
         let mut peer_keys = self
             .peer_db
             .filter(|(_, peer)| {
-                !peer.is_recently_offline() &&
-                    !peer.is_offline() &&
+                !peer.is_offline() &&
                     !peer.is_banned() &&
                     peer.features == PeerFeatures::COMMUNICATION_NODE &&
                     !exclude_peers.contains(&peer.node_id)
@@ -472,10 +475,10 @@ where DS: KeyValueStore<PeerId, Peer>
     }
 
     /// Changes the OFFLINE flag bit of the peer
-    pub fn set_offline(&mut self, public_key: &CommsPublicKey, ban_flag: bool) -> Result<NodeId, PeerManagerError> {
+    pub fn set_offline(&mut self, node_id: &NodeId, ban_flag: bool) -> Result<NodeId, PeerManagerError> {
         let peer_key = *self
-            .public_key_index
-            .get(&public_key)
+            .node_id_index
+            .get(&node_id)
             .ok_or_else(|| PeerManagerError::PeerNotFoundError)?;
         let mut peer: Peer = self
             .peer_db

@@ -29,8 +29,10 @@ pub const SAF_MSG_STORAGE_CAPACITY: usize = 10_000;
 pub const SAF_LOW_PRIORITY_MSG_STORAGE_TTL: Duration = Duration::from_secs(6 * 60 * 60); // 6 hours
 /// The default time-to-live duration used for storage of high priority messages by the Store-and-forward middleware
 pub const SAF_HIGH_PRIORITY_MSG_STORAGE_TTL: Duration = Duration::from_secs(3 * 24 * 60 * 60); // 3 days
-/// The default number of peer nodes that a message has to be closer to, to be considered a neighbour
+/// The default number of known peer nodes that are closest to this node
 pub const DEFAULT_NUM_NEIGHBOURING_NODES: usize = 8;
+/// The default number of randomly-selected peer nodes
+pub const DEFAULT_NUM_RANDOM_NODES: usize = 4;
 
 #[derive(Debug, Clone)]
 pub struct DhtConfig {
@@ -40,8 +42,11 @@ pub struct DhtConfig {
     /// Default: 20
     pub outbound_buffer_size: usize,
     /// The maximum number of peer nodes that a message has to be closer to, to be considered a neighbour
-    /// Default: 8
+    /// Default: [DEFAULT_NUM_NEIGHBOURING_NODES](self::DEFAULT_NUM_NEIGHBOURING_NODES)
     pub num_neighbouring_nodes: usize,
+    /// Number of random peers to include
+    /// Default: [DEFAULT_NUM_RANDOM_NODES](self::DEFAULT_NUM_RANDOM_NODES)
+    pub num_random_nodes: usize,
     /// A number from 0 to 1 that determines the number of peers to propagate to as a factor of
     /// `num_neighbouring_nodes`.
     /// Default: 0.5
@@ -83,6 +88,13 @@ pub struct DhtConfig {
     /// The duration to wait for a peer discovery to complete before giving up.
     /// Default: 2 minutes
     pub discovery_request_timeout: Duration,
+    /// Set to true to automatically broadcast a join message when ready, otherwise false. Default: false
+    pub auto_join: bool,
+    /// The minimum time between sending a Join message to the network. Joins are only sent when the node establishes
+    /// enough connections to the network as determined by comms ConnectivityManager. If a join was sent and then state
+    /// change happens again after this period, another join will be sent.
+    /// Default: 10 minutes
+    pub join_cooldown_interval: Duration,
     /// The active Network. Default: TestNet
     pub network: Network,
 }
@@ -104,6 +116,7 @@ impl DhtConfig {
             network: Network::LocalTest,
             database_url: DbConnectionUrl::Memory,
             saf_auto_request: false,
+            auto_join: false,
             ..Default::default()
         }
     }
@@ -119,6 +132,7 @@ impl Default for DhtConfig {
     fn default() -> Self {
         Self {
             num_neighbouring_nodes: DEFAULT_NUM_NEIGHBOURING_NODES,
+            num_random_nodes: DEFAULT_NUM_RANDOM_NODES,
             propagation_factor: 0.5,
             saf_num_closest_nodes: 10,
             saf_max_returned_messages: 50,
@@ -134,6 +148,8 @@ impl Default for DhtConfig {
             database_url: DbConnectionUrl::Memory,
             broadcast_cooldown_period: Duration::from_secs(60 * 30),
             discovery_request_timeout: Duration::from_secs(2 * 60),
+            auto_join: false,
+            join_cooldown_interval: Duration::from_secs(10 * 60),
             network: Network::TestNet,
         }
     }

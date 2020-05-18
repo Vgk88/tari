@@ -31,4 +31,8 @@ pub enum ConnectivityError {
     ActorResponseCancelled,
     PeerManagerError(PeerManagerError),
     ConnectionFailed(ConnectionManagerError),
+    /// Connectivity event stream closed unexpectedly
+    ConnectivityEventStreamClosed,
+    /// Timeout while waiting for ONLINE connectivity
+    OnlineWaitTimeout,
 }

@@ -22,8 +22,6 @@
 
 #[allow(dead_code)]
 mod helpers;
-use tari_core::base_node::comms_interface::Broadcast;
-
 use futures::join;
 use helpers::{
     block_builders::{
@@ -40,13 +38,14 @@ use helpers::{
         create_network_with_3_base_nodes,
         create_network_with_3_base_nodes_with_config,
         random_node_identity,
+        wait_until_online,
         BaseNodeBuilder,
     },
 };
 use std::time::Duration;
 use tari_core::{
     base_node::{
-        comms_interface::{BlockEvent, CommsInterfaceError},
+        comms_interface::{BlockEvent, Broadcast, CommsInterfaceError},
         consts::BASE_NODE_SERVICE_DESIRED_RESPONSE_FRACTION,
         service::BaseNodeServiceConfig,
     },
@@ -431,6 +430,12 @@ fn propagate_and_forward_valid_block() {
         .with_consensus_manager(rules)
         .start(&mut runtime, temp_dir.path().to_str().unwrap());
 
+    wait_until_online(&mut runtime, &[&alice_node, &bob_node, &carol_node, &dan_node]);
+
+    let bob_block_event_stream = bob_node.local_nci.get_block_event_stream_fused();
+    let carol_block_event_stream = carol_node.local_nci.get_block_event_stream_fused();
+    let dan_block_event_stream = dan_node.local_nci.get_block_event_stream_fused();
+
     let block1 = append_block(
         &alice_node.blockchain_db,
         &block0,
@@ -450,11 +455,8 @@ fn propagate_and_forward_valid_block() {
             .await
             .is_ok());
 
-        let bob_block_event_stream = bob_node.local_nci.get_block_event_stream_fused();
         let bob_block_event_fut = event_stream_next(bob_block_event_stream, Duration::from_millis(20000));
-        let carol_block_event_stream = carol_node.local_nci.get_block_event_stream_fused();
         let carol_block_event_fut = event_stream_next(carol_block_event_stream, Duration::from_millis(20000));
-        let dan_block_event_stream = dan_node.local_nci.get_block_event_stream_fused();
         let dan_block_event_fut = event_stream_next(dan_block_event_stream, Duration::from_millis(20000));
         let (bob_block_event, carol_block_event, dan_block_event) =
             join!(bob_block_event_fut, carol_block_event_fut, dan_block_event_fut);
@@ -540,6 +542,8 @@ fn propagate_and_forward_invalid_block() {
         .with_peers(vec![bob_node_identity, carol_node_identity])
         .with_consensus_manager(rules)
         .start(&mut runtime, temp_dir.path().to_str().unwrap());
+
+    wait_until_online(&mut runtime, &[&alice_node, &bob_node, &carol_node, &dan_node]);
 
     // Make block 1 invalid
     let mut block1 = append_block(

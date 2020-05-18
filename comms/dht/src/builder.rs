@@ -25,6 +25,7 @@ use futures::channel::mpsc;
 use std::{sync::Arc, time::Duration};
 use tari_comms::{
     connection_manager::ConnectionManagerRequester,
+    connectivity::ConnectivityRequester,
     peer_manager::{NodeIdentity, PeerManager},
 };
 use tari_shutdown::ShutdownSignal;
@@ -35,6 +36,7 @@ pub struct DhtBuilder {
     config: DhtConfig,
     outbound_tx: mpsc::Sender<DhtOutboundRequest>,
     connection_manager: ConnectionManagerRequester,
+    connectivity: ConnectivityRequester,
     shutdown_signal: ShutdownSignal,
 }
 
@@ -44,6 +46,7 @@ impl DhtBuilder {
         peer_manager: Arc<PeerManager>,
         outbound_tx: mpsc::Sender<DhtOutboundRequest>,
         connection_manager: ConnectionManagerRequester,
+        connectivity: ConnectivityRequester,
         shutdown_signal: ShutdownSignal,
     ) -> Self
     {
@@ -56,6 +59,7 @@ impl DhtBuilder {
             peer_manager,
             outbound_tx,
             connection_manager,
+            connectivity,
             shutdown_signal,
         }
     }
@@ -105,8 +109,18 @@ impl DhtBuilder {
         self
     }
 
+    pub fn with_propagation_factor(mut self, propagation_factor: f32) -> Self {
+        self.config.propagation_factor = propagation_factor;
+        self
+    }
+
     pub fn with_discovery_timeout(mut self, timeout: Duration) -> Self {
         self.config.discovery_request_timeout = timeout;
+        self
+    }
+
+    pub fn enable_auto_join(mut self) -> Self {
+        self.config.auto_join = true;
         self
     }
 
@@ -120,6 +134,7 @@ impl DhtBuilder {
             self.peer_manager,
             self.outbound_tx,
             self.connection_manager,
+            self.connectivity,
             self.shutdown_signal,
         )
         .await
