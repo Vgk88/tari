@@ -29,7 +29,7 @@ use crate::{
         PeerConnectionRequest,
     },
     multiplexing,
-    multiplexing::{IncomingSubstreams, Substream, Yamux},
+    multiplexing::{IncomingSubstreams, Substream, SubstreamCounter, Yamux},
     peer_manager::Peer,
     test_utils::transport,
 };
@@ -71,9 +71,17 @@ pub async fn create_peer_connection_mock_pair(
             Arc::new(peer_in),
             listen_addr.clone(),
             ConnectionDirection::Inbound,
+            mock_state_in.substream_counter(),
         ),
         mock_state_in,
-        PeerConnection::new(2, tx2, Arc::new(peer_out), listen_addr, ConnectionDirection::Outbound),
+        PeerConnection::new(
+            2,
+            tx2,
+            Arc::new(peer_out),
+            listen_addr,
+            ConnectionDirection::Outbound,
+            mock_state_out.substream_counter(),
+        ),
         mock_state_out,
     )
 }
@@ -83,14 +91,18 @@ pub struct PeerConnectionMockState {
     call_count: Arc<AtomicUsize>,
     mux_control: Arc<Mutex<multiplexing::Control>>,
     mux_incoming: Arc<Mutex<IncomingSubstreams>>,
+    substream_counter: SubstreamCounter,
 }
 
 impl PeerConnectionMockState {
     pub fn new(muxer: Yamux) -> Self {
+        let control = muxer.get_yamux_control();
+        let substream_counter = control.substream_counter();
         Self {
             call_count: Arc::new(AtomicUsize::new(0)),
-            mux_control: Arc::new(Mutex::new(muxer.get_yamux_control())),
+            mux_control: Arc::new(Mutex::new(control)),
             mux_incoming: Arc::new(Mutex::new(muxer.incoming())),
+            substream_counter,
         }
     }
 
@@ -104,6 +116,10 @@ impl PeerConnectionMockState {
 
     pub async fn open_substream(&self) -> Result<Substream, PeerConnectionError> {
         self.mux_control.lock().await.open_stream().await.map_err(Into::into)
+    }
+
+    pub fn substream_counter(&self) -> SubstreamCounter {
+        self.substream_counter.clone()
     }
 
     pub async fn next_incoming_substream(&self) -> Option<Substream> {

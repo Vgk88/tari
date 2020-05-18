@@ -884,7 +884,7 @@ fn finalize_tx_with_incorrect_pubkey<T: TransactionBackend + Clone + 'static>(al
         _,
         _,
     ) = setup_transaction_service_no_comms(&mut runtime, factories.clone(), alice_backend, None);
-    let alice_event_stream = alice_ts.get_event_stream_fused();
+    let mut alice_event_stream = alice_ts.get_event_stream_fused();
 
     let bob_node_identity =
         NodeIdentity::random(&mut OsRng, get_next_memory_address(), PeerFeatures::COMMUNICATION_NODE).unwrap();
@@ -991,7 +991,7 @@ fn finalize_tx_with_missing_output<T: TransactionBackend + Clone + 'static>(alic
         _,
         _,
     ) = setup_transaction_service_no_comms(&mut runtime, factories.clone(), alice_backend, None);
-    let alice_event_stream = alice_ts.get_event_stream_fused();
+    let mut alice_event_stream = alice_ts.get_event_stream_fused();
 
     let bob_node_identity =
         NodeIdentity::random(&mut OsRng, get_next_memory_address(), PeerFeatures::COMMUNICATION_NODE).unwrap();

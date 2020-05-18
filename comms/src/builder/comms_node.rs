@@ -24,7 +24,9 @@ use super::{placeholder::PlaceholderService, CommsBuilderError, CommsShutdown};
 use crate::{
     backoff::BoxedBackoff,
     bounded_executor::BoundedExecutor,
+    builder::consts,
     connection_manager::{ConnectionManager, ConnectionManagerEvent, ConnectionManagerRequester},
+    connectivity::{ConnectivityManager, ConnectivityRequester},
     message::InboundMessage,
     multiaddr::Multiaddr,
     peer_manager::{NodeIdentity, PeerManager},
@@ -33,6 +35,7 @@ use crate::{
     runtime,
     tor,
     transports::Transport,
+    ConnectivityConfig,
 };
 use futures::{channel::mpsc, AsyncRead, AsyncWrite, StreamExt};
 use log::*;
@@ -53,6 +56,7 @@ pub struct BuiltCommsNode<
     pub connection_manager: ConnectionManager<TTransport, BoxedBackoff>,
     pub connection_manager_requester: ConnectionManagerRequester,
     pub connection_manager_event_tx: broadcast::Sender<Arc<ConnectionManagerEvent>>,
+    pub connectivity_config: ConnectivityConfig,
     pub messaging_pipeline: Option<pipeline::Config<TInPipe, TOutPipe, TOutReq>>,
     pub node_identity: Arc<NodeIdentity>,
     pub messaging: MessagingProtocol,
@@ -94,6 +98,7 @@ where
             connection_manager: self.connection_manager,
             connection_manager_requester: self.connection_manager_requester,
             connection_manager_event_tx: self.connection_manager_event_tx,
+            connectivity_config: self.connectivity_config,
             node_identity: self.node_identity,
             messaging: self.messaging,
             messaging_event_tx: self.messaging_event_tx,
@@ -129,6 +134,7 @@ where
             connection_manager,
             connection_manager_requester,
             connection_manager_event_tx,
+            connectivity_config,
             messaging_pipeline,
             messaging_request_tx,
             inbound_message_rx,
@@ -164,6 +170,20 @@ where
         let executor = runtime::current_executor();
         executor.spawn(connection_manager.run());
 
+        // Connectivity manager
+        let (connectivity_tx, connectivity_rx) = mpsc::channel(consts::CONNECTIVITY_MANAGER_REQUEST_BUFFER_SIZE);
+        let (event_tx, _) = broadcast::channel(consts::CONNECTIVITY_MANAGER_EVENTS_BUFFER_SIZE);
+        let connectivity_requester = ConnectivityRequester::new(connectivity_tx, event_tx.clone());
+        ConnectivityManager {
+            config: connectivity_config,
+            request_rx: connectivity_rx,
+            event_tx,
+            connection_manager: connection_manager_requester.clone(),
+            peer_manager: peer_manager.clone(),
+            shutdown_signal: shutdown.to_signal(),
+        }
+        .spawn();
+
         // Spawn messaging protocol
         let messaging_signal = messaging.complete_signal();
         executor.spawn(messaging.run());
@@ -188,6 +208,7 @@ where
             shutdown,
             connection_manager_event_tx,
             connection_manager_requester,
+            connectivity_requester,
             listening_addr,
             node_identity,
             peer_manager,
@@ -235,6 +256,8 @@ pub struct CommsNode {
     connection_manager_event_tx: broadcast::Sender<Arc<ConnectionManagerEvent>>,
     /// Requester object for the ConnectionManager
     connection_manager_requester: ConnectionManagerRequester,
+    /// Requester for the ConnectivityManager
+    connectivity_requester: ConnectivityRequester,
     /// Node identity for this node
     node_identity: Arc<NodeIdentity>,
     /// Shared PeerManager instance
@@ -288,6 +311,11 @@ impl CommsNode {
     /// Return an owned copy of a ConnectionManagerRequester. Used to initiate connections to peers.
     pub fn connection_manager(&self) -> ConnectionManagerRequester {
         self.connection_manager_requester.clone()
+    }
+
+    /// Return an owned copy of a ConnectivityRequester. This is the async interface to the ConnectivityManager
+    pub fn connectivity_requester(&self) -> ConnectivityRequester {
+        self.connectivity_requester.clone()
     }
 
     /// Returns a new `ShutdownSignal`

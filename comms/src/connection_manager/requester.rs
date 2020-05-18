@@ -45,7 +45,7 @@ pub enum ConnectionManagerRequest {
     /// Retrieve the number of active connections
     GetNumActiveConnections(oneshot::Sender<usize>),
     /// Disconnect a peer
-    DisconnectPeer(NodeId, oneshot::Sender<Result<(), ConnectionManagerError>>),
+    DisconnectPeer(NodeId),
 }
 
 /// Responsible for constructing requests to the ConnectionManagerService
@@ -101,8 +101,6 @@ impl ConnectionManagerRequester {
 
     request_fn!(get_active_connection(node_id: NodeId) -> Option<PeerConnection>, request = ConnectionManagerRequest::GetActiveConnection);
 
-    request_fn!(disconnect_peer(node_id: NodeId) -> Result<(), ConnectionManagerError>, request = ConnectionManagerRequest::DisconnectPeer);
-
     /// Returns a ConnectionManagerEvent stream
     pub fn get_event_subscription(&self) -> broadcast::Receiver<Arc<ConnectionManagerEvent>> {
         self.event_tx.subscribe()
@@ -118,6 +116,25 @@ impl ConnectionManagerRequester {
         reply_rx
             .await
             .map_err(|_| ConnectionManagerError::ActorRequestCanceled)?
+    }
+
+    /// Send instruction to ConnectionManager to dial a peer without waiting for a result.
+    pub(crate) async fn send_dial_peer(&mut self, node_id: NodeId) -> Result<(), ConnectionManagerError> {
+        let (reply_tx, _) = oneshot::channel();
+        self.sender
+            .send(ConnectionManagerRequest::DialPeer(node_id, reply_tx))
+            .await
+            .map_err(|_| ConnectionManagerError::SendToActorFailed)?;
+        Ok(())
+    }
+
+    /// Disconnect a peer. The peer will disconnect after a preconfigured linger time.
+    pub async fn disconnect_peer(&mut self, node_id: NodeId) -> Result<(), ConnectionManagerError> {
+        self.sender
+            .send(ConnectionManagerRequest::DisconnectPeer(node_id))
+            .await
+            .map_err(|_| ConnectionManagerError::SendToActorFailed)?;
+        Ok(())
     }
 
     /// Return the listening address of this node's listener. This will asynchronously block until the listener has

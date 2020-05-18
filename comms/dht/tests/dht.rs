@@ -305,7 +305,7 @@ async fn dht_store_forward() {
     let secret_msg1 = b"NCZW VUSX PNYM INHZ XMQX SFWX WLKJ AHSH";
     let secret_msg2 = b"NMCO CCAK UQPM KCSM HKSE INJU SBLK";
 
-    let node_B_msg_events = node_B.comms.subscribe_messaging_events();
+    let mut node_B_msg_events = node_B.comms.subscribe_messaging_events();
     node_A
         .dht
         .outbound_requester()
@@ -326,7 +326,7 @@ async fn dht_store_forward() {
     collect_stream!(node_B_msg_events, take = 2, timeout = Duration::from_secs(20));
 
     let mut node_C = make_node_with_node_identity(node_C_node_identity, Some(node_B.to_peer())).await;
-    let node_C_msg_events = node_C.comms.subscribe_messaging_events();
+    let mut node_C_msg_events = node_C.comms.subscribe_messaging_events();
     // Ask node B for messages
     node_C
         .dht

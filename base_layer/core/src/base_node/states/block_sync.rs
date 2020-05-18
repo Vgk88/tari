@@ -729,8 +729,8 @@ async fn ban_sync_peer<B: BlockchainBackend + 'static>(
     warn!(target: LOG_TARGET, "Banning peer {} from local node.", sync_peer);
     sync_peers.retain(|p| *p != sync_peer);
     let peer = shared.peer_manager.find_by_node_id(&sync_peer).await?;
-    shared.peer_manager.ban_for(&peer.public_key, ban_duration).await?;
-    shared.connection_manager.disconnect_peer(sync_peer.clone()).await??;
+    shared.peer_manager.ban_peer(&peer.public_key, ban_duration).await?;
+    shared.connection_manager.disconnect_peer(sync_peer.clone()).await?;
     exclude_sync_peer(sync_peers, sync_peer).await
 }
 

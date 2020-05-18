@@ -288,13 +288,18 @@ impl PeerManager {
     }
 
     /// Unbans the peer if it is banned. This function is idempotent.
-    pub async fn unban(&self, public_key: &CommsPublicKey) -> Result<NodeId, PeerManagerError> {
-        self.peer_storage.write().await.unban(public_key)
+    pub async fn unban_peer(&self, public_key: &CommsPublicKey) -> Result<NodeId, PeerManagerError> {
+        self.peer_storage.write().await.unban_peer(public_key)
     }
 
     /// Ban the peer for a length of time specified by the duration
-    pub async fn ban_for(&self, public_key: &CommsPublicKey, duration: Duration) -> Result<NodeId, PeerManagerError> {
-        self.peer_storage.write().await.ban_for(public_key, duration)
+    pub async fn ban_peer(&self, public_key: &CommsPublicKey, duration: Duration) -> Result<NodeId, PeerManagerError> {
+        self.peer_storage.write().await.ban_peer(public_key, duration)
+    }
+
+    /// Ban the peer for a length of time specified by the duration
+    pub async fn ban_peer_by_node_id(&self, node_id: &NodeId, duration: Duration) -> Result<NodeId, PeerManagerError> {
+        self.peer_storage.write().await.ban_peer_by_node_id(node_id, duration)
     }
 
     /// Changes the offline flag bit of the peer

@@ -876,7 +876,7 @@ impl Parser {
 
         self.executor.spawn(async move {
             if must_ban {
-                match peer_manager.ban_for(&public_key, duration).await {
+                match peer_manager.ban_peer(&public_key, duration).await {
                     Ok(node_id) => match connection_manager.disconnect_peer(node_id).await {
                         Ok(_) => {
                             println!("Peer was banned in base node.");
@@ -897,7 +897,7 @@ impl Parser {
                     },
                 }
 
-                match wallet_peer_manager.ban_for(&public_key, duration).await {
+                match wallet_peer_manager.ban_peer(&public_key, duration).await {
                     Ok(node_id) => match connection_manager.disconnect_peer(node_id).await {
                         Ok(_) => {
                             println!("Peer was banned in wallet.");
@@ -918,7 +918,7 @@ impl Parser {
                     },
                 }
             } else {
-                match peer_manager.unban(&public_key).await {
+                match peer_manager.unban_peer(&public_key).await {
                     Ok(_) => {
                         println!("Peer ban was removed from base node.");
                     },
@@ -931,7 +931,7 @@ impl Parser {
                     },
                 }
 
-                match wallet_peer_manager.unban(&public_key).await {
+                match wallet_peer_manager.unban_peer(&public_key).await {
                     Ok(_) => {
                         println!("Peer ban was removed from wallet.");
                     },
@@ -973,7 +973,7 @@ impl Parser {
                             peer.public_key,
                             conn.address(),
                             conn.direction(),
-                            format_duration_basic(conn.connected_since()),
+                            format_duration_basic(conn.age()),
                             {
                                 if peer.features == PeerFeatures::COMMUNICATION_CLIENT {
                                     "Wallet"

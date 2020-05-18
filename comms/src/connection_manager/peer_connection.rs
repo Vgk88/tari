@@ -26,7 +26,7 @@ use super::{
     types::ConnectionDirection,
 };
 use crate::{
-    multiplexing::{Control, IncomingSubstreams, Substream, Yamux},
+    multiplexing::{Control, IncomingSubstreams, Substream, SubstreamCounter, Yamux},
     peer_manager::{NodeId, Peer, PeerFeatures},
     protocol::{ProtocolId, ProtocolNegotiation},
     runtime,
@@ -71,7 +71,8 @@ pub fn create(
     );
     let (peer_tx, peer_rx) = mpsc::channel(PEER_REQUEST_BUFFER_SIZE);
     let id = ID_COUNTER.fetch_add(1, Ordering::Relaxed); // Monotonic
-    let peer_conn = PeerConnection::new(id, peer_tx, peer.clone(), peer_addr, direction);
+    let substream_counter = connection.substream_counter();
+    let peer_conn = PeerConnection::new(id, peer_tx, peer.clone(), peer_addr, direction, substream_counter);
     let peer_actor = PeerConnectionActor::new(
         id,
         peer.node_id.clone(),
@@ -108,6 +109,7 @@ pub struct PeerConnection {
     address: Multiaddr,
     direction: ConnectionDirection,
     started_at: Instant,
+    substream_counter: SubstreamCounter,
 }
 
 impl PeerConnection {
@@ -117,6 +119,7 @@ impl PeerConnection {
         peer: Arc<Peer>,
         address: Multiaddr,
         direction: ConnectionDirection,
+        substream_counter: SubstreamCounter,
     ) -> Self
     {
         Self {
@@ -126,6 +129,7 @@ impl PeerConnection {
             address,
             direction,
             started_at: Instant::now(),
+            substream_counter,
         }
     }
 
@@ -159,8 +163,12 @@ impl PeerConnection {
         !self.request_tx.is_closed()
     }
 
-    pub fn connected_since(&self) -> Duration {
+    pub fn age(&self) -> Duration {
         self.started_at.elapsed()
+    }
+
+    pub fn substream_count(&self) -> usize {
+        self.substream_counter.get()
     }
 
     pub async fn open_substream(
@@ -177,6 +185,8 @@ impl PeerConnection {
             .map_err(|_| PeerConnectionError::InternalReplyCancelled)?
     }
 
+    /// Immediately disconnects the peer connection. This can only fail if the peer connection worker
+    /// is shut down (and the peer is already disconnected)
     pub async fn disconnect(&mut self) -> Result<(), PeerConnectionError> {
         let (reply_tx, reply_rx) = oneshot::channel();
         self.request_tx

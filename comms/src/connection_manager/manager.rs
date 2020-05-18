@@ -365,13 +365,10 @@ where
                         .count(),
                 );
             },
-            DisconnectPeer(node_id, reply_tx) => match self.active_connections.remove(&node_id) {
-                Some(mut conn) => {
-                    let _ = reply_tx.send(conn.disconnect().await.map_err(Into::into));
-                },
-                None => {
-                    let _ = reply_tx.send(Ok(()));
-                },
+            DisconnectPeer(node_id) => {
+                if let Some(conn) = self.active_connections.remove(&node_id) {
+                    self.delayed_disconnect(conn);
+                }
             },
         }
     }

@@ -420,7 +420,7 @@ where DS: KeyValueStore<PeerId, Peer>
     }
 
     /// Unban the peer
-    pub fn unban(&mut self, public_key: &CommsPublicKey) -> Result<NodeId, PeerManagerError> {
+    pub fn unban_peer(&mut self, public_key: &CommsPublicKey) -> Result<NodeId, PeerManagerError> {
         let peer_key = *self
             .public_key_index
             .get(&public_key)
@@ -442,21 +442,32 @@ where DS: KeyValueStore<PeerId, Peer>
     }
 
     /// Ban the peer for the given duration
-    pub fn ban_for(&mut self, public_key: &CommsPublicKey, duration: Duration) -> Result<NodeId, PeerManagerError> {
-        let peer_key = *self
+    pub fn ban_peer(&mut self, public_key: &CommsPublicKey, duration: Duration) -> Result<NodeId, PeerManagerError> {
+        let id = *self
             .public_key_index
-            .get(&public_key)
+            .get(public_key)
             .ok_or_else(|| PeerManagerError::PeerNotFoundError)?;
+        self.ban_peer_by_id(id, duration)
+    }
+
+    /// Ban the peer for the given duration
+    pub fn ban_peer_by_node_id(&mut self, node_id: &NodeId, duration: Duration) -> Result<NodeId, PeerManagerError> {
+        let id = *self
+            .node_id_index
+            .get(node_id)
+            .ok_or_else(|| PeerManagerError::PeerNotFoundError)?;
+        self.ban_peer_by_id(id, duration)
+    }
+
+    fn ban_peer_by_id(&mut self, id: PeerId, duration: Duration) -> Result<NodeId, PeerManagerError> {
         let mut peer: Peer = self
             .peer_db
-            .get(&peer_key)
+            .get(&id)
             .map_err(PeerManagerError::DatabaseError)?
             .ok_or_else(|| PeerManagerError::PeerNotFoundError)?;
         peer.ban_for(duration);
         let node_id = peer.node_id.clone();
-        self.peer_db
-            .insert(peer_key, peer)
-            .map_err(PeerManagerError::DatabaseError)?;
+        self.peer_db.insert(id, peer).map_err(PeerManagerError::DatabaseError)?;
         Ok(node_id)
     }
 

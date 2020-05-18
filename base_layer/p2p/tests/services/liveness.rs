@@ -107,8 +107,8 @@ async fn end_to_end() {
     )
     .await;
 
-    let liveness1_event_stream = liveness1.get_event_stream_fused();
-    let liveness2_event_stream = liveness2.get_event_stream_fused();
+    let mut liveness1_event_stream = liveness1.get_event_stream_fused();
+    let mut liveness2_event_stream = liveness2.get_event_stream_fused();
 
     for _ in 0..5 {
         liveness2.send_ping(node_1_identity.node_id().clone()).await.unwrap();

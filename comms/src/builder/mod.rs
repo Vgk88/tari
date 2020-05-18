@@ -50,6 +50,7 @@ use crate::{
         ConnectionManagerRequest,
         ConnectionManagerRequester,
     },
+    connectivity::ConnectivityConfig,
     message::InboundMessage,
     multiaddr::Multiaddr,
     multiplexing::Substream,
@@ -78,6 +79,7 @@ pub struct CommsBuilder<TTransport> {
     dial_backoff: Option<BoxedBackoff>,
     hidden_service: Option<tor::HiddenService>,
     connection_manager_config: ConnectionManagerConfig,
+    connectivity_config: ConnectivityConfig,
     shutdown: Shutdown,
 }
 
@@ -105,6 +107,7 @@ impl Default for CommsBuilder<TcpWithTorTransport> {
             protocols: None,
             hidden_service: None,
             connection_manager_config: ConnectionManagerConfig::default(),
+            connectivity_config: ConnectivityConfig::default(),
             shutdown: Shutdown::new(),
         }
     }
@@ -169,6 +172,12 @@ where
         self
     }
 
+    /// Sets the `ConnectivityConfig`
+    pub fn with_connectivity_config(mut self, config: ConnectivityConfig) -> Self {
+        self.connectivity_config = config;
+        self
+    }
+
     /// Set the peer storage database to use.
     pub fn with_peer_storage(mut self, peer_storage: CommsDatabase) -> Self {
         self.peer_storage = Some(peer_storage);
@@ -191,6 +200,7 @@ where
             protocols: self.protocols,
             dial_backoff: self.dial_backoff,
             connection_manager_config: self.connection_manager_config,
+            connectivity_config: self.connectivity_config,
             shutdown: self.shutdown,
         }
     }
@@ -217,6 +227,7 @@ where
             protocols: self.protocols,
             dial_backoff: self.dial_backoff,
             connection_manager_config: self.connection_manager_config,
+            connectivity_config: self.connectivity_config,
             shutdown: self.shutdown,
         }
     }
@@ -343,6 +354,7 @@ where
             connection_manager,
             connection_manager_requester,
             connection_manager_event_tx,
+            connectivity_config: self.connectivity_config,
             messaging_request_tx,
             messaging_pipeline: None,
             messaging,
