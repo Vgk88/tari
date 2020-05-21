@@ -1,4 +1,4 @@
-// Copyright 2019. The Tari Project
+// Copyright 2012. The Tari Project
 //
 // Redistribution and use in source and binary forms, with or without modification, are permitted provided that the
 // following conditions are met:
@@ -20,7 +20,56 @@
 // WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE
 // USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-pub mod database;
-pub mod memory_db;
-pub mod models;
-pub mod sqlite_db;
+use crate::output_manager_service::error::OutputManagerStorageError;
+use std::cmp::Ordering;
+use tari_core::{
+    tari_utilities::hash::Hashable,
+    transactions::{
+        transaction::UnblindedOutput,
+        types::{CryptoFactories, HashOutput},
+    },
+};
+
+#[derive(Debug, Clone)]
+pub struct DbUnblindedOutput {
+    pub unblinded_output: UnblindedOutput,
+    pub hash: HashOutput,
+}
+
+impl DbUnblindedOutput {
+    pub fn convert_to_unblinded_output(self) -> UnblindedOutput {
+        self.unblinded_output
+    }
+
+    pub fn create_from_unblinded_output(
+        output: UnblindedOutput,
+        factory: &CryptoFactories,
+    ) -> Result<DbUnblindedOutput, OutputManagerStorageError>
+    {
+        let hash = output.as_transaction_output(factory)?.hash();
+        Ok(DbUnblindedOutput {
+            unblinded_output: output,
+            hash,
+        })
+    }
+}
+
+impl PartialEq for DbUnblindedOutput {
+    fn eq(&self, other: &DbUnblindedOutput) -> bool {
+        self.unblinded_output.value == other.unblinded_output.value
+    }
+}
+
+impl PartialOrd<DbUnblindedOutput> for DbUnblindedOutput {
+    fn partial_cmp(&self, other: &Self) -> Option<Ordering> {
+        self.unblinded_output.value.partial_cmp(&other.unblinded_output.value)
+    }
+}
+
+impl Ord for DbUnblindedOutput {
+    fn cmp(&self, other: &Self) -> Ordering {
+        self.unblinded_output.value.cmp(&other.unblinded_output.value)
+    }
+}
+
+impl Eq for DbUnblindedOutput {}

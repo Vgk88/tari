@@ -1452,13 +1452,17 @@ where
                 pending_tx
                     .outputs_to_be_spent
                     .iter()
-                    .map(|o| o.as_transaction_input(&self.factories.commitment, OutputFeatures::default()))
+                    .map(|o| {
+                        o.unblinded_output
+                            .as_transaction_input(&self.factories.commitment, OutputFeatures::default())
+                    })
                     .collect(),
                 pending_tx
                     .outputs_to_be_received
                     .iter()
                     .map(|o| {
-                        o.as_transaction_output(&self.factories)
+                        o.unblinded_output
+                            .as_transaction_output(&self.factories)
                             .expect("Failed to convert to Transaction Output")
                     })
                     .collect(),
@@ -1496,7 +1500,11 @@ where
             output_manager_service::{
                 config::OutputManagerServiceConfig,
                 service::OutputManagerService,
-                storage::{database::OutputManagerDatabase, memory_db::OutputManagerMemoryDatabase},
+                storage::{
+                    database::OutputManagerDatabase,
+                    memory_db::OutputManagerMemoryDatabase,
+                    models::DbUnblindedOutput,
+                },
             },
             transaction_service::handle::TransactionServiceHandle,
         };
@@ -1525,7 +1533,12 @@ where
         use crate::testnet_utils::make_input;
         let (_ti, uo) = make_input(&mut OsRng, amount + 1000 * uT, &self.factories);
 
-        fake_oms.add_output(uo).await?;
+        fake_oms
+            .add_output(
+                DbUnblindedOutput::create_from_unblinded_output(uo, &self.factories)
+                    .expect("failure to hash unblinded output"),
+            )
+            .await?;
 
         let mut stp = fake_oms
             .prepare_transaction_to_send(amount, MicroTari::from(25), None, "".to_string())
