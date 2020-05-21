@@ -3952,6 +3952,62 @@ pub unsafe extern "C" fn wallet_sync_with_base_node(wallet: *mut TariWallet, err
     }
 }
 
+/// This function will tell the wallet to do a coin split.
+///
+/// ## Arguments
+/// `wallet` - The TariWallet pointer
+/// `amount` - The amount to split
+/// `count` - The number of times to split the amount
+/// `fee` - The transaction fee
+/// `msg` - Message for split
+/// `lock_height` - The number of bocks to lock the transaction for
+/// `error_out` - Pointer to an int which will be modified to an error code should one occur, may not be null. Functions
+/// as an out parameter.
+///
+/// ## Returns
+/// `()` - Does not return a value, equivalent to void in C.
+///
+/// # Safety
+/// None
+#[no_mangle]
+pub unsafe extern "C" fn wallet_coin_split(
+    wallet: *mut TariWallet,
+    amount: c_ulonglong,
+    count: c_ulonglong,
+    fee: c_ulonglong,
+    msg: *const c_char,
+    lock_height: c_ulonglong,
+    error_out: *mut c_int,
+)
+{
+    let mut error = 0;
+    ptr::swap(error_out, &mut error as *mut c_int);
+    if wallet.is_null() {
+        error = LibWalletError::from(InterfaceError::NullError("wallet".to_string())).code;
+        ptr::swap(error_out, &mut error as *mut c_int);
+    }
+
+    let message = if !msg.is_null() {
+        CStr::from_ptr(msg).to_str().unwrap().to_owned()
+    } else {
+        "Coin Split".to_string()
+    };
+
+    match (*wallet).coin_split(
+        MicroTari(amount),
+        count as usize,
+        MicroTari(fee),
+        message,
+        Some(lock_height),
+    ) {
+        Ok(request_key) => request_key,
+        Err(e) => {
+            error = LibWalletError::from(e).code;
+            ptr::swap(error_out, &mut error as *mut c_int);
+        },
+    }
+}
+
 /// Frees memory for a TariWallet
 ///
 /// ## Arguments
@@ -4820,6 +4876,12 @@ mod test {
             public_key_destroy(pub_key_ptr);
 
             completed_transaction_destroy(cancelled_tx);
+
+            let split_msg = CString::new("Test Coin Split").unwrap();
+            let split_msg_str: *const c_char = CString::into_raw(split_msg) as *const c_char;
+            wallet_coin_split(alice_wallet, 1000, 3, 25, split_msg_str, 0, error_ptr);
+            string_destroy(split_msg_str as *mut c_char);
+            assert_eq!(error, 0);
 
             let lock = CALLBACK_STATE_FFI.lock().unwrap();
             assert!(lock.received_tx_callback_called);
