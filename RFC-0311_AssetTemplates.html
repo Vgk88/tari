@@ -1,0 +1,437 @@
+<!DOCTYPE HTML>
+<html lang="en" class="sidebar-visible no-js">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>RFC-0311: Digital Asset templates - The Tari Network: RFC library</title>
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="The Tari network RFC library and documentation">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="shortcut icon" href="favicon.png">
+        <link rel="stylesheet" href="css/variables.css">
+        <link rel="stylesheet" href="css/general.css">
+        <link rel="stylesheet" href="css/chrome.css">
+        <link rel="stylesheet" href="css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css">
+        <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro:500" rel="stylesheet" type="text/css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="highlight.css">
+        <link rel="stylesheet" href="tomorrow-night.css">
+        <link rel="stylesheet" href="ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        
+
+        
+        <!-- MathJax -->
+        <script async type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script type="text/x-mathjax-config">
+          MathJax.Hub.Config({
+            tex2jax: {
+            inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+            displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+            processEscapes: true
+            }
+          });
+        </script>
+        
+    </head>
+    <body class="light">
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">var path_to_root = "";</script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme = 'light';
+            document.body.className = theme;
+            document.querySelector('html').className = theme + ' js';
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <img src="theme/images/tari-splash.png" class="tlu">
+
+            <ol class="chapter"><li class="expanded affix "><a href="about.html">About the Tari RFC documents</a></li><li class="expanded "><a href="RFC-0001_overview.html"><strong aria-hidden="true">1.</strong> RFC-0001: An overview of the Tari network</a></li><li class="expanded "><a href="RFC-0010_CodeStructure.html"><strong aria-hidden="true">2.</strong> RFC-0010: Tari code structure and organisation</a></li><li class="expanded "><a href="RFC-0100_BaseLayer.html"><strong aria-hidden="true">3.</strong> RFC-0100: The Tari Base Layer</a></li><li><ol class="section"><li class="expanded "><a href="RFC-0110_BaseNodes.html"><strong aria-hidden="true">3.1.</strong> RFC-0110: Base nodes</a></li><li class="expanded "><a href="RFC-0111_BaseNodeArchitecture.html"><strong aria-hidden="true">3.2.</strong> RFC-0111: Base node architecture</a></li><li class="expanded "><a href="RFC-0120_Consensus.html"><strong aria-hidden="true">3.3.</strong> RFC-0120: Consensus rules</a></li><li class="expanded "><a href="RFC-0130_Mining.html"><strong aria-hidden="true">3.4.</strong> RFC-0130: Mining</a></li><li class="expanded "><a href="RFC-0140_Syncing_and_seeding.html"><strong aria-hidden="true">3.5.</strong> RFC-0140: Sync and Seeding</a></li><li class="expanded "><a href="RFC-0150_Wallets.html"><strong aria-hidden="true">3.6.</strong> RFC-0150: Wallets</a></li><li class="expanded "><a href="RFC-0151_TransactionProtocol.html"><strong aria-hidden="true">3.7.</strong> RFC-0151: Transaction protocol</a></li><li class="expanded "><a href="RFC-0152_EmojiId.html"><strong aria-hidden="true">3.8.</strong> RFC-0152: Emoji ID</a></li><li class="expanded "><a href="RFC-0170_NetworkCommunicationProtocol.html"><strong aria-hidden="true">3.9.</strong> RFC-0170: Network Communication Protocol</a></li><li><ol class="section"><li class="expanded "><a href="RFC-0171_MessageSerialisation.html"><strong aria-hidden="true">3.9.1.</strong> RFC-0171: Message Serialisation</a></li><li class="expanded "><a href="RFC-0172_PeerToPeerMessagingProtocol.html"><strong aria-hidden="true">3.9.2.</strong> RFC-0172: Peer to Peer Messaging Protocol</a></li></ol></li><li class="expanded "><a href="RFC-0190_Mempool.html"><strong aria-hidden="true">3.10.</strong> RFC-0190: Mempool</a></li><li class="expanded "><a href="BaseLayerExtensions.html"><strong aria-hidden="true">3.11.</strong> Tari-specific extensions to Mimblewimble</a></li><li><ol class="section"><li class="expanded "><a href="RFC-0230_HTLC.html"><strong aria-hidden="true">3.11.1.</strong> RFC-0230: Hash time locked contracts</a></li><li class="expanded "><a href="RFC-0322_VNRegistration.html"><strong aria-hidden="true">3.11.2.</strong> RFC-0322: Validator Node Registration</a></li><li class="expanded "><a href="RFC-0341_AssetRegistration.html"><strong aria-hidden="true">3.11.3.</strong> RFC-0341: Asset registration</a></li></ol></li></ol></li><li class="expanded "><a href="RFC-0300_DAN.html"><strong aria-hidden="true">4.</strong> RFC-0300: The Digital Assets Network</a></li><li><ol class="section"><li class="expanded "><a href="RFC-0301_NamespaceRegistration.html"><strong aria-hidden="true">4.1.</strong> RFC-0301: Namespace Registration</a></li><li class="expanded "><a href="RFC-0302_ValidatorNodes.html"><strong aria-hidden="true">4.2.</strong> RFC-0302: Validator Nodes</a></li><li class="expanded "><a href="RFC-0304_VNCommittees.html"><strong aria-hidden="true">4.3.</strong> RFC-0304: Validator Node committee selection</a></li><li class="expanded "><a href="AssetManagement.html"><strong aria-hidden="true">4.4.</strong> Asset Management</a></li><li><ol class="section"><li class="expanded "><a href="RFC-0311_AssetTemplates.html" class="active"><strong aria-hidden="true">4.4.1.</strong> RFC-0311: Digital Asset templates</a></li><li class="expanded "><a href="RFC-0345_AssetLifeCycle.html"><strong aria-hidden="true">4.4.2.</strong> RFC-0345: Asset Life cycle</a></li></ol></li><li class="expanded "><a href="RFC-0340_VNConsensusOverview.html"><strong aria-hidden="true">4.5.</strong> RFC-0340: Validator Node Consensus</a></li></ol></li><li class="expanded "><a href="RFC-0500_PaymentChannels.html"><strong aria-hidden="true">5.</strong> RFC-0500: Tari payment channels</a></li><li class="expanded "><a href="RFC-1000_TariUseCases.html"><strong aria-hidden="true">6.</strong> RFC-1000: Tari Use Cases</a></li><li class="expanded "><a href="Glossary.html"><strong aria-hidden="true">7.</strong> Glossary</a></li></ol>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                
+                <div id="menu-bar" class="menu-bar">
+                    <div id="menu-bar-sticky-container">
+                        <div class="left-buttons">
+                            <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                                <i class="fa fa-bars"></i>
+                            </button>
+                            
+                            <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                                <i class="fa fa-search"></i>
+                            </button>
+                            
+                        </div>
+
+                        <h1 class="menu-title"><img src="theme/images/tari-horizontal-logo.png"/> </h1>
+
+                        <div class="right-buttons">
+                            <a href="print.html" title="Print this book" aria-label="Print this book">
+                                <i id="print-button" class="fa fa-print"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" name="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+                
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1><a class="header" href="#rfc-0311assettemplates" id="rfc-0311assettemplates">RFC-0311/AssetTemplates</a></h1>
+<h2><a class="header" href="#digital-asset-templates" id="digital-asset-templates">Digital Asset Templates</a></h2>
+<p><img src="theme/images/status-draft.svg" alt="status: draft" /></p>
+<p><strong>Maintainer(s)</strong>: <a href="https://github.com/CjS77">Cayle Sharrock</a></p>
+<h1><a class="header" href="#licence" id="licence">Licence</a></h1>
+<p><a href="https://opensource.org/licenses/BSD-3-Clause">The 3-Clause BSD Licence</a>.</p>
+<p>Copyright 2019 The Tari Development Community</p>
+<p>Redistribution and use in source and binary forms, with or without modification, are permitted provided that the
+following conditions are met:</p>
+<ol>
+<li>Redistributions of this document must retain the above copyright notice, this list of conditions and the following
+disclaimer.</li>
+<li>Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following
+disclaimer in the documentation and/or other materials provided with the distribution.</li>
+<li>Neither the name of the copyright holder nor the names of its contributors may be used to endorse or promote products
+derived from this software without specific prior written permission.</li>
+</ol>
+<p>THIS DOCUMENT IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS IS&quot;, AND ANY EXPRESS OR IMPLIED WARRANTIES,
+INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+SPECIAL, EXEMPLARY OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+SERVICES; LOSS OF USE, DATA OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+WHETHER IN CONTRACT, STRICT LIABILITY OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
+THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</p>
+<h2><a class="header" href="#language" id="language">Language</a></h2>
+<p>The keywords &quot;MUST&quot;, &quot;MUST NOT&quot;, &quot;REQUIRED&quot;, &quot;SHALL&quot;, &quot;SHALL NOT&quot;, &quot;SHOULD&quot;, &quot;SHOULD NOT&quot;, &quot;RECOMMENDED&quot;, 
+&quot;NOT RECOMMENDED&quot;, &quot;MAY&quot; and &quot;OPTIONAL&quot; in this document are to be interpreted as described in 
+<a href="https://tools.ietf.org/html/bcp14">BCP 14</a> (covering RFC2119 and RFC8174) when, and only when, they appear in all capitals, as 
+shown here.</p>
+<h2><a class="header" href="#disclaimer" id="disclaimer">Disclaimer</a></h2>
+<p>This document and its content are intended for information purposes only and may be subject to change or update
+without notice.</p>
+<p>This document may include preliminary concepts that may or may not be in the process of being developed by the Tari
+community. The release of this document is intended solely for review and discussion by the community of the
+technological merits of the potential system outlined herein.</p>
+<h2><a class="header" href="#goals" id="goals">Goals</a></h2>
+<p>The aim of this Request for Comment (RFC) is to describe the Tari Digital Asset templating system for smart contract 
+definition.</p>
+<p>The term “smart contracts” in this document is used to refer to a set of rules enforced by computers. These smart
+contracts are not Turing complete, such as those executed by the Ethereum Virtual Machine (VM).</p>
+<h2><a class="header" href="#related-requests-for-comment" id="related-requests-for-comment">Related Requests for Comment</a></h2>
+<ul>
+<li><a href="RFC-0300_DAN.html">RFC-0300: The Digital Assets Network</a></li>
+<li><a href="RFC-0301_NamespaceRegistration.html">RFC-0301: Namespace Registration</a></li>
+<li><a href="RFC-0340_VNConsensusOverview.html">RFC-0340: Validator Node Consensus</a></li>
+<li><a href="RFC-0345_AssetLifeCycle.html">RFC-0345: Asset Life cycle</a></li>
+</ul>
+<h2><a class="header" href="#description" id="description">Description</a></h2>
+<h3><a class="header" href="#motivation" id="motivation">Motivation</a></h3>
+<p>The reasons for issuing assets on Tari under a templating system, rather than a scripting language (whether Turing
+complete or not), are manifold:</p>
+<ul>
+<li>A scripting language, irrespective of how simple it is, limits the target market for asset issuers to developers, or
+people who pay developers.</li>
+<li>The market doesn’t want general smart contracts. This is evidenced by the fact that the vast majority of Ethereum
+transactions go through ERC-20 or ERC-721 contracts, which are literally contract templates.</li>
+<li>The attack surface for smart contracts is reduced considerably, to the node software itself.</li>
+<li>Bugs can be fixed for all contracts simultaneously by using a template versioning system. Existing assets can opt in
+to fixes by migrating assets to a new version of the contract.</li>
+<li>Contracts will have better Quality Assurance (QA), since more eyes are looking at fewer contract code sets.</li>
+<li>Transmission, storage and processing of contracts will be more efficient, as one only has to deal with the parameters,
+and not the logic of the contract. Furthermore, the cost for users is usually lower, since there's no need to add
+friction or extra costs to contract execution (e.g. Ethereum gas) to work around the halting problem.</li>
+</ul>
+<h3><a class="header" href="#implementation" id="implementation">Implementation</a></h3>
+<p>Assets are created on the Tari network by issuing a <code>create_asset</code> instruction from a wallet or client, and broadcasting
+it to the Tari Digital Assets Network (DAN).</p>
+<p>The instruction is in JSON format and MUST contain the following fields:</p>
+<table><thead><tr><th>Name</th><th>Type</th><th>Description</th></tr></thead><tbody>
+<tr><td><strong>Asset Description</strong></td><td></td><td></td></tr>
+<tr><td>issuer</td><td>PubKey</td><td>The public key of the creator of the asset. Refer to <a href="#issuer">issuer</a>.</td></tr>
+<tr><td>name</td><td><code>string[64]</code></td><td>The name or identifier for the asset. Refer to <a href="#name-and-description">Name and Description</a>.</td></tr>
+<tr><td>description</td><td><code>string[216]</code></td><td>A short description of the asset - with name, fits in a tweet. Refer to <a href="#name-and-description">Name and Description</a>.</td></tr>
+<tr><td>raid_id</td><td><code>string[15]</code></td><td>The <a href="#raid-id">Registered Asset Issuer Domain (RAID_ID)</a> for the asset.</td></tr>
+<tr><td>fqdn</td><td><code>string[*]</code></td><td>The Fully Qualified Domain Name (FQDN) corresponding to the <code>raid_id</code>. Up to 255 characters in length; or &quot;No_FQDN&quot; to use the default.</td></tr>
+<tr><td>public_nonce</td><td>PubKey</td><td>Public nonce part of the creator signature.</td></tr>
+<tr><td>template_id</td><td><code>u64</code></td><td>The template descriptor. Refer to <a href="#template-id">Template ID</a>.</td></tr>
+<tr><td>asset_expiry</td><td><code>u64</code></td><td>A timestamp or block height after which the asset will automatically expire. Zero for arbitrarily long-lived assets.</td></tr>
+<tr><td><strong>Validation Committee Selection</strong></td><td></td><td></td></tr>
+<tr><td>committee_mode</td><td><code>u8</code></td><td>The validation committee nomination mode, either <code>CREATOR_NOMINATION</code> (0) or <code>PUBLIC_NOMINATION</code> (1).</td></tr>
+<tr><td>committee_parameters</td><td>Object</td><td>Refer to <a href="#committee-parameters">Committee Parameters</a>.</td></tr>
+<tr><td>asset_creation_fee</td><td><code>u64</code></td><td>The fee the issuer is paying, in microTari, for the asset creation process.</td></tr>
+<tr><td>commitment</td><td><code>u256</code></td><td>A time-locked commitment for the asset creation fee.</td></tr>
+<tr><td>initial_state_hash</td><td><code>u256</code></td><td>The hash of the canonical serialization of the initial template state (of the template-specific data).</td></tr>
+<tr><td>initial_state_length</td><td><code>u64</code></td><td>Size in bytes of initial state.</td></tr>
+<tr><td><strong>Template-specific Data</strong></td><td>Object</td><td>Template-specific metadata can be defined in this section.</td></tr>
+<tr><td><strong>Signatures</strong></td><td></td><td></td></tr>
+<tr><td>metadata_hash</td><td><code>u256</code></td><td>A hash of the previous three sections' data, in canonical format (<code>m</code>).</td></tr>
+<tr><td>creator_sig</td><td><code>u256</code></td><td>A digital signature of the message <code>H(R ‖ P ‖ RAID_ID ‖ m)</code>, using the asset creator’s private key corresponding to the <code>issuer</code> Public Key Hash (PKH).</td></tr>
+<tr><td>commitment_sig</td><td><code>u256</code></td><td>A signature proving the issuer is able to spend the commitment to the asset fee.</td></tr>
+</tbody></table>
+<h4><a class="header" href="#committee-parameters" id="committee-parameters">Committee Parameters</a></h4>
+<p>If <code>committee_mode</code> is <code>CREATOR_NOMINATION</code>, the <code>committee_parameters</code> object is:</p>
+<table><thead><tr><th align="left">Name</th><th align="left">Type</th><th align="left">Description</th></tr></thead><tbody>
+<tr><td align="left">trusted_node_set</td><td align="left">Array of PKH</td><td align="left">See below.</td></tr>
+</tbody></table>
+<p>Only the nodes in the trusted node set will be allowed to execute instructions for this asset.</p>
+<p>If <code>committee_mode</code> is <code>PUBLIC_NOMINATION</code>, the <code>committee_parameters</code> object is:</p>
+<table><thead><tr><th align="left">Name</th><th align="left">Type</th><th align="left">Description</th></tr></thead><tbody>
+<tr><td align="left">node_threshold</td><td align="left"><code>u32</code></td><td align="left">The required number of Validator Nodes (VNs) that must register to execute instructions for this asset.</td></tr>
+<tr><td align="left">minimum_collateral</td><td align="left"><code>u64</code></td><td align="left">The minimum amount of Tari a VN must put up in collateral in order to execute instructions for this asset.</td></tr>
+<tr><td align="left">node_selection_strategy</td><td align="left"><code>u32</code></td><td align="left">The selection strategy to employ allowing nodes to register to manage this asset.</td></tr>
+</tbody></table>
+<h4><a class="header" href="#issuer" id="issuer">Issuer</a></h4>
+<p>Anyone can create new assets on the Tari network from their Tari Collections client. The client will provide the Public Key Hash (PKH) and
+sign the instruction. The client needn’t use the same private key each time.</p>
+<h4><a class="header" href="#name-and-description" id="name-and-description">Name and Description</a></h4>
+<p>These fields are purely for information purposes. They do not need to be unique and do not act as an asset ID.</p>
+<h4><a class="header" href="#raid-id" id="raid-id">RAID ID</a></h4>
+<p>The RAID_ID is a 15-character string that associates the asset issuer with a registered Internet domain name on the Domain Name System (DNS).</p>
+<p>If it is likely that a digital asset issuer will be issuing many assets on the Tari Network (hundreds or thousands),
+the issuer should strongly consider using a registered domain (e.g. <code>acme.com</code>). This is
+done via OpenAlias on the domain owner's DNS record, as described in <a href="RFC-0301_NamespaceRegistration.html">RFC-0301</a>. A RAID prevents spoofing of assets from 
+copycats or other malicious actors. It also simplifies asset discovery.</p>
+<p>Assets from issuers that do not have a RAID are all grouped under the default RAID.</p>
+<p>RAID owners must provide a valid signature proving that they own the given domain when creating assets.</p>
+<h4><a class="header" href="#fully-qualified-domain-name" id="fully-qualified-domain-name">Fully Qualified Domain Name</a></h4>
+<p>The Fully Qualified Domain Name (FQDN) that corresponds to the <code>raid_id</code> or the string <code>&quot;NO FQDN&quot;</code> to use the default RAID ID.
+Validator Nodes (VNs) will calculate and check that the RAID ID is valid when
+<a href="#signature-validation">validating the instruction signature</a>.</p>
+<h4><a class="header" href="#public-nonce" id="public-nonce">Public Nonce</a></h4>
+<p>A single-use public nonce to be used in the asset signature.</p>
+<h4><a class="header" href="#asset-identification" id="asset-identification">Asset Identification</a></h4>
+<p>Assets are identified by a 64-character string that uniquely identifies an asset on the network:</p>
+<table><thead><tr><th align="left">Bytes</th><th align="left">Description</th></tr></thead><tbody>
+<tr><td align="left">8</td><td align="left">Template type (hex)</td></tr>
+<tr><td align="left">4</td><td align="left">Template version (hex)</td></tr>
+<tr><td align="left">4</td><td align="left">Feature flags (hex)</td></tr>
+<tr><td align="left">15</td><td align="left">RAID identifier (Base58)</td></tr>
+<tr><td align="left">1</td><td align="left">A period character, <code>.</code></td></tr>
+<tr><td align="left">32</td><td align="left">Hex representation of the <code>metadata_hash</code> field</td></tr>
+</tbody></table>
+<p>This allows assets to be deterministically identified from their initial state. Two different creation instructions
+leading to the same hash refer to the same single asset, by definition. VNs maintain an index of assets and
+their committees, and so can determine whether a given asset already exists; and MUST reject any <code>create_asset</code>
+instruction for an existing asset.</p>
+<h4><a class="header" href="#template-id" id="template-id">Template ID</a></h4>
+<p>Tari uses templates to define the behaviour for its smart contracts. The template ID refers to the type of digital asset
+being created.</p>
+<p><strong>Note:</strong> Integer values are given in <em>little-endian</em> format, i.e. the least significant bit is <em>first</em>.</p>
+<p>The template number is a 64-bit unsigned integer and has the following format, with 0 representing
+the least significant bit:</p>
+<table><thead><tr><th align="left">Bit Range</th><th align="left">Description</th></tr></thead><tbody>
+<tr><td align="left">0 - 31</td><td align="left">Template type (0 - 4,294,967,295)</td></tr>
+<tr><td align="left">32 - 47</td><td align="left">Template version (0 - 65,535)</td></tr>
+<tr><td align="left">48</td><td align="left">Beta Mode flag</td></tr>
+<tr><td align="left">49</td><td align="left">Confidentiality flag</td></tr>
+<tr><td align="left">50 - 63</td><td align="left">Reserved (must be 0)</td></tr>
+</tbody></table>
+<p>The lowest 32 bits refer to the canonical smart contract type, i.e. the qualitative types of contracts the network supports.
+Many assets can be issued from a single template.</p>
+<p>Template types below 65,536 (2<sup>16</sup>) are public, community-developed templates.
+All VNs MUST implement and be able to interpret instructions related to these templates.</p>
+<p>Template types 65,536 and above are opt-in or proprietary templates. There is no guarantee that any given VN
+will be able to manage assets on these templates. Part of the committee selection and confirmation process for new
+assets will be an attestation by VNs that they are willing and able to manage the asset under the designated
+template rules.</p>
+<p>A global registry of opt-in template types will be necessary to prevent collisions (public templates existence will be
+evident from the Validator Node source code), possibly implemented as a special transaction type on the base layer, 
+which is perfectly suited for hosting such a registry. The details of this will be covered in a separate
+proposal.</p>
+<p>Examples of template types may be:</p>
+<table><thead><tr><th align="left">Template Type</th><th align="left">Asset</th></tr></thead><tbody>
+<tr><td align="left">1</td><td align="left">Simple single-use tokens</td></tr>
+<tr><td align="left">2</td><td align="left">Simple coupons</td></tr>
+<tr><td align="left">20</td><td align="left">ERC-20-compatible</td></tr>
+<tr><td align="left">...</td><td align="left">...</td></tr>
+<tr><td align="left">120</td><td align="left">Collectible cards</td></tr>
+<tr><td align="left">144</td><td align="left">In-game items</td></tr>
+<tr><td align="left">721</td><td align="left">ERC-721-compatible</td></tr>
+<tr><td align="left">...</td><td align="left">...</td></tr>
+<tr><td align="left">65,537</td><td align="left">Acme In game items</td></tr>
+<tr><td align="left">723,342</td><td align="left">CryptoKitties v8</td></tr>
+</tbody></table>
+<p>The template ID may also set one or more feature flags to indicate that the contract is:</p>
+<ul>
+<li>Experimental, or in testing phase (bit 48).</li>
+<li>Confidential. The definition of confidential assets and their implementation had not been finalized at the time of writing.</li>
+</ul>
+<p>Wallets/client apps SHOULD have settings to allow, or otherwise completely ignore, asset types on the network that have
+certain feature flags enabled. For instance, most consumer wallets should never interact with templates that have the
+“Beta mode” bit set. Only developers' wallets should ever even see that such assets exist.</p>
+<h4><a class="header" href="#asset-expiry" id="asset-expiry">Asset Expiry</a></h4>
+<p>Asset issuers can set a future expiry date or block height, after which the asset will expire and nodes will be free to
+expunge any/all state relating to the asset from memory after a fixed grace period. The grace period is to allow
+interested parties (e.g. the issuer) to take a snapshot of the final state of the contract if they wish (e.g. proving
+that you had a ticket for that epic World Cup final game, even after the asset no longer exists on the DAN).</p>
+<p>Nodes will publish a final checkpoint on the base layer soon after expiry and before purging an asset.</p>
+<p>The expiry_date is a Unix epoch, representing the number of seconds since 1 January 1970 00:00:00 UTC if the value is
+greater than 1,500,000,000; or a block height if it is less than that value (with 1 min blocks this scheme is valid
+until the year 4870).</p>
+<p>Expiry times should not be considered exact, since nodes don’t share the same clocks and block heights, and time proxies
+become more inaccurate the further out you go (since height in the future is dependent on hash rate).</p>
+<h3><a class="header" href="#signature-validation" id="signature-validation">Signature Validation</a></h3>
+<p>Validator nodes will verify the <code>creator_sig</code> for every <code>create_asset</code> instruction before propagating the instruction to
+the network. The process is as follows:</p>
+<ol>
+<li>
+<p>The VN MUST calculate the metadata hash by hashing the canonical representation of all the data in the first three
+sections of the <code>create_asset</code> instruction.</p>
+</li>
+<li>
+<p>The VN MUST compare this calculated value to the value given in the <code>metadata_hash</code> field. If they do not match, the 
+VN MUST drop
+the instruction and STOP.</p>
+</li>
+<li>
+<p>The VN MUST calculate the RAID ID from the <code>fqdn</code> and <code>issuer</code> fields as specified in <a href="RFC-0301_NamespaceRegistration.html">RFC-0301</a>.</p>
+</li>
+<li>
+<p>The VN MUST compare the calculated RAID ID with the value given in the <code>raid_id</code> field. If they do not match, the VN 
+MUST drop
+the instruction and STOP.</p>
+</li>
+<li>
+<p>If the <code>fqdn</code> is `&quot;No FQDN&quot;, then skip to step 9.</p>
+</li>
+<li>
+<p>The VN MUST Look up the OpenAlias TXT record at the domain given in <code>fqdn</code>. If the record  does not exist, then the 
+VN MUST
+drop the instruction and STOP.</p>
+</li>
+<li>
+<p>The VN MUST check that each of the public key and RAID ID in the TXT record match the values in the <code>create_asset</code>
+instruction. If any values do not match, the VN MUST then drop the instruction and STOP.</p>
+</li>
+<li>
+<p>The VN MUST validate the registration signature in the TXT record, using the TXT record's nonce, the issuer's public
+key and the RAID ID. If the signature does not verify, the VN MUST drop the instruction and STOP.</p>
+</li>
+<li>
+<p>The VN MUST validate the signature in the <code>creator_sig</code> field against the challenge built up from the issuer's public
+key, the nonce given in <code>public_nonce</code> field, the <code>raid_id</code> field and the <code>metadata_hash</code> field.</p>
+</li>
+</ol>
+<p>If step 9 passes, then the VN has proven that the <code>create_asset</code> contains a valid RAID ID, and that if a non-default
+FQDN was provided, the owner of that domain provided the <code>create_asset</code> instruction. In this case, the VN SHOULD
+propagate the instruction to the network.</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                        
+                            <a rel="prev" href="AssetManagement.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+                        
+
+                        
+                            <a rel="next" href="RFC-0345_AssetLifeCycle.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                
+                    <a href="AssetManagement.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                
+
+                
+                    <a href="RFC-0345_AssetLifeCycle.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+                
+            </nav>
+
+        </div>
+
+        
+
+        
+
+        
+
+        
+        <script src="elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="searcher.js" type="text/javascript" charset="utf-8"></script>
+        
+
+        <script src="clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Initialize mermaid -->
+        <script src="theme/js/mermaid.min.js" type="text/javascript" charset="utf-8"></script>
+        <script>mermaid.initialize({startOnLoad:true});</script>
+
+        <!-- Custom JS scripts -->
+        
+
+        
+
+    </body>
+</html>

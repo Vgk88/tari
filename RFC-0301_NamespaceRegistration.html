@@ -1,0 +1,440 @@
+<!DOCTYPE HTML>
+<html lang="en" class="sidebar-visible no-js">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>RFC-0301: Namespace Registration - The Tari Network: RFC library</title>
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="The Tari network RFC library and documentation">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="shortcut icon" href="favicon.png">
+        <link rel="stylesheet" href="css/variables.css">
+        <link rel="stylesheet" href="css/general.css">
+        <link rel="stylesheet" href="css/chrome.css">
+        <link rel="stylesheet" href="css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css">
+        <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro:500" rel="stylesheet" type="text/css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="highlight.css">
+        <link rel="stylesheet" href="tomorrow-night.css">
+        <link rel="stylesheet" href="ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        
+
+        
+        <!-- MathJax -->
+        <script async type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script type="text/x-mathjax-config">
+          MathJax.Hub.Config({
+            tex2jax: {
+            inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+            displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+            processEscapes: true
+            }
+          });
+        </script>
+        
+    </head>
+    <body class="light">
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">var path_to_root = "";</script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme = 'light';
+            document.body.className = theme;
+            document.querySelector('html').className = theme + ' js';
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <img src="theme/images/tari-splash.png" class="tlu">
+
+            <ol class="chapter"><li class="expanded affix "><a href="about.html">About the Tari RFC documents</a></li><li class="expanded "><a href="RFC-0001_overview.html"><strong aria-hidden="true">1.</strong> RFC-0001: An overview of the Tari network</a></li><li class="expanded "><a href="RFC-0010_CodeStructure.html"><strong aria-hidden="true">2.</strong> RFC-0010: Tari code structure and organisation</a></li><li class="expanded "><a href="RFC-0100_BaseLayer.html"><strong aria-hidden="true">3.</strong> RFC-0100: The Tari Base Layer</a></li><li><ol class="section"><li class="expanded "><a href="RFC-0110_BaseNodes.html"><strong aria-hidden="true">3.1.</strong> RFC-0110: Base nodes</a></li><li class="expanded "><a href="RFC-0111_BaseNodeArchitecture.html"><strong aria-hidden="true">3.2.</strong> RFC-0111: Base node architecture</a></li><li class="expanded "><a href="RFC-0120_Consensus.html"><strong aria-hidden="true">3.3.</strong> RFC-0120: Consensus rules</a></li><li class="expanded "><a href="RFC-0130_Mining.html"><strong aria-hidden="true">3.4.</strong> RFC-0130: Mining</a></li><li class="expanded "><a href="RFC-0140_Syncing_and_seeding.html"><strong aria-hidden="true">3.5.</strong> RFC-0140: Sync and Seeding</a></li><li class="expanded "><a href="RFC-0150_Wallets.html"><strong aria-hidden="true">3.6.</strong> RFC-0150: Wallets</a></li><li class="expanded "><a href="RFC-0151_TransactionProtocol.html"><strong aria-hidden="true">3.7.</strong> RFC-0151: Transaction protocol</a></li><li class="expanded "><a href="RFC-0152_EmojiId.html"><strong aria-hidden="true">3.8.</strong> RFC-0152: Emoji ID</a></li><li class="expanded "><a href="RFC-0170_NetworkCommunicationProtocol.html"><strong aria-hidden="true">3.9.</strong> RFC-0170: Network Communication Protocol</a></li><li><ol class="section"><li class="expanded "><a href="RFC-0171_MessageSerialisation.html"><strong aria-hidden="true">3.9.1.</strong> RFC-0171: Message Serialisation</a></li><li class="expanded "><a href="RFC-0172_PeerToPeerMessagingProtocol.html"><strong aria-hidden="true">3.9.2.</strong> RFC-0172: Peer to Peer Messaging Protocol</a></li></ol></li><li class="expanded "><a href="RFC-0190_Mempool.html"><strong aria-hidden="true">3.10.</strong> RFC-0190: Mempool</a></li><li class="expanded "><a href="BaseLayerExtensions.html"><strong aria-hidden="true">3.11.</strong> Tari-specific extensions to Mimblewimble</a></li><li><ol class="section"><li class="expanded "><a href="RFC-0230_HTLC.html"><strong aria-hidden="true">3.11.1.</strong> RFC-0230: Hash time locked contracts</a></li><li class="expanded "><a href="RFC-0322_VNRegistration.html"><strong aria-hidden="true">3.11.2.</strong> RFC-0322: Validator Node Registration</a></li><li class="expanded "><a href="RFC-0341_AssetRegistration.html"><strong aria-hidden="true">3.11.3.</strong> RFC-0341: Asset registration</a></li></ol></li></ol></li><li class="expanded "><a href="RFC-0300_DAN.html"><strong aria-hidden="true">4.</strong> RFC-0300: The Digital Assets Network</a></li><li><ol class="section"><li class="expanded "><a href="RFC-0301_NamespaceRegistration.html" class="active"><strong aria-hidden="true">4.1.</strong> RFC-0301: Namespace Registration</a></li><li class="expanded "><a href="RFC-0302_ValidatorNodes.html"><strong aria-hidden="true">4.2.</strong> RFC-0302: Validator Nodes</a></li><li class="expanded "><a href="RFC-0304_VNCommittees.html"><strong aria-hidden="true">4.3.</strong> RFC-0304: Validator Node committee selection</a></li><li class="expanded "><a href="AssetManagement.html"><strong aria-hidden="true">4.4.</strong> Asset Management</a></li><li><ol class="section"><li class="expanded "><a href="RFC-0311_AssetTemplates.html"><strong aria-hidden="true">4.4.1.</strong> RFC-0311: Digital Asset templates</a></li><li class="expanded "><a href="RFC-0345_AssetLifeCycle.html"><strong aria-hidden="true">4.4.2.</strong> RFC-0345: Asset Life cycle</a></li></ol></li><li class="expanded "><a href="RFC-0340_VNConsensusOverview.html"><strong aria-hidden="true">4.5.</strong> RFC-0340: Validator Node Consensus</a></li></ol></li><li class="expanded "><a href="RFC-0500_PaymentChannels.html"><strong aria-hidden="true">5.</strong> RFC-0500: Tari payment channels</a></li><li class="expanded "><a href="RFC-1000_TariUseCases.html"><strong aria-hidden="true">6.</strong> RFC-1000: Tari Use Cases</a></li><li class="expanded "><a href="Glossary.html"><strong aria-hidden="true">7.</strong> Glossary</a></li></ol>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                
+                <div id="menu-bar" class="menu-bar">
+                    <div id="menu-bar-sticky-container">
+                        <div class="left-buttons">
+                            <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                                <i class="fa fa-bars"></i>
+                            </button>
+                            
+                            <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                                <i class="fa fa-search"></i>
+                            </button>
+                            
+                        </div>
+
+                        <h1 class="menu-title"><img src="theme/images/tari-horizontal-logo.png"/> </h1>
+
+                        <div class="right-buttons">
+                            <a href="print.html" title="Print this book" aria-label="Print this book">
+                                <i id="print-button" class="fa fa-print"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" name="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+                
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1><a class="header" href="#rfc-0301namespaceregistration" id="rfc-0301namespaceregistration">RFC-0301/NamespaceRegistration</a></h1>
+<h2><a class="header" href="#namespace-registration-on-base-layer" id="namespace-registration-on-base-layer">Namespace Registration on Base Layer</a></h2>
+<p><img src="./theme/images/status-draft.svg" alt="status: raw" /></p>
+<p><strong>Maintainer(s)</strong>: <a href="https://github,com/hansieodendaal">Hansie Odendaal</a></p>
+<h1><a class="header" href="#licence" id="licence">Licence</a></h1>
+<p><a href="https://opensource.org/licenses/BSD-3-Clause">The 3-Clause BSD Licence</a>.</p>
+<p>Copyright 2019 The Tari Development Community</p>
+<p>Redistribution and use in source and binary forms, with or without modification, are permitted provided that the
+following conditions are met:</p>
+<ol>
+<li>Redistributions of this document must retain the above copyright notice, this list of conditions and the following
+disclaimer.</li>
+<li>Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following
+disclaimer in the documentation and/or other materials provided with the distribution.</li>
+<li>Neither the name of the copyright holder nor the names of its contributors may be used to endorse or promote products
+derived from this software without specific prior written permission.</li>
+</ol>
+<p>THIS DOCUMENT IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS IS&quot;, AND ANY EXPRESS OR IMPLIED WARRANTIES,
+INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+SPECIAL, EXEMPLARY OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+SERVICES; LOSS OF USE, DATA OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+WHETHER IN CONTRACT, STRICT LIABILITY OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
+THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</p>
+<h2><a class="header" href="#language" id="language">Language</a></h2>
+<p>The keywords &quot;MUST&quot;, &quot;MUST NOT&quot;, &quot;REQUIRED&quot;, &quot;SHALL&quot;, &quot;SHALL NOT&quot;, &quot;SHOULD&quot;, &quot;SHOULD NOT&quot;, &quot;RECOMMENDED&quot;, 
+&quot;NOT RECOMMENDED&quot;, &quot;MAY&quot; and &quot;OPTIONAL&quot; in this document are to be interpreted as described in 
+<a href="https://tools.ietf.org/html/bcp14">BCP 14</a> (covering RFC2119 and RFC8174) when, and only when, they appear in all capitals, as 
+shown here.</p>
+<h2><a class="header" href="#disclaimer" id="disclaimer">Disclaimer</a></h2>
+<p>This document and its content are intended for information purposes only and may be subject to change or update
+without notice.</p>
+<p>This document may include preliminary concepts that may or may not be in the process of being developed by the Tari
+community. The release of this document is intended solely for review and discussion by the community of the
+technological merits of the potential system outlined herein.</p>
+<h2><a class="header" href="#goals" id="goals">Goals</a></h2>
+<p>The aim of this Request for Comment (RFC) is to describe and specify the process for creating and linking an <a href="Glossary.html#asset-issuer">asset issuer</a> 
+specified domain name with a <a href="Glossary.html#digital-asset">digital asset</a> on the Digital Assets Network (<a href="Glossary.html#digital-asset-network">DAN</a>).</p>
+<h2><a class="header" href="#related-requests-for-comment" id="related-requests-for-comment">Related Requests for Comment</a></h2>
+<ul>
+<li><a href="RFC-0341_AssetRegistration.html">RFC-0341/AssetRegistration</a></li>
+<li><a href="RFC-0311_AssetTemplates.html">RFC-0310/AssetTemplates</a></li>
+</ul>
+<br>
+<h1><a class="header" href="#description" id="description">Description</a></h1>
+<h2><a class="header" href="#background" id="background">Background</a></h2>
+<h3><a class="header" href="#alternative-approaches" id="alternative-approaches">Alternative Approaches</a></h3>
+<p>In order to easily differentiate <a href="Glossary.html#digital-asset">digital asset</a>s in the DAN, apart from some unique unpronounceable 
+character string, a human-readable identifier (domain name) is required. It is perceived that shorter names will have 
+higher value due to branding and marketability. The question is, how this can be managed elegantly? It is also 
+undesirable if, for example, the real Disney is forced to use the long versioned &quot;<em>disney.com-goofy-is-my-asset-yes</em>&quot; 
+because some fake Disneys claimed &quot;<em>goofy</em>&quot; and &quot;<em>disney.com-goofy</em>&quot; and everything in-between.</p>
+<p>One method to curb name space squatting is to register names on the <a href="Glossary.html#base-layer">base layer</a> layer with a domain name registration 
+transaction. Let us call such a name a Registered Asset Issuer Name (RAIN). To make registering RAINs difficult enough 
+to prevent spamming the network, a certain amount of <a href="Glossary.html#tari-coin">Tari coins</a> must be committed in a burn (permanently destroy) or 
+a time-locked pay-to-self type transaction. Lots of management overhead will be associated with such a scheme, even if 
+domainless assets are allowed. However, it would be impossible to stop someone 
+from registering, say, a &quot;<em>disney.com</em>&quot; RAIN if they did not own the real &quot;<em>disney.com</em>&quot; Fully Qualified Domain Name (FQDN).</p>
+<p>Another approach would be to make use of the public Domain Name System (DNS) and to link the FQDNs that are already 
+registered, to the <a href="Glossary.html#digital-asset">digital asset</a>s in the DAN, making use of <a href="https://openalias.org/">OpenAlias</a> text (TXT) DNS 
+records on an FQDN. Let us call this a Registered Asset Issuer Domain (RAID) TXT record. If we hash a public key and 
+FQDN pair, it will provide us with a unique RAID_ID (RAID Identification). The RAID_ID will serve a similar purpose in 
+the DAN as a Top Level Domain (TLD) in a DNS, as all digital assets belonging to a specific <a href="Glossary.html#asset-issuer">asset issuer</a> could then 
+be grouped under the FQDN by inference. To make this scheme more elaborate, but potentially unnecessary, all such 
+RAID_IDs could also be registered on the <a href="Glossary.html#base-layer">base layer</a>, similar to the RAIN scheme.</p>
+<p>If the standard Mimblewimble protocol is followed, a new output feature can be defined to cater for a RAID tuple 
+<code>(RAID_ID, PubKey)</code> that is linked to a specific Unspent Transaction Output (<a href="Glossary.html#unspent-transaction-outputs">UTXO</a>). The <code>RAID_ID</code> could be based on 
+a <a href="https://en.bitcoin.it/wiki/Base58Check_encoding">Base58Check</a> variant applied to <code>Hash256(PubKey || FQDN)</code>. If the 
+amount of Tari coins associated with the RAID tuple transaction is burned, <code>(RAID_ID, PubKey)</code> will forever be present 
+on the blockchain and can increase blockchain bloat. On the other hand, if those <a href="Glossary.html#tari-coin">Tari coins</a> are spent back to their 
+owner with a specific time lock, it will be possible to spend and prune that UTXO later on. While that UTXO remains 
+unspent, the RAID tuple will be valid, but when all or part of it is spent, the RAID tuple will disappear from the 
+blockchain. Such a UTXO will thus be &quot;coloured&quot; while unspent, as it will have different properties to a normal UTXO. It 
+will also be possible to recreate the original RAID tuple by registering it using the original <code>Hash256(PubKey || FQDN)</code>.</p>
+<p>Thinking about the make-up of the <code>RAID_ID</code>, it is evident that it can easily be calculated on the fly using the public 
+key and FQDN, the values of which will always be known. The biggest advantage of having the RAID tuple on the <a href="Glossary.html#base-layer">base 
+layer</a> is that of embedded consensus, where it will be validated (as no duplicates can be allowed) and mined before it 
+can be used. However, this comes at the cost of more complex code, a more elaborate asset registration process and 
+higher asset registration fees.</p>
+<h3><a class="header" href="#this-request-for-comment" id="this-request-for-comment">This Request for Comment</a></h3>
+<p>This RFC explores the creation and use of RAID TXT records to link asset issuer-specified domain names with 
+digital assets on the <a href="Glossary.html#digital-asset-network">DAN</a>, without RAID_IDs being registered on the <a href="Glossary.html#base-layer">base layer</a>.</p>
+<h2><a class="header" href="#requirements" id="requirements">Requirements</a></h2>
+<h3><a class="header" href="#openalias-txt-dns-records" id="openalias-txt-dns-records">OpenAlias TXT DNS Records</a></h3>
+<p>An OpenAlias TXT DNS record [<a href="https://docs.rs/openalias/0.2.0/openalias/index.html" title="Crate openalias">1</a>] on an FQDN is a single string and starts with &quot;<em>oa1:&lt;name&gt;</em>&quot; field followed by a 
+number of key-value pairs. Standard (optional) key values are: &quot;<em>recipient_address</em>&quot;; &quot;<em>recipient_name</em>&quot;; 
+&quot;<em>tx_description</em>&quot;; &quot;<em>tx_amount</em>&quot;; &quot;<em>tx_payment_id</em>&quot;; &quot;<em>address_signature</em>&quot;; and &quot;<em>checksum</em>&quot;. Additional key values 
+may also be defined. Only entities with write access to a specific DNS record will be able to create the required TXT 
+DNS record entries.</p>
+<p>TXT DNS records are limited to multiple strings of size 255, and as the User Datagram Protocol (UDP) size is 512 bytes, 
+a TXT DNS record that exceeds that limit is less optimal [<a href="https://tools.ietf.org/html/rfc7208" title="RFC 7208">2</a>, Sections 3.3 and 3.4]. Some hosting sites also place 
+limitations on TXT DNS record string lengths and concatenation of multiple strings as per [<a href="https://tools.ietf.org/html/rfc7208" title="RFC 7208">2</a>]. The basic idea of this 
+specification is to make the implementation robust and flexible at the same time.</p>
+<p><strong>Req</strong> - Integration with public DNS records MUST be used to ensure valid ownership of an FQDN that needs to be 
+linked to a <a href="Glossary.html#digital-asset">digital asset</a> on the DAN. </p>
+<p><strong>Req</strong> - The total size of the OpenAlias TXT DNS record SHOULD NOT exceed 255 characters.</p>
+<p><strong>Req</strong> - The total size of the OpenAlias TXT DNS record MUST NOT exceed 512 characters.</p>
+<p><strong>Req</strong> - The OpenAlias TXT DNS record implementation MUST make provision to interpret entries that are made up of more 
+than one string as defined in [<a href="https://tools.ietf.org/html/rfc7208" title="RFC 7208">2</a>].</p>
+<p><strong>Req</strong> - The OpenAlias TXT DNS record SHOULD adhere to the formatting requirements as specified in [<a href="https://docs.rs/openalias/0.2.0/openalias/index.html" title="Crate openalias">1</a>].</p>
+<p><strong>Req</strong> - The OpenAlias TXT DNS record MUST be constructed as follows:</p>
+<table><thead><tr><th>OpenAlias TXT DNS Record Field</th><th>OpenAlias TXT DNS Record Data</th></tr></thead><tbody>
+<tr><td>oa1:&lt;name&gt;</td><td>&quot;oa1:tari&quot;</td></tr>
+<tr><td>pk</td><td>&lt;256 bit public key, in hexadecimal format (64 characters), that is converted into a <code>Base58</code> encoded string (44 characters)&gt;</td></tr>
+<tr><td>raid_id</td><td>&lt;<code>RAID_ID</code> (<em>refer to <a href="#raid_id">RAID_ID</a></em>) (15 characters)&gt;</td></tr>
+<tr><td>nonce</td><td>&lt;256 bit public nonce, in hexadecimal format (64 characters), that is converted into a <code>Base58</code> encoded string (44 characters)&gt;</td></tr>
+<tr><td>sig</td><td>&lt;<a href="Glossary.html#asset-issuer">Asset issuer</a>'s 256 bit Schnorr signature for the <code>RAID_ID</code> (<em>refer to <a href="#raid_id">RAID_ID</a></em>), in hexadecimal format (64 characters), that is converted into a <code>Base58</code> encoded string (44 characters)&gt;</td></tr>
+<tr><td>desc</td><td>&lt;Optional RAID description&gt;; ASCII String; Up to 48 characters for the condensed version (using only one string) and up to 235 characters (when spanning two strings).</td></tr>
+<tr><td>crc</td><td>&lt;CRC-32 checksum of the entire record, up to but excluding the checksum key-value pair (starting at &quot;<strong>oa1:tari</strong>&quot; and ending at the last &quot;<strong>;</strong>&quot; before the checksum key-value pair) in hexadecimal format (eight characters)&gt;</td></tr>
+</tbody></table>
+<p>    <strong>Examples:</strong> Two example OpenAlias TXT DNS records are shown; the first is a condensed version and 
+the second spans two strings:</p>
+<pre><code class="language-text">RAID_ID:
+public key    = ca469346d7643336c19155fdf5c6500a5232525ce4eba7e4db757639159e9861
+FQDN          = disney.com
+ -&gt; id        = RYqMMuSmBZFQkgp
+   
+base58 encodings:
+public key    = ca469346d7643336c19155fdf5c6500a5232525ce4eba7e4db757639159e9861
+ -&gt; base58    = EcbmnM6PLosBzpyCcBz1TikpNXRKcucpm73ez6xYfLtg
+public nonce  = fc2c5fce596338f43f70dc0ce14659fdfea1ba3e588a7c6fa79957fc70aa1b4b
+ -&gt; base58    = 5ctFNnCfBrP99rT1AFmj1WPyMD8uAdNUTESHhLoV3KBZ
+signature     = 7dc54ec98da2350b0c8ed0561537517ac6f93a37f08a34482824e7df3514ce0d
+ -&gt; base58    = 9TxTorviyTJAaVJ4eY4AQPixwLb6SDL4dieHff6MFUha
+   
+OpenAlias TXT DNS record (condensed: 212 characters):
+IN   TXT = &quot;oa1:tari pk=EcbmnM6PLosBzpyCcBz1TikpNXRKcucpm73ez6xYfLtg;id=RYqMMuSmBZFQkgp;
+nonce=5ctFNnCfBrP99rT1AFmj1WPyMD8uAdNUTESHhLoV3KBZ;sig=9TxTorviyTJAaVJ4eY4AQPixwLb6SDL4dieHff6MFUha;
+desc=Cartoon characters;crc=176BE80C&quot;
+
+OpenAlias TXT DNS record (spanning two strings: string 1 = 179 characters and string 2 = 250 characters):
+IN   TXT = &quot;oa1:tari pk=EcbmnM6PLosBzpyCcBz1TikpNXRKcucpm73ez6xYfLtg; id=RYqMMuSmBZFQkgp; 
+nonce=5ctFNnCfBrP99rT1AFmj1WPyMD8uAdNUTESHhLoV3KBZ; sig=9TxTorviyTJAaVJ4eY4AQPixwLb6SDL4dieHff6MFUha; &quot;
+&quot;desc=Cartoon characters: Mickey Mouse\; Minnie Mouse\; Goofy\; Donald Duck\; Pluto\; Daisy Duck\; 
+Scrooge McDuck\; Launchpad McQuack\; Huey, Dewey and Louie\; Bambi\; Thumper\; Flower\; Faline\; 
+Tinker Bell\; Peter Pan and Captain Hook.; crc=54465902&quot;
+</code></pre>
+<h3><a class="header" href="#raid_id" id="raid_id">RAID_ID</a></h3>
+<p>Because the <code>RAID_ID</code> does not exist as an entity on the base layer or in the <a href="Glossary.html#digital-asset-network">DAN</a>, it cannot be owned or 
+transferred, but can only be verified as part of the OpenAlias TXT DNS record [<a href="https://docs.rs/openalias/0.2.0/openalias/index.html" title="Crate openalias">1</a>] verification. If an asset creator 
+chooses not to link a <code>RAID_ID</code> and FQDN, a default network-assigned <code>RAID_ID</code> will be used in the digital asset 
+registration process.</p>
+<p><strong>Req</strong> - A default <code>RAID_ID</code> MUST be used where it will not be linked to an FQDN, e.g. it MAY be derived
+from a default input string <code>&quot;No FQDN&quot;</code>.</p>
+<p><strong>Req</strong> - An FQDN-linked (non-default) <code>RAID_ID</code> MUST be derived from the concatenation <code>PubKey || &lt;FQDN&gt;</code>.</p>
+<p><strong>Req</strong> - All concatenations of inputs for any hash algorithm MUST be done without adding any spaces.</p>
+<p><strong>Req</strong> - The hash algorithm MUST be <code>Blake2b</code> using a 32 byte digest size, unless otherwise specified.</p>
+<p><strong>Req</strong> - Deriving a <code>RAID_ID</code> MUST be calculated as follows:</p>
+<ul>
+<li>Inputs for all hashing algorithms used to calculate the <code>RAID_ID</code> MUST be lower-case characters.</li>
+<li>Stage 1 - MUST select the input string to use (either <code>&quot;No FQDN&quot;</code> or <code>PubKey || &lt;FQDN&gt;</code>).
+<ul>
+<li>Example: Mimblewimble public key <code>ca469346d7643336c19155fdf5c6500a5232525ce4eba7e4db757639159e9861</code> and FQDN 
+<code>disney.com</code> are used here, resulting in <code>ca469346d7643336c19155fdf5c6500a5232525ce4eba7e4db757639159e9861disney.com</code>.</li>
+</ul>
+</li>
+<li>Stage 2 - MUST perform <code>Blake2b</code> hashing on the result of stage 1 using a 10 byte digest size.
+<ul>
+<li>Example: In hexadecimal representation <code>ff517a1387153cc38009</code> or binary representation<code>\xffQz\x13\x87\x15&lt;\xc3\x80\t</code>.</li>
+</ul>
+</li>
+<li>Stage 3 - MUST concatenate the <code>RAID_ID</code> identifier byte, <code>0x62</code>, with the result of stage 2.
+<ul>
+<li>Example: <code>62ff517a1387153cc38009</code> `.</li>
+</ul>
+</li>
+<li>Stage 4 - MUST convert the result of stage 3 from a byte string into a <code>Base58</code> encoded string. 
+This will result in a 15 character string starting with <code>R</code>.
+<ul>
+<li>Example: The resulting <code>RAID_ID</code> will be <code>RYqMMuSmBZFQkgp</code>.</li>
+</ul>
+</li>
+</ul>
+<p><strong>Req</strong> - A valid <code>RAID_ID</code> signature MUST be a 256 bit Schnorr signature defined as <code>s = PvtNonce + e·PvtKey</code> with 
+the challenge <code>e</code> being <code>e = Blake2b(PubNonce || PubKey || RAID_ID)</code>.</p>
+<h3><a class="header" href="#sequence-of-events" id="sequence-of-events">Sequence of Events</a></h3>
+<p>The sequence of events leading up to digital asset registration is perceived as follows:</p>
+<ol>
+<li>
+<p>The <a href="Glossary.html#asset-issuer">asset issuer</a> will decide if the default <code>RAID_ID</code> or a <code>RAID_ID</code> that is linked to an FQDN must be used for 
+asset registration. 
+(<em><strong>Note:</strong> A single linked (<code>RAID_ID</code>, FQDN) tuple may be associated with multiple digital assets from the same 
+asset issuer.</em>)</p>
+</li>
+<li>
+<p><strong>Req</strong> - If a default <code>RAID_ID</code> is required:</p>
+<ol>
+<li>The asset issuer MUST use the default <code>RAID_ID</code> (refer to <a href="#raid_id">RAID_ID</a>).</li>
+<li>The asset issuer MUST NOT sign the <code>RAID_ID</code>.</li>
+</ol>
+</li>
+<li>
+<p><strong>Req</strong> - If a linked (<code>RAID_ID</code>, FQDN) tuple is required:</p>
+<ol>
+<li>The asset issuer MUST create a <code>RAID_ID</code>.</li>
+<li>The asset issuer MUST sign the <code>RAID_ID</code> as specified (refer to <a href="#raid_id">RAID_ID</a>).</li>
+<li>The asset issuer MUST create a valid TXT DNS record (refer to <a href="#openalias-txt-dns-records">OpenAlias TXT DNS Records</a>).</li>
+</ol>
+</li>
+<li>
+<p><strong>Req</strong> - <a href="Glossary.html#validator-node">Validator Node</a>s (VNs) MUST only allow a valid <code>RAID_ID</code> to be used in the digital asset registration 
+process.</p>
+</li>
+<li>
+<p><strong>Req</strong> - VNs MUST verify the OpenAlias TXT DNS record if a linked (<code>RAID_ID</code>, FQDN) tuple is used:</p>
+<ol>
+<li>Verify that all fields have been completed as per the specification (refer to 
+<a href="#openalias-txt-dns-records">OpenAlias TXT DNS Records</a>).</li>
+<li>Verify that the <code>RAID_ID</code> can be calculated from information provided in the TXT DNS record and the FQDN of the 
+public DNS record it is in.</li>
+<li>Verify that the asset issuer's <code>RAID_ID</code> signature is valid.</li>
+<li>Verify the checksum.</li>
+</ol>
+</li>
+</ol>
+<h3><a class="header" href="#confidentiality-and-security" id="confidentiality-and-security">Confidentiality and Security</a></h3>
+<p>To prevent client lookups from leaking, OpenAlias recommends making use of <a href="https://dnscrypt.info/">DNSCrypt</a>, 
+resolution via DNSCrypt-compatible resolvers that support Domain Name System Security Extensions (DNSSEC) and without 
+DNS requests being logged.</p>
+<p><strong>Req</strong> - <a href="Glossary.html#token-wallet">Token Wallet</a>s (TWs) and VNs SHOULD implement the following confidentiality and security measures when 
+dealing with OpenAlias TXT DNS records:</p>
+<ul>
+<li>All queries SHOULD make use of the DNSCrypt protocol.</li>
+<li>Resolution SHOULD be forced via DNSCrypt-compatible resolvers that:
+<ul>
+<li>support DNSSEC;</li>
+<li>do not log DNS requests.</li>
+</ul>
+</li>
+<li>The DNSSEC trust chain validity:
+<ul>
+<li>SHOULD be verified;</li>
+<li>SHOULD be reported back to the <a href="Glossary.html#asset-issuer">asset issuer</a>.</li>
+</ul>
+</li>
+</ul>
+<h2><a class="header" href="#references" id="references">References</a></h2>
+<p>[<a href="https://docs.rs/openalias/0.2.0/openalias/index.html" title="Crate openalias">1</a>] Crate Openalias [online]. Available: <a href="https://docs.rs/openalias/0.2.0/openalias/index.html">https://docs.rs/openalias/0.2.0/openalias/index.html</a>. 
+Date accessed: 2019-03-05.</p>
+<p>[<a href="https://tools.ietf.org/html/rfc7208" title="RFC 7208">2</a>] RFC 7208: Sender Policy Framework (SPF) for Authorizing Use of Domains in Email, Version 1 [online]. 
+Available: <a href="https://tools.ietf.org/html/rfc7208">https://tools.ietf.org/html/rfc7208</a>. Date accessed: 2019-03-06.</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                        
+                            <a rel="prev" href="RFC-0300_DAN.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+                        
+
+                        
+                            <a rel="next" href="RFC-0302_ValidatorNodes.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                
+                    <a href="RFC-0300_DAN.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                
+
+                
+                    <a href="RFC-0302_ValidatorNodes.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+                
+            </nav>
+
+        </div>
+
+        
+
+        
+
+        
+
+        
+        <script src="elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="searcher.js" type="text/javascript" charset="utf-8"></script>
+        
+
+        <script src="clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Initialize mermaid -->
+        <script src="theme/js/mermaid.min.js" type="text/javascript" charset="utf-8"></script>
+        <script>mermaid.initialize({startOnLoad:true});</script>
+
+        <!-- Custom JS scripts -->
+        
+
+        
+
+    </body>
+</html>

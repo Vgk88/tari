@@ -1,0 +1,368 @@
+<!DOCTYPE HTML>
+<html lang="en" class="sidebar-visible no-js">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Glossary - The Tari Network: RFC library</title>
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="The Tari network RFC library and documentation">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="shortcut icon" href="favicon.png">
+        <link rel="stylesheet" href="css/variables.css">
+        <link rel="stylesheet" href="css/general.css">
+        <link rel="stylesheet" href="css/chrome.css">
+        <link rel="stylesheet" href="css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css">
+        <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro:500" rel="stylesheet" type="text/css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="highlight.css">
+        <link rel="stylesheet" href="tomorrow-night.css">
+        <link rel="stylesheet" href="ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        
+
+        
+        <!-- MathJax -->
+        <script async type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script type="text/x-mathjax-config">
+          MathJax.Hub.Config({
+            tex2jax: {
+            inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+            displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+            processEscapes: true
+            }
+          });
+        </script>
+        
+    </head>
+    <body class="light">
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">var path_to_root = "";</script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme = 'light';
+            document.body.className = theme;
+            document.querySelector('html').className = theme + ' js';
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <img src="theme/images/tari-splash.png" class="tlu">
+
+            <ol class="chapter"><li class="expanded affix "><a href="about.html">About the Tari RFC documents</a></li><li class="expanded "><a href="RFC-0001_overview.html"><strong aria-hidden="true">1.</strong> RFC-0001: An overview of the Tari network</a></li><li class="expanded "><a href="RFC-0010_CodeStructure.html"><strong aria-hidden="true">2.</strong> RFC-0010: Tari code structure and organisation</a></li><li class="expanded "><a href="RFC-0100_BaseLayer.html"><strong aria-hidden="true">3.</strong> RFC-0100: The Tari Base Layer</a></li><li><ol class="section"><li class="expanded "><a href="RFC-0110_BaseNodes.html"><strong aria-hidden="true">3.1.</strong> RFC-0110: Base nodes</a></li><li class="expanded "><a href="RFC-0111_BaseNodeArchitecture.html"><strong aria-hidden="true">3.2.</strong> RFC-0111: Base node architecture</a></li><li class="expanded "><a href="RFC-0120_Consensus.html"><strong aria-hidden="true">3.3.</strong> RFC-0120: Consensus rules</a></li><li class="expanded "><a href="RFC-0130_Mining.html"><strong aria-hidden="true">3.4.</strong> RFC-0130: Mining</a></li><li class="expanded "><a href="RFC-0140_Syncing_and_seeding.html"><strong aria-hidden="true">3.5.</strong> RFC-0140: Sync and Seeding</a></li><li class="expanded "><a href="RFC-0150_Wallets.html"><strong aria-hidden="true">3.6.</strong> RFC-0150: Wallets</a></li><li class="expanded "><a href="RFC-0151_TransactionProtocol.html"><strong aria-hidden="true">3.7.</strong> RFC-0151: Transaction protocol</a></li><li class="expanded "><a href="RFC-0152_EmojiId.html"><strong aria-hidden="true">3.8.</strong> RFC-0152: Emoji ID</a></li><li class="expanded "><a href="RFC-0170_NetworkCommunicationProtocol.html"><strong aria-hidden="true">3.9.</strong> RFC-0170: Network Communication Protocol</a></li><li><ol class="section"><li class="expanded "><a href="RFC-0171_MessageSerialisation.html"><strong aria-hidden="true">3.9.1.</strong> RFC-0171: Message Serialisation</a></li><li class="expanded "><a href="RFC-0172_PeerToPeerMessagingProtocol.html"><strong aria-hidden="true">3.9.2.</strong> RFC-0172: Peer to Peer Messaging Protocol</a></li></ol></li><li class="expanded "><a href="RFC-0190_Mempool.html"><strong aria-hidden="true">3.10.</strong> RFC-0190: Mempool</a></li><li class="expanded "><a href="BaseLayerExtensions.html"><strong aria-hidden="true">3.11.</strong> Tari-specific extensions to Mimblewimble</a></li><li><ol class="section"><li class="expanded "><a href="RFC-0230_HTLC.html"><strong aria-hidden="true">3.11.1.</strong> RFC-0230: Hash time locked contracts</a></li><li class="expanded "><a href="RFC-0322_VNRegistration.html"><strong aria-hidden="true">3.11.2.</strong> RFC-0322: Validator Node Registration</a></li><li class="expanded "><a href="RFC-0341_AssetRegistration.html"><strong aria-hidden="true">3.11.3.</strong> RFC-0341: Asset registration</a></li></ol></li></ol></li><li class="expanded "><a href="RFC-0300_DAN.html"><strong aria-hidden="true">4.</strong> RFC-0300: The Digital Assets Network</a></li><li><ol class="section"><li class="expanded "><a href="RFC-0301_NamespaceRegistration.html"><strong aria-hidden="true">4.1.</strong> RFC-0301: Namespace Registration</a></li><li class="expanded "><a href="RFC-0302_ValidatorNodes.html"><strong aria-hidden="true">4.2.</strong> RFC-0302: Validator Nodes</a></li><li class="expanded "><a href="RFC-0304_VNCommittees.html"><strong aria-hidden="true">4.3.</strong> RFC-0304: Validator Node committee selection</a></li><li class="expanded "><a href="AssetManagement.html"><strong aria-hidden="true">4.4.</strong> Asset Management</a></li><li><ol class="section"><li class="expanded "><a href="RFC-0311_AssetTemplates.html"><strong aria-hidden="true">4.4.1.</strong> RFC-0311: Digital Asset templates</a></li><li class="expanded "><a href="RFC-0345_AssetLifeCycle.html"><strong aria-hidden="true">4.4.2.</strong> RFC-0345: Asset Life cycle</a></li></ol></li><li class="expanded "><a href="RFC-0340_VNConsensusOverview.html"><strong aria-hidden="true">4.5.</strong> RFC-0340: Validator Node Consensus</a></li></ol></li><li class="expanded "><a href="RFC-0500_PaymentChannels.html"><strong aria-hidden="true">5.</strong> RFC-0500: Tari payment channels</a></li><li class="expanded "><a href="RFC-1000_TariUseCases.html"><strong aria-hidden="true">6.</strong> RFC-1000: Tari Use Cases</a></li><li class="expanded "><a href="Glossary.html" class="active"><strong aria-hidden="true">7.</strong> Glossary</a></li></ol>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                
+                <div id="menu-bar" class="menu-bar">
+                    <div id="menu-bar-sticky-container">
+                        <div class="left-buttons">
+                            <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                                <i class="fa fa-bars"></i>
+                            </button>
+                            
+                            <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                                <i class="fa fa-search"></i>
+                            </button>
+                            
+                        </div>
+
+                        <h1 class="menu-title"><img src="theme/images/tari-horizontal-logo.png"/> </h1>
+
+                        <div class="right-buttons">
+                            <a href="print.html" title="Print this book" aria-label="Print this book">
+                                <i id="print-button" class="fa fa-print"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" name="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+                
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1><a class="header" href="#tari-network-terminology" id="tari-network-terminology">Tari Network Terminology</a></h1>
+<p>Below are a list of terms and their definitions that are used throughout the Tari code and documentation. Let's use this
+glossary to disambiguate ideas, and work towards a
+<a href="https://blog.carbonfive.com/2016/10/04/ubiquitous-language-the-joy-of-naming/">ubiquitous language</a> for this project.</p>
+<h2><a class="header" href="#archive-node" id="archive-node">Archive node</a></h2>
+<p>This is a full history <a href="#base-node" title="A full Tari node running on the base layer, validating and propagating Tari coin transactions and blocks">base node</a>. It will keep a complete history of every transaction ever received and it will not implement pruning.</p>
+<h2><a class="header" href="#assetcollateral" id="assetcollateral">AssetCollateral</a></h2>
+<p>The amount of tari coin that a <a href="#validator-node" title="A second-layer node that manages and validates digital asset state transitions">Validator Node</a> must put up on the <a href="#base-layer" title="The Tari layer handling payments and secured by proof of work">base layer</a> in order to become part of an asset <a href="#committee" title="A group of validator nodes that are responsible for managing a specific Digital Asset">committee</a>.</p>
+<h2><a class="header" href="#asset-issuer" id="asset-issuer">Asset Issuer</a></h2>
+<p>An entity that creates digital assets on the Tari DAN. The Asset Issuer will specify the parameters of the contract template
+that defines the rules that govern the asset and the number and nature of its constituent tokens on issuance. The Asset Issuer
+will, generally, be the initial owner of the tokens.</p>
+<h2><a class="header" href="#bad-actor" id="bad-actor">Bad Actor</a></h2>
+<p>A participant that acts maliciously or negligently to the detriment of the network or another participant.</p>
+<h2><a class="header" href="#base-layer" id="base-layer">Base layer</a></h2>
+<p>The Tari Base layer is a merge-mined <a href="#blockchain" title="The linked sequence of Tari blocks on the Tari base layer">blockchain</a> secured by proof-of-work. The base layer is primarily responsible for
+the emission of new Tari, for securing and managing <a href="#tari-coin" title="The base layer token">Tari coin</a> transfers.</p>
+<h2><a class="header" href="#base-node" id="base-node">Base Node</a></h2>
+<p>A full Tari node running on the base layer. It's primary role is validating and propagating <a href="#tari-coin" title="The base layer token">Tari coin</a> transactions
+and blocks to the rest of the network.</p>
+<h2><a class="header" href="#block" id="block">Block</a></h2>
+<p>A collection transactions and associated metadata recorded as a single entity in the Tari blockchain. The ordering of
+Tari transactions is set purely by the block height of the block they are recorded in. </p>
+<h2><a class="header" href="#block-header" id="block-header">Block Header</a></h2>
+<p>A data structure that validates the information contained in a <a href="#block" title="A collection transactions and associated metadata recorded as a single entity in the Tari blockchain">block</a>.</p>
+<h2><a class="header" href="#block-reward" id="block-reward">Block reward</a></h2>
+<p>The amount of Tari created by the coinbase transaction in every block. The block reward is set by the 
+<a href="#emission-schedule">emission schedule</a>.</p>
+<h2><a class="header" href="#blockchain" id="blockchain">Blockchain</a></h2>
+<p>A sequence of tari <a href="#block" title="A collection transactions and associated metadata recorded as a single entity in the Tari blockchain">block</a>s. Each block contains a hash of the previous valid block. Thus the blocks form a chain 
+with the property that changing anything in a block other than the head block requires rewriting the entire 
+blockchain from that point on.</p>
+<h2><a class="header" href="#blockchain-state" id="blockchain-state">Blockchain state</a></h2>
+<p>The complete state of the blockchain at a specific block height. This means a pruned <a href="#unspent-transaction-outputs">utxo</a> set, a complete set of kernels and headers up to that block height from the genesis block.</p>
+<h2><a class="header" href="#broadcaststrategy" id="broadcaststrategy">BroadcastStrategy</a></h2>
+<p>A strategy for propagating messages amongst nodes in a peer-to-peer network. Example implementations of
+<code>BroadcastStrategy</code> include the Gossip protocol, Dandelion and flood fill.</p>
+<h2><a class="header" href="#checkpoint" id="checkpoint">Checkpoint</a></h2>
+<p>A hash of the state of a Digital Asset that is recorded on the base layer.</p>
+<h2><a class="header" href="#coinbase-transaction" id="coinbase-transaction">Coinbase transaction</a></h2>
+<p>The first transaction in every Tari block yields a <a href="#block-reward" title="The amount of Tari created in every block">Block Reward</a> according to the Tari <a href="#emission-schedule">emission Schedule</a> and is 
+awarded to the miner that performed the Proof of Work for the block.</p>
+<h2><a class="header" href="#committee" id="committee">Committee</a></h2>
+<p>A group of <a href="#validator-node" title="A second-layer node that manages and validates digital asset state transitions">Validator Node</a>s that are responsible for managing the state of a specific <a href="#digital-asset" title="Sets of Native digital tokens, both fungible and non-fungible that are created by 
+asset issuers on the Tari 2nd layer">Digital Asset</a>. A committee is selected
+during asset issuance and can be updated at <a href="#checkpoint" title="A summary of the state of a Digital Asset that is recorded on the base layer">Checkpoint</a>s.</p>
+<h2><a class="header" href="#committeeselectionstrategy" id="committeeselectionstrategy">CommitteeSelectionStrategy</a></h2>
+<p>A strategy for an Asset Issuer to select candidates for the committee from the available registered Validator Nodes who responded to the nomination call for that asset.</p>
+<h2><a class="header" href="#consensusstrategy" id="consensusstrategy">ConsensusStrategy</a></h2>
+<p>The approach that will be taken for a committee to reach consensus on the validity of instructions that are performed on a
+given Digital Asset.</p>
+<h2><a class="header" href="#commitment" id="commitment">Commitment</a></h2>
+<p>A commitment is a cryptographic primitive that allows one to commit to a chosen value while keeping it hidden from
+others, with the ability to reveal the committed value later. Commitments are designed so that one cannot change the
+value or statement after they have committed to it.</p>
+<h2><a class="header" href="#communication-node" id="communication-node">Communication Node</a></h2>
+<p>A Communication Node is either a Validator Node or Base Node that is part of the Tari communication network. It maintains the network and is responsible for forwarding and propagating joining requests, discovery requests and data messages on the communication network.</p>
+<h2><a class="header" href="#communication-client" id="communication-client">Communication Client</a></h2>
+<p>A Communication Client is a Wallet or Asset Manager that makes use of the Tari communication network to send joining and discovery requests. A Communication Client does not maintain the communication network and is not responsible for forwarding or propagating any requests or data messages.</p>
+<h2><a class="header" href="#creator-nomination-mode" id="creator-nomination-mode">Creator Nomination Mode</a></h2>
+<p>An asset runs in creator nomination mode when <em>every</em> validator node in a validator committee is a <a href="#trusted-node" title="A permissioned Validator Node nominated by an Asset Issuer">Trusted Node</a> that was directly nominated by the <a href="#asset-issuer" title="An entity that creates digital assets on the Tari DAN">Asset Issuer</a>.</p>
+<h2><a class="header" href="#current-head" id="current-head">Current head</a></h2>
+<p>The last <a href="#block" title="A collection transactions and associated metadata recorded as a single entity in the Tari blockchain">block</a> of the base layer that represents the latest valid block. This <a href="#block" title="A collection transactions and associated metadata recorded as a single entity in the Tari blockchain">block</a> must be from the longest proof-of-work chain to be the current head.</p>
+<h2><a class="header" href="#digital-asset" id="digital-asset">Digital asset</a></h2>
+<p>Digital assets (DAs) are the sets or collections of native digital tokens (both fungible and non-fungible) that are 
+created by <a href="#asset-issuer" title="An entity that creates digital assets on the Tari DAN">asset issuer</a>s on the Tari 2nd layer. For example, a promoter might create a DA for a music concert event. The
+event is the digital asset, and the tickets for the event are digital asset <a href="#digital-asset-tokens" title="or just, &quot;tokens&quot;. The tokens associated with a given digital asset. Tokens are created
+ by asset issuers">tokens</a>.</p>
+<h2><a class="header" href="#digital-asset-network" id="digital-asset-network">Digital Asset Network</a></h2>
+<p>The Tari second layer. All digital asset interactions are managed on the Tari Digital Assets Network (DAN). These
+interactions (defined in <a href="#instructions" title="Second-layer network commands for managing digital asset state">instruction</a>s) are processed and validated by <a href="#validator-node" title="A second-layer node that manages and validates digital asset state transitions">Validator Node</a>s.</p>
+<h2><a class="header" href="#digitalassettemplate" id="digitalassettemplate">DigitalAssetTemplate</a></h2>
+<p>A DigitalAssetTemplate is one of a set of contract types supported by the DAN. These contracts are non-turing complete and consist of
+rigid rule-sets with parameters that can be set by Asset Issuers.</p>
+<h2><a class="header" href="#digital-asset-tokens" id="digital-asset-tokens">Digital asset tokens</a></h2>
+<p>Digital asset tokens (or often, just &quot;tokens&quot;) are the finite set of digital entities associated with a given digital 
+asset. Depending on the DA created, tokens can represent tickets, in-game items, collectibles or loyalty points. They
+are bound to the <a href="#digital-asset" title="Sets of Native digital tokens, both fungible and non-fungible that are created by 
+asset issuers on the Tari 2nd layer">digital asset</a> that created them.</p>
+<h2><a class="header" href="#hashed-time-locked-contract" id="hashed-time-locked-contract">Hashed Time Locked Contract</a></h2>
+<p>A time locked contract that only pays out after a certain criteria has been met or refunds the originator if a certain period has expired.</p>
+<h2><a class="header" href="#emission-schedule" id="emission-schedule">Emission schedule</a></h2>
+<p>An explicit formula as a function of the block height, <em>h</em>, that determines the block reward for the 
+<em>h</em><sup>th</sup> block.</p>
+<h2><a class="header" href="#instructions" id="instructions">Instructions</a></h2>
+<p>Instructions are the <a href="#digital-asset-network" title="The Tari second layer. All digital asset interactions are managed here.">digital asset network</a> equivalent of <a href="#transaction" title="Base layer tari coin transfers.">transaction</a>s. Instructions are issued by asset issuers and
+client applications and are relayed by the DAN to the <a href="#validator-node" title="A second-layer node that manages and validates digital asset state transitions">validator node</a>s that are managing the associated
+<a href="#digital-asset" title="Sets of Native digital tokens, both fungible and non-fungible that are created by 
+asset issuers on the Tari 2nd layer">digital asset</a>.</p>
+<h2><a class="header" href="#mempool" id="mempool">Mempool</a></h2>
+<p>The mempool consists of the transaction pool, pending pool, orphan pool and reorg pool, and is responsible for managing unconfirmed transactions that have not yet been included in the
+longest proof-of-work chain. Miners usually draw verified transactions from the mempool to build up transaction <a href="#block" title="A collection transactions and associated metadata recorded as a single entity in the Tari blockchain">block</a>s.</p>
+<h2><a class="header" href="#mimblewimble" id="mimblewimble">Mimblewimble</a></h2>
+<p>Mimblewimble is a privacy-centric cryptocurrency protocol. It was
+<a href="https://download.wpsoftware.net/bitcoin/wizardry/mimblewimble.txt">dropped</a> in the Bitcoin Developers chatroom by an
+anonymous author and has since been refined by several authors, including Andrew Poelstra.</p>
+<h2><a class="header" href="#mining-server" id="mining-server">Mining Server</a></h2>
+<p>A Mining Server is responsible for constructing new blocks by bundling transactions from the <a href="#mempool" title="A memory pool for unconfirmed transactions on the base layer">mempool</a> of a connected <a href="#base-node" title="A full Tari node running on the base layer, validating and propagating Tari coin transactions and blocks">Base Node</a>. It also distributes Proof-of-Work tasks to Mining Workers and verifies PoW solutions.</p>
+<h2><a class="header" href="#mining-worker" id="mining-worker">Mining Worker</a></h2>
+<p>A Mining Worker is responsible for performing Proof-of-Work tasks received from its parent <a href="#mining-server">Mining Server</a>.</p>
+<h2><a class="header" href="#multisig" id="multisig">Multisig</a></h2>
+<p>Multi-signatures (Multisigs) are also known as N-of-M signatures, this means that a minimum of N number of the M peers need to agree before a transaction can be spent. N and M can be equal; which is a special case and is often referred to as an N-of-N Multisig.</p>
+<p><a href="https://tlu.tarilabs.com/cryptography/musig-schnorr-sig-scheme/The_MuSig_Schnorr_Signature_Scheme.html">TLU musig</a></p>
+<h2><a class="header" href="#node-id" id="node-id">Node ID</a></h2>
+<p>A node ID is a unique identifier that specifies the location of a <a href="#communication-node" title="A communication node that is responsible for maintaining the Tari communication network">communication node</a> or <a href="#communication-client" title="A communication client that makes use of the Tari communication network, but does not maintain it">communication client</a> in the
+Tari communication network. The node ID can either be obtained from registration on the <a href="#base-layer" title="The Tari layer handling payments and secured by proof of work">Base Layer</a> or can be derived
+from the public identification key of a <a href="#communication-node" title="A communication node that is responsible for maintaining the Tari communication network">communication node</a> or <a href="#communication-client" title="A communication client that makes use of the Tari communication network, but does not maintain it">communication client</a>.</p>
+<h2><a class="header" href="#orphan-pool" id="orphan-pool">Orphan Pool</a></h2>
+<p>The orphan pool is part of the <a href="#mempool" title="A memory pool for unconfirmed transactions on the base layer">mempool</a> and manages all <a href="#transaction" title="Base layer tari coin transfers.">transaction</a>s that have been verified but attempt to spend <a href="#unspent-transaction-outputs">UTXO</a>s that do not exist or haven't been created yet.</p>
+<h2><a class="header" href="#pending-pool" id="pending-pool">Pending Pool</a></h2>
+<p>The pending pool is part of the <a href="#mempool" title="A memory pool for unconfirmed transactions on the base layer">mempool</a> and manages all <a href="#transaction" title="Base layer tari coin transfers.">transaction</a>s that have a time-lock restriction on when it can be processed or attempts to spend <a href="#unspent-transaction-outputs">UTXO</a>s with time-locks.</p>
+<h2><a class="header" href="#pruning-horizon" id="pruning-horizon">Pruning horizon</a></h2>
+<p>This is a local setting for each node to help reduce syncing time and bandwidth. This is the number of blocks from the chain tip beyond which a chain will be pruned.</p>
+<h2><a class="header" href="#public-nomination-mode" id="public-nomination-mode">Public Nomination Mode</a></h2>
+<p>An asset runs in public nomination mode when the <a href="#asset-issuer" title="An entity that creates digital assets on the Tari DAN">Asset Issuer</a> broadcasts a call for nominations to the network and VNs from the network nominate themselves as candidates to become members of the <a href="#committee" title="A group of validator nodes that are responsible for managing a specific Digital Asset">committee</a> for the asset. The <a href="#asset-issuer" title="An entity that creates digital assets on the Tari DAN">Asset Issuer</a> will then employ the <a href="#committeeselectionstrategy" title="A strategy for an Asset Issuer to select candidates for the committee from the available registered Validator Nodes who responded to the nomination call for that asset">CommitteeSelectionStrategy</a> to select the committee from the list of available candidates.</p>
+<h2><a class="header" href="#range-proof" id="range-proof">Range proof</a></h2>
+<p>A mathematical demonstration that a value inside a <a href="#commitment">commitment</a> (i.e. it is hidden) lies within a certain range. For
+<a href="#mimblewimble" title="a privacy-centric cryptocurrency protocol">Mimblewimble</a>, range proofs are used to prove that outputs are positive values.</p>
+<h2><a class="header" href="#registration-deposit" id="registration-deposit">Registration Deposit</a></h2>
+<p>An amount of tari coin that is locked up on the base layer when a <a href="#validator-node" title="A second-layer node that manages and validates digital asset state transitions">Validator Node</a> is registered. In order to make Sybil
+attacks expensive and to provide an authorative base layer registry of <a href="#validator-node" title="A second-layer node that manages and validates digital asset state transitions">validator node</a>s they will need to lock up a
+amount of <a href="#tari-coin" title="The base layer token">Tari Coin</a> on the <a href="#base-layer" title="The Tari layer handling payments and secured by proof of work">Base Layer</a> using a registration transaction to begin acting as a VN on the DAN.</p>
+<h2><a class="header" href="#registration-term" id="registration-term">Registration Term</a></h2>
+<p>The minimum amount of time that a VN registration lasts, the <a href="#registration-deposit" title="An amount of tari coin that is locked up on the base layer when a [Validator Node] is registered">Registration Deposit</a> can only be released after this
+minimum period has elapsed.</p>
+<h2><a class="header" href="#reorg-pool" id="reorg-pool">Reorg Pool</a></h2>
+<p>The reorg pool is part of the <a href="#mempool" title="A memory pool for unconfirmed transactions on the base layer">mempool</a> and stores all <a href="#transaction" title="Base layer tari coin transfers.">transaction</a>s that have recently been included in blocks in case a blockchain reorganization occurs and the transactions need to be restored to the <a href="#transaction-pool" title="A pool in the Mempool for valid and verified unconfirmed transactions">transaction pool</a>.</p>
+<h2><a class="header" href="#spending-key" id="spending-key">Spending Key</a></h2>
+<p>A private spending key is a private key that permits spending of a <a href="#unspent-transaction-outputs">UTXO</a>. It is also sometimes referred to as a
+Blinding Factor, since is Tari (and Mimblewimble) outputs, the value of a UTXO is <em>blinded</em> by the spending key:</p>
+<p>$$ C = v.H + k.G $$</p>
+<p>The public key, \(P = k.G\) is known as the <em>public</em> spending key.</p>
+<h2><a class="header" href="#synchronisationstate" id="synchronisationstate">SynchronisationState</a></h2>
+<p>The current synchronisation state of a <a href="#base-node" title="A full Tari node running on the base layer, validating and propagating Tari coin transactions and blocks">Base Node</a>. This can either be</p>
+<ul>
+<li><code>new</code> - The blockchain state is empty and is waiting for synchronisation to begin.</li>
+<li><code>synchronising</code> - The blockchain state is in the process of synchronising with the rest of the network.</li>
+<li><code>synchronised</code> - The blockchain state has synchronised with the rest of the network and is in a position to validate
+transactions.</li>
+</ul>
+<h2><a class="header" href="#synchronisationstrategy" id="synchronisationstrategy">SynchronisationStrategy</a></h2>
+<p>The generalised approach for a <a href="#base-node" title="A full Tari node running on the base layer, validating and propagating Tari coin transactions and blocks">Base Node</a> to obtain the current state of the blockchain from the peer-to-peer network.
+Specific implementations may differ based on different trade-offs and constraints with respect to bandwidth, local
+network conditions etc.</p>
+<h2><a class="header" href="#tari-coin" id="tari-coin">Tari Coin</a></h2>
+<p>The base layer token. Tari coins are released according to the <a href="#emission-schedule">emission schedule</a> on the Tari <a href="#base-layer" title="The Tari layer handling payments and secured by proof of work">base layer</a> 
+<a href="#blockchain" title="The linked sequence of Tari blocks on the Tari base layer">blockchain</a> in <a href="#coinbase-transaction">coinbase transaction</a>s.</p>
+<h2><a class="header" href="#transaction" id="transaction">Transaction</a></h2>
+<p>Transactions are activities recorded on the Tari <a href="#blockchain" title="The linked sequence of Tari blocks on the Tari base layer">blockchain</a> running on the <a href="#base-layer" title="The Tari layer handling payments and secured by proof of work">base layer</a>. Transactions always involve a
+transfer of <a href="#tari-coin" title="The base layer token">Tari coin</a>s.</p>
+<h2><a class="header" href="#transaction-pool" id="transaction-pool">Transaction Pool</a></h2>
+<p>The transaction pool is part of the <a href="#mempool" title="A memory pool for unconfirmed transactions on the base layer">mempool</a> and manages all <a href="#transaction" title="Base layer tari coin transfers.">transaction</a>s that have been verified, that spend valid <a href="#unspent-transaction-outputs">UTXO</a>s and don't have any time-lock restrictions.</p>
+<h2><a class="header" href="#trusted-node" id="trusted-node">Trusted Node</a></h2>
+<p>A permissioned Validator Node nominated by an Asset Issuer that will form part of the committee for that Digital Asset.</p>
+<h2><a class="header" href="#token-wallet" id="token-wallet">Token Wallet</a></h2>
+<p>A Tari Token Wallet is responsible for managing <a href="#digital-asset" title="Sets of Native digital tokens, both fungible and non-fungible that are created by 
+asset issuers on the Tari 2nd layer">Digital asset</a>s and <a href="#digital-asset-tokens" title="or just, &quot;tokens&quot;. The tokens associated with a given digital asset. Tokens are created
+ by asset issuers">Tokens</a>, and for constructing and negotiating <a href="#instructions" title="Second-layer network commands for managing digital asset state">instruction</a>s for transferring and receiving Assets and Tokens on the <a href="#digital-asset-network" title="The Tari second layer. All digital asset interactions are managed here.">Digital Asset Network</a>.</p>
+<h2><a class="header" href="#unspent-transaction-outputs" id="unspent-transaction-outputs">Unspent transaction outputs</a></h2>
+<p>An unspent transaction output (UTXO) is a discrete number of Tari that are available to be spent. The sum of all 
+UTXOs represents all the Tari currently in circulation. In addition, the sum of all UTXO values equals the sum of the
+<a href="#block-reward" title="The amount of Tari created in every block">block reward</a>s for all blocks up to the current block height.</p>
+<p>UTXO values are hidden by their <a href="#commitment">commitment</a>s. Only the owner of the UTXO and (presumably) the creator of the UTXO
+(either a <a href="#coinbase-transaction">Coinbase transaction</a> or previous spender) know the value of the UTXO.</p>
+<h2><a class="header" href="#validator-node" id="validator-node">Validator Node</a></h2>
+<p>Validator nodes (VNs) make up the Tari second layer, or <a href="#digital-asset-network" title="The Tari second layer. All digital asset interactions are managed here.">Digital Asset Network</a>. VNs are responsible for creating and
+updating <a href="#digital-asset" title="Sets of Native digital tokens, both fungible and non-fungible that are created by 
+asset issuers on the Tari 2nd layer">digital asset</a>s living on the Tari network.</p>
+<h2><a class="header" href="#validationstate" id="validationstate">ValidationState</a></h2>
+<p>Transactions or blocks are <code>unvalidated</code> when first received by a <a href="#base-node" title="A full Tari node running on the base layer, validating and propagating Tari coin transactions and blocks">Base Node</a>. After validation, they are either
+<code>rejected</code> or <code>validated</code>.</p>
+<p><code>Validated</code> transactions can be added to the <a href="#mempool" title="A memory pool for unconfirmed transactions on the base layer">mempool</a> and propagated to peers.</p>
+<p><code>Validated</code> blocks are added to the <a href="#blockchain" title="The linked sequence of Tari blocks on the Tari base layer">blockchain</a> and propagated to peers.</p>
+<h2><a class="header" href="#wallet" id="wallet">Wallet</a></h2>
+<p>A Tari Wallet is responsible for managing key pairs, and for constructing and negotiating <a href="#transaction" title="Base layer tari coin transfers.">transaction</a>s for transferring and receiving <a href="#tari-coin" title="The base layer token">tari coin</a>s on the <a href="#base-layer" title="The Tari layer handling payments and secured by proof of work">Base Layer</a>.</p>
+<h1><a class="header" href="#disclaimer" id="disclaimer">Disclaimer</a></h1>
+<p>This document is subject to the <a href="../DISCLAIMER.html">disclaimer</a>.</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                        
+                            <a rel="prev" href="RFC-1000_TariUseCases.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+                        
+
+                        
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                
+                    <a href="RFC-1000_TariUseCases.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                
+
+                
+            </nav>
+
+        </div>
+
+        
+
+        
+
+        
+
+        
+        <script src="elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="searcher.js" type="text/javascript" charset="utf-8"></script>
+        
+
+        <script src="clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Initialize mermaid -->
+        <script src="theme/js/mermaid.min.js" type="text/javascript" charset="utf-8"></script>
+        <script>mermaid.initialize({startOnLoad:true});</script>
+
+        <!-- Custom JS scripts -->
+        
+
+        
+
+    </body>
+</html>

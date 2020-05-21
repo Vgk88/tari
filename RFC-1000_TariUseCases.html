@@ -1,0 +1,415 @@
+<!DOCTYPE HTML>
+<html lang="en" class="sidebar-visible no-js">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>RFC-1000: Tari Use Cases - The Tari Network: RFC library</title>
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="The Tari network RFC library and documentation">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="shortcut icon" href="favicon.png">
+        <link rel="stylesheet" href="css/variables.css">
+        <link rel="stylesheet" href="css/general.css">
+        <link rel="stylesheet" href="css/chrome.css">
+        <link rel="stylesheet" href="css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css">
+        <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro:500" rel="stylesheet" type="text/css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="highlight.css">
+        <link rel="stylesheet" href="tomorrow-night.css">
+        <link rel="stylesheet" href="ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        
+
+        
+        <!-- MathJax -->
+        <script async type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script type="text/x-mathjax-config">
+          MathJax.Hub.Config({
+            tex2jax: {
+            inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+            displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+            processEscapes: true
+            }
+          });
+        </script>
+        
+    </head>
+    <body class="light">
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">var path_to_root = "";</script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme = 'light';
+            document.body.className = theme;
+            document.querySelector('html').className = theme + ' js';
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <img src="theme/images/tari-splash.png" class="tlu">
+
+            <ol class="chapter"><li class="expanded affix "><a href="about.html">About the Tari RFC documents</a></li><li class="expanded "><a href="RFC-0001_overview.html"><strong aria-hidden="true">1.</strong> RFC-0001: An overview of the Tari network</a></li><li class="expanded "><a href="RFC-0010_CodeStructure.html"><strong aria-hidden="true">2.</strong> RFC-0010: Tari code structure and organisation</a></li><li class="expanded "><a href="RFC-0100_BaseLayer.html"><strong aria-hidden="true">3.</strong> RFC-0100: The Tari Base Layer</a></li><li><ol class="section"><li class="expanded "><a href="RFC-0110_BaseNodes.html"><strong aria-hidden="true">3.1.</strong> RFC-0110: Base nodes</a></li><li class="expanded "><a href="RFC-0111_BaseNodeArchitecture.html"><strong aria-hidden="true">3.2.</strong> RFC-0111: Base node architecture</a></li><li class="expanded "><a href="RFC-0120_Consensus.html"><strong aria-hidden="true">3.3.</strong> RFC-0120: Consensus rules</a></li><li class="expanded "><a href="RFC-0130_Mining.html"><strong aria-hidden="true">3.4.</strong> RFC-0130: Mining</a></li><li class="expanded "><a href="RFC-0140_Syncing_and_seeding.html"><strong aria-hidden="true">3.5.</strong> RFC-0140: Sync and Seeding</a></li><li class="expanded "><a href="RFC-0150_Wallets.html"><strong aria-hidden="true">3.6.</strong> RFC-0150: Wallets</a></li><li class="expanded "><a href="RFC-0151_TransactionProtocol.html"><strong aria-hidden="true">3.7.</strong> RFC-0151: Transaction protocol</a></li><li class="expanded "><a href="RFC-0152_EmojiId.html"><strong aria-hidden="true">3.8.</strong> RFC-0152: Emoji ID</a></li><li class="expanded "><a href="RFC-0170_NetworkCommunicationProtocol.html"><strong aria-hidden="true">3.9.</strong> RFC-0170: Network Communication Protocol</a></li><li><ol class="section"><li class="expanded "><a href="RFC-0171_MessageSerialisation.html"><strong aria-hidden="true">3.9.1.</strong> RFC-0171: Message Serialisation</a></li><li class="expanded "><a href="RFC-0172_PeerToPeerMessagingProtocol.html"><strong aria-hidden="true">3.9.2.</strong> RFC-0172: Peer to Peer Messaging Protocol</a></li></ol></li><li class="expanded "><a href="RFC-0190_Mempool.html"><strong aria-hidden="true">3.10.</strong> RFC-0190: Mempool</a></li><li class="expanded "><a href="BaseLayerExtensions.html"><strong aria-hidden="true">3.11.</strong> Tari-specific extensions to Mimblewimble</a></li><li><ol class="section"><li class="expanded "><a href="RFC-0230_HTLC.html"><strong aria-hidden="true">3.11.1.</strong> RFC-0230: Hash time locked contracts</a></li><li class="expanded "><a href="RFC-0322_VNRegistration.html"><strong aria-hidden="true">3.11.2.</strong> RFC-0322: Validator Node Registration</a></li><li class="expanded "><a href="RFC-0341_AssetRegistration.html"><strong aria-hidden="true">3.11.3.</strong> RFC-0341: Asset registration</a></li></ol></li></ol></li><li class="expanded "><a href="RFC-0300_DAN.html"><strong aria-hidden="true">4.</strong> RFC-0300: The Digital Assets Network</a></li><li><ol class="section"><li class="expanded "><a href="RFC-0301_NamespaceRegistration.html"><strong aria-hidden="true">4.1.</strong> RFC-0301: Namespace Registration</a></li><li class="expanded "><a href="RFC-0302_ValidatorNodes.html"><strong aria-hidden="true">4.2.</strong> RFC-0302: Validator Nodes</a></li><li class="expanded "><a href="RFC-0304_VNCommittees.html"><strong aria-hidden="true">4.3.</strong> RFC-0304: Validator Node committee selection</a></li><li class="expanded "><a href="AssetManagement.html"><strong aria-hidden="true">4.4.</strong> Asset Management</a></li><li><ol class="section"><li class="expanded "><a href="RFC-0311_AssetTemplates.html"><strong aria-hidden="true">4.4.1.</strong> RFC-0311: Digital Asset templates</a></li><li class="expanded "><a href="RFC-0345_AssetLifeCycle.html"><strong aria-hidden="true">4.4.2.</strong> RFC-0345: Asset Life cycle</a></li></ol></li><li class="expanded "><a href="RFC-0340_VNConsensusOverview.html"><strong aria-hidden="true">4.5.</strong> RFC-0340: Validator Node Consensus</a></li></ol></li><li class="expanded "><a href="RFC-0500_PaymentChannels.html"><strong aria-hidden="true">5.</strong> RFC-0500: Tari payment channels</a></li><li class="expanded "><a href="RFC-1000_TariUseCases.html" class="active"><strong aria-hidden="true">6.</strong> RFC-1000: Tari Use Cases</a></li><li class="expanded "><a href="Glossary.html"><strong aria-hidden="true">7.</strong> Glossary</a></li></ol>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                
+                <div id="menu-bar" class="menu-bar">
+                    <div id="menu-bar-sticky-container">
+                        <div class="left-buttons">
+                            <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                                <i class="fa fa-bars"></i>
+                            </button>
+                            
+                            <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                                <i class="fa fa-search"></i>
+                            </button>
+                            
+                        </div>
+
+                        <h1 class="menu-title"><img src="theme/images/tari-horizontal-logo.png"/> </h1>
+
+                        <div class="right-buttons">
+                            <a href="print.html" title="Print this book" aria-label="Print this book">
+                                <i id="print-button" class="fa fa-print"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" name="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+                
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1><a class="header" href="#rfc-1000tariusecases" id="rfc-1000tariusecases">RFC-1000/TariUseCases</a></h1>
+<h2><a class="header" href="#digital-asset-framework" id="digital-asset-framework">Digital Asset Framework</a></h2>
+<p><img src="./theme/images/status-draft.svg" alt="status: draft" /></p>
+<p><strong>Maintainer(s)</strong>: <a href="https://github.com/lelandlee">Leland Lee</a></p>
+<h1><a class="header" href="#licence" id="licence">Licence</a></h1>
+<p><a href="https://opensource.org/licenses/BSD-3-Clause">The 3-Clause BSD Licence</a>.</p>
+<p>Copyright 2019 The Tari Development Community</p>
+<p>Redistribution and use in source and binary forms, with or without modification, are permitted provided that the
+following conditions are met:</p>
+<ol>
+<li>Redistributions of this document must retain the above copyright notice, this list of conditions and the following
+disclaimer.</li>
+<li>Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following
+disclaimer in the documentation and/or other materials provided with the distribution.</li>
+<li>Neither the name of the copyright holder nor the names of its contributors may be used to endorse or promote products
+derived from this software without specific prior written permission.</li>
+</ol>
+<p>THIS DOCUMENT IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS IS&quot;, AND ANY EXPRESS OR IMPLIED WARRANTIES,
+INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+SPECIAL, EXEMPLARY OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+SERVICES; LOSS OF USE, DATA OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+WHETHER IN CONTRACT, STRICT LIABILITY OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
+THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</p>
+<h2><a class="header" href="#language" id="language">Language</a></h2>
+<p>The keywords &quot;MUST&quot;, &quot;MUST NOT&quot;, &quot;REQUIRED&quot;, &quot;SHALL&quot;, &quot;SHALL NOT&quot;, &quot;SHOULD&quot;, &quot;SHOULD NOT&quot;, &quot;RECOMMENDED&quot;, 
+&quot;NOT RECOMMENDED&quot;, &quot;MAY&quot; and &quot;OPTIONAL&quot; in this document are to be interpreted as described in 
+<a href="https://tools.ietf.org/html/bcp14">BCP 14</a> (covering RFC2119 and RFC8174) when, and only when, they appear in all capitals, as 
+shown here.</p>
+<h2><a class="header" href="#disclaimer" id="disclaimer">Disclaimer</a></h2>
+<p>This document and its content are intended for information purposes only and may be subject to change or update
+without notice.</p>
+<p>This document may include preliminary concepts that may or may not be in the process of being developed by the Tari
+community. The release of this document is intended solely for review and discussion by the community of the
+technological merits of the potential system outlined herein.</p>
+<h2><a class="header" href="#goals" id="goals">Goals</a></h2>
+<p>There will be many types of digital assets that can be issued on Tari. The aim of this Request for Comment (RFC) is to 
+help potential asset
+issuers identify use cases for Tari that lead to the design of new types of digital assets that may or may not exist in
+their ecosystems today.</p>
+<h2><a class="header" href="#related-requests-for-comment" id="related-requests-for-comment">Related Requests for Comment</a></h2>
+<ul>
+<li><a href="RFC-0001_overview.html">RFC-0001: Overview of Tari Network</a></li>
+<li><a href="RFC-0300_DAN.html">RFC-0300: Digital Assets Network</a></li>
+</ul>
+<h2><a class="header" href="#description" id="description">Description</a></h2>
+<p>Tari <a href="Glossary.html#digital-asset">digital asset</a>s may exist on the Tari <a href="Glossary.html#digital-asset-network">Digital Assets Network</a> (DAN), are perceived to have value and can be 
+owned, with the associated digital data being classified as intangible, personal property.</p>
+<h3><a class="header" href="#types" id="types">Types</a></h3>
+<p>Digital assets may have the following high-level classification scheme:</p>
+<ul>
+<li>Symbolic
+<ul>
+<li>Insignia</li>
+<li>Mascots</li>
+<li>Event-driven or historical, e.g. a rivalry or a highly temporal event</li>
+</ul>
+</li>
+<li>Artefacts or objects
+<ul>
+<li>Legendary</li>
+<li>Rare</li>
+<li>High demand</li>
+<li>Artistic</li>
+<li>Historical</li>
+</ul>
+</li>
+<li>Utility
+<ul>
+<li>Tickets</li>
+<li>In-game items</li>
+<li>Points</li>
+<li>Currency</li>
+<li>Full or fractional representation</li>
+<li>Bearer instruments/access token</li>
+<li>Chat stickers</li>
+</ul>
+</li>
+<li>Persona
+<ul>
+<li>Personality trait(s)</li>
+<li>Emotion(s)</li>
+<li>Statistics</li>
+<li>Superpower(s)</li>
+<li>Storyline(s)</li>
+<li>Relationship(s)</li>
+<li>Avatar</li>
+</ul>
+</li>
+</ul>
+<h3><a class="header" href="#behaviours" id="behaviours">Behaviours</a></h3>
+<p>Digital asset tokens may influence the following behavioural types:</p>
+<ul>
+<li>Advance purchase</li>
+<li>Experience enhancement</li>
+<li>Sharing</li>
+<li>Loyalty</li>
+<li>Reward for performance</li>
+<li>Tipping</li>
+<li>Donating to a charity</li>
+<li>Collecting</li>
+<li>Trading</li>
+<li>Building/combining</li>
+</ul>
+<h3><a class="header" href="#attributes" id="attributes">Attributes</a></h3>
+<p>Digital assets have many different properties, which may be one or more of the following:</p>
+<ul>
+<li>Digital assets can be interactive:
+<ul>
+<li>Easter eggs;
+<ul>
+<li>media</li>
+<li>dynamic, e.g. imagine if assets were similar to sounds, visualizations or other kinds of &quot;demos&quot; or &quot;gifs&quot;)</li>
+</ul>
+</li>
+<li>Game mechanics;</li>
+<li>Evolutionary.</li>
+</ul>
+</li>
+<li>Digital assets can be combined to create super assets.</li>
+<li>Digital assets can be attribute(s) of another digital asset, e.g. wheels of a vehicle or a VIP ticket has two drink 
+cards.</li>
+<li>Digital assets can have contingencies, e.g. ownership of a digital asset is contingent on ownership of a different 
+digital asset. Using this digital asset is contingent on holding it for a particular duration, etc.</li>
+<li>Digital assets can have utility, e.g. be useful.</li>
+<li>Digital assets can be used across platforms, e.g. a digital asset for a game could be used as avatars in a social 
+network.</li>
+<li>Digital assets can have history.</li>
+<li>Digital assets can have user-generated tags and/or metadata.</li>
+</ul>
+<h3><a class="header" href="#interactions" id="interactions">Interactions</a></h3>
+<p>Digital asset owners may have the following interactions with the DAN and/or other people:</p>
+<ul>
+<li>Digital asset owners can attest that they have ownership over their assets at time <code>t</code>.</li>
+<li>Digital asset owners may attest ownership to an individual, to a group of friends or to the entire world.</li>
+</ul>
+<h3><a class="header" href="#rules" id="rules">Rules</a></h3>
+<p>Rules are the governance of how digital assets may be used or transferred, as defined by the asset issuer:</p>
+<ul>
+<li>Royalty fees.  Digital asset issuers can set a royalty that charges a fee every time the digital asset is transferred 
+between parties. The fee as defined by the issuer can be fixed or dynamic, or follow a complex formula, and value is 
+granted to the issuer(s) and/or other entities.</li>
+<li>Contingency. Digital asset ownership/interaction may be contingent/dependent on another asset.</li>
+<li>Timing controls. Digital assets can only be transferred or used at particular times.</li>
+<li>Sharing. Digital assets can be shared with others or even co-owned.</li>
+<li>Privacy. Ownership of a digital asset can be changed from private to public.</li>
+<li>Upgradability/versioning. Digital assets can be upgraded and/or versioned.</li>
+<li>Redeemability. Digital assets can be used once or multiple times.</li>
+</ul>
+<h3><a class="header" href="#examples" id="examples">Examples</a></h3>
+<p>Some examples of how different types of digital assets with different attributes, rules and interactions may be 
+manifested are provided here:</p>
+<h4><a class="header" href="#crystal-skull-of-akador" id="crystal-skull-of-akador">Crystal Skull of Akador</a></h4>
+<ul>
+<li>Is rare, it is 1 of 5.</li>
+<li>Is legendary:
+<ul>
+<li>https://indianajones.fandom.com/wiki/Crystal_Skull_of_Akator;</li>
+<li>press reports that this artefact could be worth $X.</li>
+</ul>
+</li>
+<li>Drives collectability.</li>
+<li>Drives advance purchase, e.g. if you are one of the first 100,000 people to buy tickets to Indiana Jones World, you 
+have a chance of winning this 
+1 of 5 artefact.</li>
+<li>Has superpowers and utility, e.g. if you have this item while visiting Indiana Jones World, you get to skip the line 
+three times.</li>
+<li>Is a contingency for another asset, e.g. if you collect this item, two Sankara stones and the Cross of Coronado, you 
+can buy the ark of the covenant:
+<ul>
+<li>Ark of the covenant is rare. It is 1 of 1.</li>
+<li>Ark of the covenant is legendary.</li>
+<li>Ark of the covenant gives you lifetime access to Indiana Jones World.</li>
+<li>Ark of the covenant has rules; 20% of the resale price goes to Indiana Jones World.</li>
+</ul>
+</li>
+</ul>
+<h4><a class="header" href="#ab-de-villiers-bat" id="ab-de-villiers-bat">AB de Villiers' bat</a></h4>
+<ul>
+<li>Is not rare, it is 1 of 100,000.</li>
+<li>Is legendary - https://www.youtube.com/watch?v=HK6B2da3DPA.</li>
+<li>Drives collectability, it is part of a series of bats from famous batsmen.</li>
+<li>Can be combined with other assets, e.g. be one of the first 10 people to combine six bats to turn this asset into a 
+One Day International (ODI) century bat:
+<ul>
+<li>ODI century bats are rare, they are 1 of 10;</li>
+<li>ODI century bats are legendary.</li>
+</ul>
+</li>
+<li>Has no superpowers.</li>
+<li>Has no utility.</li>
+<li>Has no rules.</li>
+</ul>
+<h4><a class="header" href="#ovo-owl-x-supreme" id="ovo-owl-x-supreme">OVO Owl x Supreme</a></h4>
+<ul>
+<li>Is rare, it is 1 of 200.</li>
+<li>Is legendary:
+<ul>
+<li>https://www.supremenewyork.com;</li>
+<li>https://us.octobersveryown.com.</li>
+</ul>
+</li>
+<li>Has a game mechanic:
+<ul>
+<li>Every time it’s transferred, it may become a golden ticket that grants you access to any Drake show.</li>
+<li>If it becomes a golden ticket and is transferred, it loses its golden ticket superpower.</li>
+</ul>
+</li>
+<li>Has utility:
+<ul>
+<li>Unlocks exclusive media content feat. Drake hosted by OVO SOUND.</li>
+<li>May become a golden ticket that grants you access to any Drake show.</li>
+</ul>
+</li>
+<li>Has rules - every time its transferred Supreme and OVO SOUND receive 25% of the transaction value.</li>
+</ul>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                        
+                            <a rel="prev" href="RFC-0500_PaymentChannels.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+                        
+
+                        
+                            <a rel="next" href="Glossary.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                
+                    <a href="RFC-0500_PaymentChannels.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                
+
+                
+                    <a href="Glossary.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+                
+            </nav>
+
+        </div>
+
+        
+
+        
+
+        
+
+        
+        <script src="elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="searcher.js" type="text/javascript" charset="utf-8"></script>
+        
+
+        <script src="clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Initialize mermaid -->
+        <script src="theme/js/mermaid.min.js" type="text/javascript" charset="utf-8"></script>
+        <script>mermaid.initialize({startOnLoad:true});</script>
+
+        <!-- Custom JS scripts -->
+        
+
+        
+
+    </body>
+</html>

@@ -1,0 +1,355 @@
+<!DOCTYPE HTML>
+<html lang="en" class="sidebar-visible no-js">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>RFC-0111: Base node architecture - The Tari Network: RFC library</title>
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="The Tari network RFC library and documentation">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="shortcut icon" href="favicon.png">
+        <link rel="stylesheet" href="css/variables.css">
+        <link rel="stylesheet" href="css/general.css">
+        <link rel="stylesheet" href="css/chrome.css">
+        <link rel="stylesheet" href="css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css">
+        <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro:500" rel="stylesheet" type="text/css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="highlight.css">
+        <link rel="stylesheet" href="tomorrow-night.css">
+        <link rel="stylesheet" href="ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        
+
+        
+        <!-- MathJax -->
+        <script async type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script type="text/x-mathjax-config">
+          MathJax.Hub.Config({
+            tex2jax: {
+            inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+            displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+            processEscapes: true
+            }
+          });
+        </script>
+        
+    </head>
+    <body class="light">
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">var path_to_root = "";</script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme = 'light';
+            document.body.className = theme;
+            document.querySelector('html').className = theme + ' js';
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <img src="theme/images/tari-splash.png" class="tlu">
+
+            <ol class="chapter"><li class="expanded affix "><a href="about.html">About the Tari RFC documents</a></li><li class="expanded "><a href="RFC-0001_overview.html"><strong aria-hidden="true">1.</strong> RFC-0001: An overview of the Tari network</a></li><li class="expanded "><a href="RFC-0010_CodeStructure.html"><strong aria-hidden="true">2.</strong> RFC-0010: Tari code structure and organisation</a></li><li class="expanded "><a href="RFC-0100_BaseLayer.html"><strong aria-hidden="true">3.</strong> RFC-0100: The Tari Base Layer</a></li><li><ol class="section"><li class="expanded "><a href="RFC-0110_BaseNodes.html"><strong aria-hidden="true">3.1.</strong> RFC-0110: Base nodes</a></li><li class="expanded "><a href="RFC-0111_BaseNodeArchitecture.html" class="active"><strong aria-hidden="true">3.2.</strong> RFC-0111: Base node architecture</a></li><li class="expanded "><a href="RFC-0120_Consensus.html"><strong aria-hidden="true">3.3.</strong> RFC-0120: Consensus rules</a></li><li class="expanded "><a href="RFC-0130_Mining.html"><strong aria-hidden="true">3.4.</strong> RFC-0130: Mining</a></li><li class="expanded "><a href="RFC-0140_Syncing_and_seeding.html"><strong aria-hidden="true">3.5.</strong> RFC-0140: Sync and Seeding</a></li><li class="expanded "><a href="RFC-0150_Wallets.html"><strong aria-hidden="true">3.6.</strong> RFC-0150: Wallets</a></li><li class="expanded "><a href="RFC-0151_TransactionProtocol.html"><strong aria-hidden="true">3.7.</strong> RFC-0151: Transaction protocol</a></li><li class="expanded "><a href="RFC-0152_EmojiId.html"><strong aria-hidden="true">3.8.</strong> RFC-0152: Emoji ID</a></li><li class="expanded "><a href="RFC-0170_NetworkCommunicationProtocol.html"><strong aria-hidden="true">3.9.</strong> RFC-0170: Network Communication Protocol</a></li><li><ol class="section"><li class="expanded "><a href="RFC-0171_MessageSerialisation.html"><strong aria-hidden="true">3.9.1.</strong> RFC-0171: Message Serialisation</a></li><li class="expanded "><a href="RFC-0172_PeerToPeerMessagingProtocol.html"><strong aria-hidden="true">3.9.2.</strong> RFC-0172: Peer to Peer Messaging Protocol</a></li></ol></li><li class="expanded "><a href="RFC-0190_Mempool.html"><strong aria-hidden="true">3.10.</strong> RFC-0190: Mempool</a></li><li class="expanded "><a href="BaseLayerExtensions.html"><strong aria-hidden="true">3.11.</strong> Tari-specific extensions to Mimblewimble</a></li><li><ol class="section"><li class="expanded "><a href="RFC-0230_HTLC.html"><strong aria-hidden="true">3.11.1.</strong> RFC-0230: Hash time locked contracts</a></li><li class="expanded "><a href="RFC-0322_VNRegistration.html"><strong aria-hidden="true">3.11.2.</strong> RFC-0322: Validator Node Registration</a></li><li class="expanded "><a href="RFC-0341_AssetRegistration.html"><strong aria-hidden="true">3.11.3.</strong> RFC-0341: Asset registration</a></li></ol></li></ol></li><li class="expanded "><a href="RFC-0300_DAN.html"><strong aria-hidden="true">4.</strong> RFC-0300: The Digital Assets Network</a></li><li><ol class="section"><li class="expanded "><a href="RFC-0301_NamespaceRegistration.html"><strong aria-hidden="true">4.1.</strong> RFC-0301: Namespace Registration</a></li><li class="expanded "><a href="RFC-0302_ValidatorNodes.html"><strong aria-hidden="true">4.2.</strong> RFC-0302: Validator Nodes</a></li><li class="expanded "><a href="RFC-0304_VNCommittees.html"><strong aria-hidden="true">4.3.</strong> RFC-0304: Validator Node committee selection</a></li><li class="expanded "><a href="AssetManagement.html"><strong aria-hidden="true">4.4.</strong> Asset Management</a></li><li><ol class="section"><li class="expanded "><a href="RFC-0311_AssetTemplates.html"><strong aria-hidden="true">4.4.1.</strong> RFC-0311: Digital Asset templates</a></li><li class="expanded "><a href="RFC-0345_AssetLifeCycle.html"><strong aria-hidden="true">4.4.2.</strong> RFC-0345: Asset Life cycle</a></li></ol></li><li class="expanded "><a href="RFC-0340_VNConsensusOverview.html"><strong aria-hidden="true">4.5.</strong> RFC-0340: Validator Node Consensus</a></li></ol></li><li class="expanded "><a href="RFC-0500_PaymentChannels.html"><strong aria-hidden="true">5.</strong> RFC-0500: Tari payment channels</a></li><li class="expanded "><a href="RFC-1000_TariUseCases.html"><strong aria-hidden="true">6.</strong> RFC-1000: Tari Use Cases</a></li><li class="expanded "><a href="Glossary.html"><strong aria-hidden="true">7.</strong> Glossary</a></li></ol>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                
+                <div id="menu-bar" class="menu-bar">
+                    <div id="menu-bar-sticky-container">
+                        <div class="left-buttons">
+                            <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                                <i class="fa fa-bars"></i>
+                            </button>
+                            
+                            <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                                <i class="fa fa-search"></i>
+                            </button>
+                            
+                        </div>
+
+                        <h1 class="menu-title"><img src="theme/images/tari-horizontal-logo.png"/> </h1>
+
+                        <div class="right-buttons">
+                            <a href="print.html" title="Print this book" aria-label="Print this book">
+                                <i id="print-button" class="fa fa-print"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" name="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+                
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1><a class="header" href="#rfc-0111basenodesarchitecture" id="rfc-0111basenodesarchitecture">RFC-0111/BaseNodesArchitecture</a></h1>
+<h2><a class="header" href="#base-node-architecture" id="base-node-architecture">Base Node Architecture</a></h2>
+<p><img src="theme/images/status-draft.svg" alt="status: draft" /></p>
+<p><strong>Maintainer(s)</strong>: <a href="https://github.com/CjS77">Cayle Sharrock</a></p>
+<h1><a class="header" href="#licence" id="licence">Licence</a></h1>
+<p><a href="https://opensource.org/licenses/BSD-3-Clause"> The 3-Clause BSD Licence</a>.</p>
+<p>Copyright 2019 The Tari Development Community</p>
+<p>Redistribution and use in source and binary forms, with or without modification, are permitted provided that the
+following conditions are met:</p>
+<ol>
+<li>Redistributions of this document must retain the above copyright notice, this list of conditions and the following
+disclaimer.</li>
+<li>Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following
+disclaimer in the documentation and/or other materials provided with the distribution.</li>
+<li>Neither the name of the copyright holder nor the names of its contributors may be used to endorse or promote products
+derived from this software without specific prior written permission.</li>
+</ol>
+<p>THIS DOCUMENT IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS IS&quot;, AND ANY EXPRESS OR IMPLIED WARRANTIES,
+INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+SPECIAL, EXEMPLARY OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+SERVICES; LOSS OF USE, DATA OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+WHETHER IN CONTRACT, STRICT LIABILITY OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
+THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</p>
+<h2><a class="header" href="#language" id="language">Language</a></h2>
+<p>The keywords &quot;MUST&quot;, &quot;MUST NOT&quot;, &quot;REQUIRED&quot;, &quot;SHALL&quot;, &quot;SHALL NOT&quot;, &quot;SHOULD&quot;, &quot;SHOULD NOT&quot;, &quot;RECOMMENDED&quot;, 
+&quot;NOT RECOMMENDED&quot;, &quot;MAY&quot; and &quot;OPTIONAL&quot; in this document are to be interpreted as described in 
+<a href="https://tools.ietf.org/html/bcp14">BCP 14</a> (covering RFC2119 and RFC8174) when, and only when, they appear in all capitals, as 
+shown here.</p>
+<h2><a class="header" href="#disclaimer" id="disclaimer">Disclaimer</a></h2>
+<p>This document and its content are intended for information purposes only and may be subject to change or update
+without notice.</p>
+<p>This document may include preliminary concepts that may or may not be in the process of being developed by the Tari
+community. The release of this document is intended solely for review and discussion by the community of the
+technological merits of the potential system outlined herein.</p>
+<h2><a class="header" href="#goals" id="goals">Goals</a></h2>
+<p>The aim of this Request for Comment (RFC) is to describe the high-level Base Node architecture.</p>
+<h2><a class="header" href="#architectural-layout" id="architectural-layout">Architectural Layout</a></h2>
+<p>The Base Node architecture is designed to be modular, robust and performant.</p>
+<p><img src="theme/images/base_layer_arch.png" alt="Base Layer architecture" /></p>
+<p>The major components are separated into separate modules. Each module exposes a public Application Programming Interface
+(API), which communicates with other modules using asynchronous messages via futures.</p>
+<h3><a class="header" href="#base-node-service" id="base-node-service">Base Node Service</a></h3>
+<p>The Base Node Service is an instantiation of a Tari Comms Service, which subscribes to and handles specific messages
+coming from the P2P Tari network via the Comms Module of a live Tari communications node. The Base Node Service's job is
+to delegate the jobs required by those messages to its sub-modules, consisting primarily of the Transaction Validation
+Service, the Block Validation Service and the Block synchronisation service, using an asynchronous Request-Response
+pattern.</p>
+<p>The Base Node Service will pass messages back to the P2P network via the Comms Module, based on the results of its
+actions.</p>
+<p>The primary messages that a Base Node will subscribe to are:</p>
+<ul>
+<li>
+<p><strong>NewTransaction.</strong> A New Transaction is being propagated over the network. If it has not seen the transaction before,
+the Base Node will validate the transaction and, if it is valid:</p>
+<ul>
+<li>add it to its mempool;</li>
+<li>pass the transaction on to peers.</li>
+</ul>
+<p>Otherwise, the transaction is dropped.</p>
+</li>
+<li>
+<p><strong>NewBlock.</strong> A newly mined block is being propagated over the network. If the node has not seen the block before, the
+node will validate it. Its action depends on the validation outcome:</p>
+<ul>
+<li><em>Invalid block</em> - drop the block.</li>
+<li><em>Valid block appending to the longest chain</em> - add the block to the local state; propagate the block to peers.</li>
+<li><em>Valid block forking off main chain</em> - add the block to the local state; propagate the block to peers.</li>
+<li><em>Valid block building off unknown block</em> - add the orphan block to the local state.</li>
+</ul>
+</li>
+<li>
+<p><strong>Sync Request.</strong> A peer is synchronizing state and is asking for block data. The node can decide to:</p>
+<ul>
+<li>Ignore or ban the peer (based on previous behaviour heuristics).</li>
+<li>Try and provide the data, returning an appropriate response. Note that most nodes can only offer block data up until
+their pruning horizon. Only full archival nodes can return the full block history. Refer to
+<a href="RFC-0140_Syncing_and_seeding.html">RFC-0140</a> for more details.</li>
+</ul>
+</li>
+</ul>
+<p>The validation procedures are complex and are thus encapsulated in their own sub-services. These services hold
+references to the blockchain state API, the mempool API, a range proof service and whatever other modules they need to
+complete their work. Each validation module has a single primary method, <code>validate_xxx()</code>, which takes in the
+transaction or block to be validated and returns a future that resolves once the validation task is complete.</p>
+<h3><a class="header" href="#distributed-hash-table-dht-service" id="distributed-hash-table-dht-service">Distributed Hash Table (DHT) Service</a></h3>
+<p>Peer discovery is a key service that blockchain nodes provide so that the peer mesh network can be navigated by the full
+nodes making up the network.</p>
+<p>In Tari, the peer-to-peer network is not only used by full nodes (Base Nodes), but also by Validator Nodes, and</p>
+<p>Tari and Digital Assets Network (DAN) clients.</p>
+<p>For this reason, peer management is handled internally by the Comms layer. If a Base Node wants to propagate a message, 
+new block or transaction, for example, it simply selects a <code>BROADCAST</code> strategy for the message and the Comms layer
+will do the rest.</p>
+<p>When a node wishes to query a peer for its peer list, this request will be handled by the <code>DHTService</code>. It will
+communicate with its Comms module's Peer Manager, and provide that information to the peer.</p>
+<h3><a class="header" href="#blockchain-state-module" id="blockchain-state-module">Blockchain State Module</a></h3>
+<p>The blockchain state module is responsible for providing a persistent storage solution for blockchain state data. For
+Tari, this is delivered using the Lightning Memory-mapped Database (LMDB). LMDB is highly performant, intelligent and
+straightforward to use. An LMDB is essentially treated as a hash map data structure that transparently handles
+memory caching, disk Input/Output (I/O) and multi-threaded access.</p>
+<p>The blockchain module is able to run as a standalone service, but must be thread-safe. Block and transaction validation
+requests are futures-based. These are asynchronous requests, which means that multiple validation requests can and
+should be handled in parallel, in separate threads. Initially, all the logic for a single block or transaction
+validation can be executed in sequence, wrapped inside a single future. However, there is scope to optimise this in
+future; for example: Validating a block entails checking the proof-of-work (very slow), checking signatures (fast, but
+many of them), and checking the accounting (slow). Each of these sub-tasks could also be spun off as a future, with a
+master future co-ordinating the sub-futures and assembling the final results.</p>
+<p>Tokio is becoming the <em>de facto</em> standard for asynchronous programming in Rust.</p>
+<p>Tokio's default task executor provides multi-threaded work-stealing work queues and CPU-bound worker threads out of the
+box. This is a good fit for the type of work that base nodes must perform. In addition, the
+<a href="https://github.com/tower-rs">Tower project</a> provides a set of traits and middleware that will be very useful in Tari
+services, and so it is recommended to follow the Services pattern as used by that project.</p>
+<p>This RFC proposes that the 0.1 version of tokio is used in the Tari project until the standard
+<a href="https://doc.rust-lang.org/std/future/index.html">futures</a> library has stabilised before making a switch.</p>
+<h3><a class="header" href="#mempool-module" id="mempool-module">Mempool Module</a></h3>
+<p>The mempool module tracks (valid) transactions that the node knows about, but that have not yet been included in a
+block. The mempool is ephemeral and non-consensus critical, and as such may be a memory-only data structure. Maintaining
+a large mempool is far more important for Base Nodes serving miners than those serving wallets. A mempool will slowly
+rebuild after a node reboots.</p>
+<p>That said, the mempool module must be thread safe. The Tari mempool module handles requests in the same way as the
+Blockchain state module: via futures. The mempool structure itself is a set of hash maps as described in <a href="RFC-0190_Mempool.html">RFC-0190</a>. For
+performance reasons, it may be worthwhile using a <a href="https://crates.io/crates/chashmap">concurrent hash map</a> implementation.</p>
+<h3><a class="header" href="#grpc-interface" id="grpc-interface">gRPC Interface</a></h3>
+<p>Base Nodes need to provide a local communication interface in addition to the P2P communication interface. This is
+best achieved using <a href="https://grpc.io/">gRPC</a>. The Base Node gRPC interface provides access to the public API methods of the Base Node
+Service, the mempool module and the blockchain state module, as discussed above.</p>
+<p>gRPC access is useful for tools such as local User Interfaces (UIs) to a running Base Node; client wallets running on
+the same machine as the Base Node that want a more direct communication interface to the node than the P2P network
+provides; third-party applications such as block explorers; and, of course, miners.</p>
+<p>A non-exhaustive list of methods the base node module API will expose includes:</p>
+<ul>
+<li>Blockchain state calls, including:
+<ul>
+<li>checking whether a given Unspent Transaction Output (UTXO) is in the current UTXO set;</li>
+<li>requesting the latest block height;</li>
+<li>requesting the total accumulated work on the longest chain;</li>
+<li>requesting a specific block at a given height;</li>
+<li>requesting the Merklish root commitment of the current UTXO set;</li>
+<li>requesting a block header for a given height;</li>
+<li>requesting the block header for the chain tip;</li>
+<li>validating signatures for a given transaction kernel;</li>
+<li>validating a new block without adding it to the state tree;</li>
+<li>validating and adding a (validated) new block to the state, and informing of the result (orphaned, fork, reorg, etc.).</li>
+</ul>
+</li>
+<li>Mempool calls
+<ul>
+<li>The number of unconfirmed transactions</li>
+<li>The number of orphaned transactions</li>
+<li>Returning a list of transaction ranked by some criterion (of interest to miners)</li>
+<li>The current size of the mempool (in transaction weight)</li>
+</ul>
+</li>
+<li>Block and transaction validation calls</li>
+<li>Block synchronisation calls</li>
+</ul>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                        
+                            <a rel="prev" href="RFC-0110_BaseNodes.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+                        
+
+                        
+                            <a rel="next" href="RFC-0120_Consensus.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                
+                    <a href="RFC-0110_BaseNodes.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                
+
+                
+                    <a href="RFC-0120_Consensus.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+                
+            </nav>
+
+        </div>
+
+        
+
+        
+
+        
+
+        
+        <script src="elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="searcher.js" type="text/javascript" charset="utf-8"></script>
+        
+
+        <script src="clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Initialize mermaid -->
+        <script src="theme/js/mermaid.min.js" type="text/javascript" charset="utf-8"></script>
+        <script>mermaid.initialize({startOnLoad:true});</script>
+
+        <!-- Custom JS scripts -->
+        
+
+        
+
+    </body>
+</html>

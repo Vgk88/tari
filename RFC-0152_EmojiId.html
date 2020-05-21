@@ -1,0 +1,342 @@
+<!DOCTYPE HTML>
+<html lang="en" class="sidebar-visible no-js">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>RFC-0152: Emoji ID - The Tari Network: RFC library</title>
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="The Tari network RFC library and documentation">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="shortcut icon" href="favicon.png">
+        <link rel="stylesheet" href="css/variables.css">
+        <link rel="stylesheet" href="css/general.css">
+        <link rel="stylesheet" href="css/chrome.css">
+        <link rel="stylesheet" href="css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css">
+        <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro:500" rel="stylesheet" type="text/css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="highlight.css">
+        <link rel="stylesheet" href="tomorrow-night.css">
+        <link rel="stylesheet" href="ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        
+
+        
+        <!-- MathJax -->
+        <script async type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script type="text/x-mathjax-config">
+          MathJax.Hub.Config({
+            tex2jax: {
+            inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+            displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+            processEscapes: true
+            }
+          });
+        </script>
+        
+    </head>
+    <body class="light">
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">var path_to_root = "";</script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme = 'light';
+            document.body.className = theme;
+            document.querySelector('html').className = theme + ' js';
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <img src="theme/images/tari-splash.png" class="tlu">
+
+            <ol class="chapter"><li class="expanded affix "><a href="about.html">About the Tari RFC documents</a></li><li class="expanded "><a href="RFC-0001_overview.html"><strong aria-hidden="true">1.</strong> RFC-0001: An overview of the Tari network</a></li><li class="expanded "><a href="RFC-0010_CodeStructure.html"><strong aria-hidden="true">2.</strong> RFC-0010: Tari code structure and organisation</a></li><li class="expanded "><a href="RFC-0100_BaseLayer.html"><strong aria-hidden="true">3.</strong> RFC-0100: The Tari Base Layer</a></li><li><ol class="section"><li class="expanded "><a href="RFC-0110_BaseNodes.html"><strong aria-hidden="true">3.1.</strong> RFC-0110: Base nodes</a></li><li class="expanded "><a href="RFC-0111_BaseNodeArchitecture.html"><strong aria-hidden="true">3.2.</strong> RFC-0111: Base node architecture</a></li><li class="expanded "><a href="RFC-0120_Consensus.html"><strong aria-hidden="true">3.3.</strong> RFC-0120: Consensus rules</a></li><li class="expanded "><a href="RFC-0130_Mining.html"><strong aria-hidden="true">3.4.</strong> RFC-0130: Mining</a></li><li class="expanded "><a href="RFC-0140_Syncing_and_seeding.html"><strong aria-hidden="true">3.5.</strong> RFC-0140: Sync and Seeding</a></li><li class="expanded "><a href="RFC-0150_Wallets.html"><strong aria-hidden="true">3.6.</strong> RFC-0150: Wallets</a></li><li class="expanded "><a href="RFC-0151_TransactionProtocol.html"><strong aria-hidden="true">3.7.</strong> RFC-0151: Transaction protocol</a></li><li class="expanded "><a href="RFC-0152_EmojiId.html" class="active"><strong aria-hidden="true">3.8.</strong> RFC-0152: Emoji ID</a></li><li class="expanded "><a href="RFC-0170_NetworkCommunicationProtocol.html"><strong aria-hidden="true">3.9.</strong> RFC-0170: Network Communication Protocol</a></li><li><ol class="section"><li class="expanded "><a href="RFC-0171_MessageSerialisation.html"><strong aria-hidden="true">3.9.1.</strong> RFC-0171: Message Serialisation</a></li><li class="expanded "><a href="RFC-0172_PeerToPeerMessagingProtocol.html"><strong aria-hidden="true">3.9.2.</strong> RFC-0172: Peer to Peer Messaging Protocol</a></li></ol></li><li class="expanded "><a href="RFC-0190_Mempool.html"><strong aria-hidden="true">3.10.</strong> RFC-0190: Mempool</a></li><li class="expanded "><a href="BaseLayerExtensions.html"><strong aria-hidden="true">3.11.</strong> Tari-specific extensions to Mimblewimble</a></li><li><ol class="section"><li class="expanded "><a href="RFC-0230_HTLC.html"><strong aria-hidden="true">3.11.1.</strong> RFC-0230: Hash time locked contracts</a></li><li class="expanded "><a href="RFC-0322_VNRegistration.html"><strong aria-hidden="true">3.11.2.</strong> RFC-0322: Validator Node Registration</a></li><li class="expanded "><a href="RFC-0341_AssetRegistration.html"><strong aria-hidden="true">3.11.3.</strong> RFC-0341: Asset registration</a></li></ol></li></ol></li><li class="expanded "><a href="RFC-0300_DAN.html"><strong aria-hidden="true">4.</strong> RFC-0300: The Digital Assets Network</a></li><li><ol class="section"><li class="expanded "><a href="RFC-0301_NamespaceRegistration.html"><strong aria-hidden="true">4.1.</strong> RFC-0301: Namespace Registration</a></li><li class="expanded "><a href="RFC-0302_ValidatorNodes.html"><strong aria-hidden="true">4.2.</strong> RFC-0302: Validator Nodes</a></li><li class="expanded "><a href="RFC-0304_VNCommittees.html"><strong aria-hidden="true">4.3.</strong> RFC-0304: Validator Node committee selection</a></li><li class="expanded "><a href="AssetManagement.html"><strong aria-hidden="true">4.4.</strong> Asset Management</a></li><li><ol class="section"><li class="expanded "><a href="RFC-0311_AssetTemplates.html"><strong aria-hidden="true">4.4.1.</strong> RFC-0311: Digital Asset templates</a></li><li class="expanded "><a href="RFC-0345_AssetLifeCycle.html"><strong aria-hidden="true">4.4.2.</strong> RFC-0345: Asset Life cycle</a></li></ol></li><li class="expanded "><a href="RFC-0340_VNConsensusOverview.html"><strong aria-hidden="true">4.5.</strong> RFC-0340: Validator Node Consensus</a></li></ol></li><li class="expanded "><a href="RFC-0500_PaymentChannels.html"><strong aria-hidden="true">5.</strong> RFC-0500: Tari payment channels</a></li><li class="expanded "><a href="RFC-1000_TariUseCases.html"><strong aria-hidden="true">6.</strong> RFC-1000: Tari Use Cases</a></li><li class="expanded "><a href="Glossary.html"><strong aria-hidden="true">7.</strong> Glossary</a></li></ol>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                
+                <div id="menu-bar" class="menu-bar">
+                    <div id="menu-bar-sticky-container">
+                        <div class="left-buttons">
+                            <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                                <i class="fa fa-bars"></i>
+                            </button>
+                            
+                            <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                                <i class="fa fa-search"></i>
+                            </button>
+                            
+                        </div>
+
+                        <h1 class="menu-title"><img src="theme/images/tari-horizontal-logo.png"/> </h1>
+
+                        <div class="right-buttons">
+                            <a href="print.html" title="Print this book" aria-label="Print this book">
+                                <i id="print-button" class="fa fa-print"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" name="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+                
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1><a class="header" href="#rfc-0152emojiid" id="rfc-0152emojiid">RFC-0152/EmojiId</a></h1>
+<h2><a class="header" href="#emoji-id-specification" id="emoji-id-specification">Emoji Id specification</a></h2>
+<p><img src="theme/images/status-draft.svg" alt="Status: Draft" /></p>
+<p><strong>Maintainer(s)</strong>:<a href="https://github.com/CjS77">Cayle Sharrock</a></p>
+<h1><a class="header" href="#licence" id="licence">Licence</a></h1>
+<p><a href="https://opensource.org/licenses/BSD-3-Clause"> The 3-Clause BSD Licence</a>.</p>
+<p>Copyright 2020. The Tari Development Community</p>
+<p>Redistribution and use in source and binary forms, with or without modification, are permitted provided that the
+following conditions are met:</p>
+<ol>
+<li>Redistributions of this document must retain the above copyright notice, this list of conditions and the following
+disclaimer.</li>
+<li>Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following
+disclaimer in the documentation and/or other materials provided with the distribution.</li>
+<li>Neither the name of the copyright holder nor the names of its contributors may be used to endorse or promote products
+derived from this software without specific prior written permission.</li>
+</ol>
+<p>THIS DOCUMENT IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS IS&quot;, AND ANY EXPRESS OR IMPLIED WARRANTIES,
+INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+SPECIAL, EXEMPLARY OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+SERVICES; LOSS OF USE, DATA OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+WHETHER IN CONTRACT, STRICT LIABILITY OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
+THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</p>
+<h2><a class="header" href="#language" id="language">Language</a></h2>
+<p>The keywords &quot;MUST&quot;, &quot;MUST NOT&quot;, &quot;REQUIRED&quot;, &quot;SHALL&quot;, &quot;SHALL NOT&quot;, &quot;SHOULD&quot;, &quot;SHOULD NOT&quot;, &quot;RECOMMENDED&quot;,
+&quot;NOT RECOMMENDED&quot;, &quot;MAY&quot; and &quot;OPTIONAL&quot; in this document are to be interpreted as described in
+<a href="https://tools.ietf.org/html/bcp14">BCP 14</a> (covering RFC2119 and RFC8174) when, and only when, they appear in all capitals, as
+shown here.</p>
+<h2><a class="header" href="#disclaimer" id="disclaimer">Disclaimer</a></h2>
+<p>This document and its content are intended for information purposes only and may be subject to change or update
+without notice.</p>
+<p>This document may include preliminary concepts that may or may not be in the process of being developed by the Tari
+community. The release of this document is intended solely for review and discussion by the community regarding the
+technological merits of the potential system outlined herein.</p>
+<h2><a class="header" href="#goals" id="goals">Goals</a></h2>
+<p>This document describes the specification for Emoji Ids. Emoji Ids are encoded node ids used for humans to easily verify
+peer node addresses.</p>
+<h2><a class="header" href="#related-requests-for-comment" id="related-requests-for-comment">Related Requests for Comment</a></h2>
+<p>None</p>
+<h2><a class="header" href="#description" id="description">Description</a></h2>
+<p>Tari <a href="Glossary.html#communication-node">Communication Node</a>s are identified on the network via their <a href="Glossary.html#node-id">Node ID</a>; which in turn are derived from the node's
+public key. Both the node id and public key are simple large integer numbers.</p>
+<p>The most common practice for human beings to copy large numbers in cryptocurrency software is to scan a QR code or copy
+and paste a value from one application to another. These numbers are typically encoded using hexadecimal or Base58
+encoding. The user will then typically scan (parts) of the string by eye to ensure that the value was transferred
+correctly.</p>
+<p>For Tari, we propose encoding values, the node ID in particular, using emoji. The advantages of this approach are:</p>
+<ul>
+<li>Emoji are more easily identifiable; and if selected carefully, less prone to identification errors (e.g. mistaking an
+O for a 0).</li>
+<li>The alphabet can be considerably larger than hexadecimal (16) or Base58 (58), resulting in shorter character sequences
+in the encoding.</li>
+</ul>
+<h3><a class="header" href="#the-specification" id="the-specification">The specification</a></h3>
+<h4><a class="header" href="#the-emoji-character-map" id="the-emoji-character-map">The emoji character map</a></h4>
+<p>An emoji alphabet of 1,024 characters is selected. Each emoji is assigned a unique index from 0 to 1023 inclusive. This
+list is the emoji map. For example,</p>
+<ul>
+<li>😀 =&gt; 0</li>
+<li>😘 =&gt; 1</li>
+<li>...</li>
+<li>🦊 =&gt; 1023</li>
+</ul>
+<p>The emoji SHOULD be selected such that</p>
+<ul>
+<li>Similar looking emoji are excluded from the map. e.g. Neither 😁 or 😄 should be included. Similarly the Irish and
+Côte d'Ivoirean flags look very similar, and both should be excluded.</li>
+<li>Modified emoji (skin tones, gender modifiers) are excluded. Only the &quot;base&quot; emoji is considered.</li>
+</ul>
+<h4><a class="header" href="#encoding" id="encoding">Encoding</a></h4>
+<p>The essential strategy in the encoding process is to map a sequence of 8-bit values onto a 10-bit alphabet. The general
+encoding procedure is as follows:</p>
+<p>Given a large integer value, represented as a <em>byte array</em>, <code>S</code>, in little-endian format (most significant digit last).
+Assume the string is addressable, i.e. <code>S[i]</code> is the <code>i</code>th byte in the array.</p>
+<ul>
+<li>Set <code>CURSOR</code> to 0, Set <code>L</code> to a multiple of 10 that is <code>&lt;= len(S)</code>.</li>
+<li>Set <code>IDX</code> to <code>[]</code> (an empty array)</li>
+<li>While <code>CURSOR &lt; L</code>:
+<ul>
+<li>Set <code>L &lt;= S[CURSOR/8 + 1]</code>, the current low byte; if the index would overflow, set <code>L</code> to zero.</li>
+<li>Set <code>H &lt;= S[CURSOR/8]</code>, the current high byte</li>
+<li>Set <code>n &lt;= CURSOR % 8</code>, the position of the cursor in the current high byte</li>
+<li>Set <code>i &lt;= ((H as u8) &lt;&lt; n) &lt;&lt; 2 + (L &gt;&gt; (6 - n))</code>, where the first shift left (<code>H as u8 &lt;&lt;n</code>) is on a one-byte width
+(effectively losing the first n bits) and the second shift left is on a 8-byte width (u64).</li>
+<li>Push <code>i</code> onto <code>IDX</code></li>
+<li><code>CURSOR &lt;= CURSOR + 10</code></li>
+</ul>
+</li>
+<li>Return <code>IDX</code></li>
+</ul>
+<p>The emoji string is created by mapping the <code>IDX</code> array to the emoji map.</p>
+<h4><a class="header" href="#emoji-id-definition" id="emoji-id-definition">Emoji ID definition</a></h4>
+<p>The emoji ID is an emoji string of 12 characters. Each character encodes 10 bits according to the bitmap:</p>
+<pre><code class="language-text">+---------------------+------------------+-------------------+
+|  Node Id (104 bits) | Version (6 bits) | Checksum (10 bits)|
++---------------------+------------------+-------------------+
+</code></pre>
+<p>The emoji ID is calculated from a 104-bit node id represented as 13 bytes (<code>B</code>) as follows:</p>
+<ul>
+<li>Take the current emoji ID version number, <code>v</code> and add <code>v &lt;&lt; 2</code> as an additional byte to <code>B</code>. This &quot;right-pads&quot; the
+version in the last byte. This is necessary since we have a 14 byte (112 bit) sequence, which is not divisible by 10.
+This padding sets the last 2 bits, which will be discarded, to zero.</li>
+<li>Encode B into an emoji string with <code>L</code> = 11.</li>
+<li>Calculate a 12th emoji using the Luhn mod 1024 checksum algorithm.</li>
+</ul>
+<h4><a class="header" href="#decoding" id="decoding">Decoding</a></h4>
+<p>One can extract the node id from an emoji ID as follows:</p>
+<ol>
+<li>Calculate the checksum of the first 11 emoji using the Luhn mod 1024 algorithm. If it does not match the 12th emoji,
+return with an error. if any emoji character is not in the emoji map, return an error.</li>
+<li>Extract the version number:
+<ol start="3">
+<li>Do a reverse lookup of emoji<code>[10]</code> to find its index. Store this u64 value in <code>I</code>.</li>
+<li>The Version number is <code>(I &amp;&amp; 0x3F) &gt;&gt; 2</code>. This can be used to set the Emoji map accordingly (and may have to be
+done iteratively, since the version is encoded into the emoji string).</li>
+</ol>
+</li>
+<li>Set <code>CURSOR = 0</code>.</li>
+<li>Set <code>B = []</code>, and empty byte array</li>
+<li>While <code>CURSOR &lt;= 11</code>:
+<ol start="4">
+<li>Set <code>k &lt;= CURSOR * 2</code></li>
+<li>Do a reverse lookup of the emoji<code>[CURSOR]</code> to find its index. Store this u64 value in <code>L</code>.</li>
+<li>If <code>k &gt; 0</code>, set <code>H</code> to the reverse lookup index of emoji<code>[CURSOR-1]</code> as u8 (first 2 bits are discarded), else
+<code>H=0</code>.</li>
+<li>Set <code>v = ((H as u8)  &lt;&lt; (8-k)) + (L &gt;&gt; (2+k))</code>. Push v onto tho <code>B</code>.</li>
+<li>Set <code>CURSOR &lt;= CURSOR + 1</code></li>
+</ol>
+</li>
+</ol>
+<p>If the algorithm completes, <code>B</code> holds the node ID.</p>
+<h4><a class="header" href="#versioning" id="versioning">Versioning</a></h4>
+<p>The current emoji ID version number is 1. If the emoji alphabet changes, the version number MUST be incremented. This
+will usually cause incompatible versions of the emoji ID to be detected. However, this is not fail-safe.</p>
+<p>The last 6 bits of the 11th emoji encodes the version; this means that the first 4 bits are part of the node ID. On a
+reverse mapping, there is a chance that the reverse mapping would offer a valid, but incorrect version number if the new
+mapping are not chosen carefully.</p>
+<h5><a class="header" href="#example" id="example">Example.</a></h5>
+<p>In version 1, 😘 =&gt; <code>0b0000_000001</code> = 1 in the map. Seeing 😘 as the 11th emoji in a string would result in a version
+code of 1, which is consistent and expected.</p>
+<p>However, in unlucky version 13, if 😘 moves in the map to number 13 (<code>0b0000_001101</code>), the version decoding would also
+be valid and thus we wouldn't be able to unambiguously identify the version.</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                        
+                            <a rel="prev" href="RFC-0151_TransactionProtocol.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+                        
+
+                        
+                            <a rel="next" href="RFC-0170_NetworkCommunicationProtocol.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                
+                    <a href="RFC-0151_TransactionProtocol.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                
+
+                
+                    <a href="RFC-0170_NetworkCommunicationProtocol.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+                
+            </nav>
+
+        </div>
+
+        
+
+        
+
+        
+
+        
+        <script src="elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="searcher.js" type="text/javascript" charset="utf-8"></script>
+        
+
+        <script src="clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Initialize mermaid -->
+        <script src="theme/js/mermaid.min.js" type="text/javascript" charset="utf-8"></script>
+        <script>mermaid.initialize({startOnLoad:true});</script>
+
+        <!-- Custom JS scripts -->
+        
+
+        
+
+    </body>
+</html>

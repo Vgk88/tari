@@ -1,0 +1,404 @@
+<!DOCTYPE HTML>
+<html lang="en" class="sidebar-visible no-js">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>RFC-0190: Mempool - The Tari Network: RFC library</title>
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="The Tari network RFC library and documentation">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="shortcut icon" href="favicon.png">
+        <link rel="stylesheet" href="css/variables.css">
+        <link rel="stylesheet" href="css/general.css">
+        <link rel="stylesheet" href="css/chrome.css">
+        <link rel="stylesheet" href="css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css">
+        <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro:500" rel="stylesheet" type="text/css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="highlight.css">
+        <link rel="stylesheet" href="tomorrow-night.css">
+        <link rel="stylesheet" href="ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        
+
+        
+        <!-- MathJax -->
+        <script async type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script type="text/x-mathjax-config">
+          MathJax.Hub.Config({
+            tex2jax: {
+            inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+            displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+            processEscapes: true
+            }
+          });
+        </script>
+        
+    </head>
+    <body class="light">
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">var path_to_root = "";</script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme = 'light';
+            document.body.className = theme;
+            document.querySelector('html').className = theme + ' js';
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <img src="theme/images/tari-splash.png" class="tlu">
+
+            <ol class="chapter"><li class="expanded affix "><a href="about.html">About the Tari RFC documents</a></li><li class="expanded "><a href="RFC-0001_overview.html"><strong aria-hidden="true">1.</strong> RFC-0001: An overview of the Tari network</a></li><li class="expanded "><a href="RFC-0010_CodeStructure.html"><strong aria-hidden="true">2.</strong> RFC-0010: Tari code structure and organisation</a></li><li class="expanded "><a href="RFC-0100_BaseLayer.html"><strong aria-hidden="true">3.</strong> RFC-0100: The Tari Base Layer</a></li><li><ol class="section"><li class="expanded "><a href="RFC-0110_BaseNodes.html"><strong aria-hidden="true">3.1.</strong> RFC-0110: Base nodes</a></li><li class="expanded "><a href="RFC-0111_BaseNodeArchitecture.html"><strong aria-hidden="true">3.2.</strong> RFC-0111: Base node architecture</a></li><li class="expanded "><a href="RFC-0120_Consensus.html"><strong aria-hidden="true">3.3.</strong> RFC-0120: Consensus rules</a></li><li class="expanded "><a href="RFC-0130_Mining.html"><strong aria-hidden="true">3.4.</strong> RFC-0130: Mining</a></li><li class="expanded "><a href="RFC-0140_Syncing_and_seeding.html"><strong aria-hidden="true">3.5.</strong> RFC-0140: Sync and Seeding</a></li><li class="expanded "><a href="RFC-0150_Wallets.html"><strong aria-hidden="true">3.6.</strong> RFC-0150: Wallets</a></li><li class="expanded "><a href="RFC-0151_TransactionProtocol.html"><strong aria-hidden="true">3.7.</strong> RFC-0151: Transaction protocol</a></li><li class="expanded "><a href="RFC-0152_EmojiId.html"><strong aria-hidden="true">3.8.</strong> RFC-0152: Emoji ID</a></li><li class="expanded "><a href="RFC-0170_NetworkCommunicationProtocol.html"><strong aria-hidden="true">3.9.</strong> RFC-0170: Network Communication Protocol</a></li><li><ol class="section"><li class="expanded "><a href="RFC-0171_MessageSerialisation.html"><strong aria-hidden="true">3.9.1.</strong> RFC-0171: Message Serialisation</a></li><li class="expanded "><a href="RFC-0172_PeerToPeerMessagingProtocol.html"><strong aria-hidden="true">3.9.2.</strong> RFC-0172: Peer to Peer Messaging Protocol</a></li></ol></li><li class="expanded "><a href="RFC-0190_Mempool.html" class="active"><strong aria-hidden="true">3.10.</strong> RFC-0190: Mempool</a></li><li class="expanded "><a href="BaseLayerExtensions.html"><strong aria-hidden="true">3.11.</strong> Tari-specific extensions to Mimblewimble</a></li><li><ol class="section"><li class="expanded "><a href="RFC-0230_HTLC.html"><strong aria-hidden="true">3.11.1.</strong> RFC-0230: Hash time locked contracts</a></li><li class="expanded "><a href="RFC-0322_VNRegistration.html"><strong aria-hidden="true">3.11.2.</strong> RFC-0322: Validator Node Registration</a></li><li class="expanded "><a href="RFC-0341_AssetRegistration.html"><strong aria-hidden="true">3.11.3.</strong> RFC-0341: Asset registration</a></li></ol></li></ol></li><li class="expanded "><a href="RFC-0300_DAN.html"><strong aria-hidden="true">4.</strong> RFC-0300: The Digital Assets Network</a></li><li><ol class="section"><li class="expanded "><a href="RFC-0301_NamespaceRegistration.html"><strong aria-hidden="true">4.1.</strong> RFC-0301: Namespace Registration</a></li><li class="expanded "><a href="RFC-0302_ValidatorNodes.html"><strong aria-hidden="true">4.2.</strong> RFC-0302: Validator Nodes</a></li><li class="expanded "><a href="RFC-0304_VNCommittees.html"><strong aria-hidden="true">4.3.</strong> RFC-0304: Validator Node committee selection</a></li><li class="expanded "><a href="AssetManagement.html"><strong aria-hidden="true">4.4.</strong> Asset Management</a></li><li><ol class="section"><li class="expanded "><a href="RFC-0311_AssetTemplates.html"><strong aria-hidden="true">4.4.1.</strong> RFC-0311: Digital Asset templates</a></li><li class="expanded "><a href="RFC-0345_AssetLifeCycle.html"><strong aria-hidden="true">4.4.2.</strong> RFC-0345: Asset Life cycle</a></li></ol></li><li class="expanded "><a href="RFC-0340_VNConsensusOverview.html"><strong aria-hidden="true">4.5.</strong> RFC-0340: Validator Node Consensus</a></li></ol></li><li class="expanded "><a href="RFC-0500_PaymentChannels.html"><strong aria-hidden="true">5.</strong> RFC-0500: Tari payment channels</a></li><li class="expanded "><a href="RFC-1000_TariUseCases.html"><strong aria-hidden="true">6.</strong> RFC-1000: Tari Use Cases</a></li><li class="expanded "><a href="Glossary.html"><strong aria-hidden="true">7.</strong> Glossary</a></li></ol>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                
+                <div id="menu-bar" class="menu-bar">
+                    <div id="menu-bar-sticky-container">
+                        <div class="left-buttons">
+                            <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                                <i class="fa fa-bars"></i>
+                            </button>
+                            
+                            <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                                <i class="fa fa-search"></i>
+                            </button>
+                            
+                        </div>
+
+                        <h1 class="menu-title"><img src="theme/images/tari-horizontal-logo.png"/> </h1>
+
+                        <div class="right-buttons">
+                            <a href="print.html" title="Print this book" aria-label="Print this book">
+                                <i id="print-button" class="fa fa-print"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" name="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+                
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1><a class="header" href="#mempool" id="mempool">Mempool</a></h1>
+<h2><a class="header" href="#the-mempool-for-unconfirmed-transactions-on-the-tari-base-layer" id="the-mempool-for-unconfirmed-transactions-on-the-tari-base-layer">The Mempool for Unconfirmed Transactions on the Tari Base Layer</a></h2>
+<p><img src="theme/images/status-draft.svg" alt="status: draft" /></p>
+<p><strong>Maintainer(s)</strong>: <a href="https://github.com/neonknight64">Yuko Roodt</a></p>
+<h1><a class="header" href="#license" id="license">License</a></h1>
+<p><a href="https://opensource.org/licenses/BSD-3-Clause"> The 3-Clause BSD License</a>.</p>
+<p>Copyright 2018 The Tari Development Community</p>
+<p>Redistribution and use in source and binary forms, with or without modification, are permitted provided that the
+following conditions are met:</p>
+<ol>
+<li>Redistributions of this document must retain the above copyright notice, this list of conditions and the following
+disclaimer.</li>
+<li>Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following
+disclaimer in the documentation and/or other materials provided with the distribution.</li>
+<li>Neither the name of the copyright holder nor the names of its contributors may be used to endorse or promote products
+derived from this software without specific prior written permission.</li>
+</ol>
+<p>THIS DOCUMENT IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS IS&quot; AND ANY EXPRESS OR IMPLIED WARRANTIES,
+INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
+THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</p>
+<h2><a class="header" href="#language" id="language">Language</a></h2>
+<p>The key words &quot;MUST&quot;, &quot;MUST NOT&quot;, &quot;REQUIRED&quot;, &quot;SHALL&quot;, &quot;SHALL NOT&quot;, &quot;SHOULD&quot;, &quot;SHOULD NOT&quot;, &quot;RECOMMENDED&quot;, 
+&quot;NOT RECOMMENDED&quot;, &quot;MAY&quot;, and &quot;OPTIONAL&quot; in this document are to be interpreted as described in 
+<a href="https://tools.ietf.org/html/bcp14">BCP 14</a> (covering RFC2119 and RFC8174) when, and only when, they appear in all capitals, as 
+shown here.</p>
+<h2><a class="header" href="#disclaimer" id="disclaimer">Disclaimer</a></h2>
+<p>The purpose of this document and its content is for information purposes only and may be subject to change or update
+without notice.</p>
+<p>This document may include preliminary concepts that may or may not be in the process of being developed by the Tari
+community. The release of this document is intended solely for review and discussion by the community regarding the
+technological merits of the potential system outlined herein.</p>
+<h2><a class="header" href="#goals" id="goals">Goals</a></h2>
+<p>This document will introduce the Tari <a href="Glossary.html#base-layer">base layer</a> <a href="Glossary.html#mempool">Mempool</a> that consists of a <a href="Glossary.html#transaction-pool">Transaction Pool</a>, <a href="Glossary.html#pending-pool">Pending Pool</a>, <a href="Glossary.html#orphan-pool">Orphan Pool</a> and <a href="Glossary.html#reorg-pool">Reorg Pool</a>.
+The Mempool is used for storing and managing unconfirmed and time-lock restricted <a href="Glossary.html#transaction">transaction</a>s.</p>
+<h2><a class="header" href="#related-rfcs" id="related-rfcs">Related RFCs</a></h2>
+<ul>
+<li><a href="RFC-0100_BaseLayer.html">RFC-0100: The Tari Base Layer</a></li>
+</ul>
+<h2><a class="header" href="#description" id="description">Description</a></h2>
+<h3><a class="header" href="#assumptions" id="assumptions">Assumptions</a></h3>
+<ul>
+<li>Each <a href="Glossary.html#base-node">base node</a> is connected to a number of peers that maintain their own copies of the Mempool.</li>
+</ul>
+<h3><a class="header" href="#abstract" id="abstract">Abstract</a></h3>
+<p>The Mempool is responsible for managing, verifying and maintaining all unconfirmed transactions that have not yet 
+been included in a <a href="Glossary.html#block">block</a> and added to the Tari <a href="Glossary.html#blockchain">blockchain</a>. It consists of a Transaction Pool, Pending Pool, 
+Orphan Pool and Reorg Pool to achieve these tasks. It is also responsible for propagating valid transactions and 
+sharing the Mempool state with connected peers. An overview of the required functionality for the Mempool and each 
+of its component pools will be provided.</p>
+<h3><a class="header" href="#overview" id="overview">Overview</a></h3>
+<p>Every base node maintains a Mempool that consists of four separate pools: the Transaction Pool, Pending Pool, 
+Orphan Pool and Reorg Pool. These four pools have different tasks and work together to form the Mempool used 
+for maintaining unconfirmed transactions. </p>
+<p>This is the role descriptions for each component pool:</p>
+<ul>
+<li>Transaction Pool: contains all unconfirmed transactions that have been verified, have passed all checks, that 
+only spend valid <a href="Glossary.html#unspent-transaction-outputs">UTXO</a>s and don't have any time-lock restrictions.</li>
+<li>Pending Pool: contains unconfirmed transactions that have time-lock restrictions. The transactions in this pool 
+either attempt to spend UTXOs with time-locks or the transactions themselves have time-locks limiting them from 
+being included in new blocks until a specified future time or block height has been reached. </li>
+<li>Orphan Pool: out of order unconfirmed transactions are managed by this pool, these transactions attempt to spend 
+non-existent UTXOs.</li>
+<li>Reorg Pool: stores a backup of all transactions that have recently been included into blocks, in case a blockchain 
+reorganization occurs and these transactions have to be restored to the Transaction Pool so that they can be included 
+in future blocks.</li>
+</ul>
+<h3><a class="header" href="#prioritizing-unconfirmed-transactions" id="prioritizing-unconfirmed-transactions">Prioritizing Unconfirmed Transactions</a></h3>
+<p>The maximum storage capacity used for storing unconfirmed transactions by the Mempool and each of its component pools 
+can be configured. If a new transaction is received and the storage capacity limits have been reached, then 
+transactions are prioritized according to the transaction priority metric. The transaction priority metric consist 
+of the fees and the maturity of the UTXOs being spent by the transaction and should be applied to determine the priority 
+of each transaction in the Mempool. As the allocated storage space of the Mempool becomes limited, the transactions 
+with the highest priority are kept in the pool. The lowest priority transactions are discarded to make room for 
+higher priority incoming transactions.</p>
+<p>The transaction priority metric has the following behavior:</p>
+<ul>
+<li>Transactions spending UTXOs with higher block height maturity SHOULD be prioritized over transactions spending UTXOs 
+with lower block height maturity.</li>
+<li>Transactions with higher fees per transaction message size SHOULD be prioritized over lower fee transactions.</li>
+</ul>
+<h3><a class="header" href="#syncing-and-updating-of-the-memory-pool-state" id="syncing-and-updating-of-the-memory-pool-state">Syncing and Updating of the Memory Pool State</a></h3>
+<p>On the initial startup of the Mempool, the complete state of the Mempool that consists of the Transaction Pool, Pending 
+Pool, Orphan Pool and Reorg Pool can be requested and downloaded from the connected peers. A memory pool typically 
+doesn't make use of persistent storage but could be configured to keep a backup of the last known state. If an existing 
+Mempool state is locally available then a more efficient update process can be performed by requesting only the 
+unconfirmed transactions missing from the current Mempool state. When no state is available then the entire Mempool 
+state must be downloaded from the connected peers. During downloading or updating of the Mempool state, the validity 
+of all transaction in the pool must be verified and the priority of each transaction must be calculated. </p>
+<p>Functional behavior required for sharing and updating of the Mempool state, and propagation of transactions between peers:</p>
+<ul>
+<li>All verified transaction MUST be propagated to neighboring peers.</li>
+<li>Duplicate transactions MUST NOT be propagated to peers.</li>
+<li>Unvalidated or invalid transactions MUST NOT be propagated to peers.</li>
+<li>Verified transactions that were discarded due to low priority levels MUST be propagated to peers.</li>
+<li>The Mempool MUST have an interface that can be used by neighboring peers to query the content and state of the memory 
+pool.</li>
+<li>It MUST have a mechanism that enables peers to download the memory pool state in full or in part.</li>
+<li>It MUST accept all transactions received from peers but MAY decide to discard low priority transactions.</li>
+<li>It MUST allow wallets to track payments by monitoring that a particular transaction has been added to the Mempool.</li>
+<li>A Mempool MAY choose:
+<ul>
+<li>to discard the Mempool state on restarts and then download the full state from its peers or</li>
+<li>to store the state of the Mempool using persistent storage to reduce communication bandwidth required when 
+reinitializing the Mempool after a restart.</li>
+</ul>
+</li>
+</ul>
+<h3><a class="header" href="#transaction-pool" id="transaction-pool">Transaction Pool</a></h3>
+<p>The Transaction Pool consists of all unconfirmed transactions that have been received, verified and have passed 
+all checks. These unconfirmed transactions in the Transaction Pool are ready to be included and can be used to 
+construct new blocks for the Tari blockchain.</p>
+<p>Functional behavior required of the Transaction Pool:</p>
+<ul>
+<li>It MUST verify that incoming transactions only spend existing UTXOs.</li>
+<li>It MUST ensure that incoming transactions don't have a processing time-lock or has a time-lock that has 
+expired.</li>
+<li>It MUST ensure that all time-locks of the UTXOs that will be spent by the transaction have expired.</li>
+<li>Transactions that have been used to construct new blocks MUST be removed from the Transaction Pool and added to the Reorg Pool.</li>
+</ul>
+<h3><a class="header" href="#pending-pool" id="pending-pool">Pending Pool</a></h3>
+<p>The Pending Pool contains all transactions that are restricted by time-locks. A transaction could have a time-lock 
+limiting it from being processed or it can attempt to spend UTXOs with time-locks. These transactions require 
+their time-locks or the time-locks of the input UTXOs to expire before they can be processed and included into new 
+blocks. All transactions in the Pending Pool have been verified and passed all checks except their own time-lock has 
+not yet expired or some of the UTXOs that will be spent have time-lock restrictions that are not yet valid. Once the 
+transactions time-lock or the time-locks on the UTXOs have expired then the Pending Pool transactions can be moved 
+to the Transaction Pool for inclusion in future blocks.</p>
+<p>Functional behavior required of the Pending Pool:</p>
+<ul>
+<li>Once the transaction time-lock or UTXO time-lock restricting the processing of a transaction has expired then the 
+pending transaction MUST be moved to the Transaction Pool.</li>
+</ul>
+<h3><a class="header" href="#orphan-pool" id="orphan-pool">Orphan Pool</a></h3>
+<p>The Orphan Pool contains all the received transactions that have passed all the verification steps and checks, except 
+they attempt to spend UTXOs that don't exist. A possible reason these UTXOs do not yet exist is that they may not yet 
+have been created and might exist in the future. Typically, these orphaned transactions are from a series or bundle of 
+transactions that need to be processed in a specific order but</p>
+<ul>
+<li>have been either received out of order,</li>
+<li>or the order of processing the bundled transactions might not have been known or specified.</li>
+</ul>
+<p>As transactions are processed and the missing UTXOs have been created, then the orphaned transactions can be moved 
+to the Transaction Pool for possible inclusion in future blocks. Another possibility why the input UTXOs might not 
+be available is that the UTXOs were double spent by other transactions. In time, the double spent transactions will 
+be discarded from the Orphan Pool once they have reached the appropriate maturity threshold.</p>
+<p>Functional behavior required of the Orphan Pool:</p>
+<ul>
+<li>Each newly received transaction MUST be verified and pass all checks except the UTXO validity check before it is 
+placed in the Orphan Pool.</li>
+<li>Orphaned transactions must be upgraded and moved to the Transaction Pool once the previously unavailable UTXOs become 
+available.</li>
+<li>Orphaned transactions that have surpassed the expiration time threshold MUST be removed from the Orphan Pool.</li>
+</ul>
+<h3><a class="header" href="#reorg-pool" id="reorg-pool">Reorg Pool</a></h3>
+<p>The Reorg Pool consists of all unconfirmed transaction that have recently been added to blocks, resulting in 
+their removal from the Transaction Pool. When a potential blockchain reorganization occurs that invalidates previously 
+assembled blocks, the transactions used to construct these discarded blocks can be recovered from the Reorg Pool and 
+can be added back into the Transaction Pool. This will ensure that high priority transactions are not lost during 
+blockchain reorganization but can be added into future blocks without retransmission of these transactions.</p>
+<p>Functional behavior required of the Reorg Pool:</p>
+<ul>
+<li>Copies of the verified transactions removed from the Transaction pool that were placed in blocks MUST be stored in 
+the Reorg Pool.</li>
+<li>Transactions in the Reorg pool MAY be removed after the threshold expiration time has been reached. </li>
+<li>When a blockchain reorganization is detected, all affected transactions from the Reorg Pool MUST be moved to the 
+Transaction Pool.</li>
+</ul>
+<h3><a class="header" href="#mempool-1" id="mempool-1">Mempool</a></h3>
+<p>The Mempool manages the four component pools and interacts with peers to share and retrieve transactions and 
+the Mempool state. During the operation of the Mempool it will distribute incoming transactions to the appropriate 
+component pools. When a new incoming transaction is received a number of checks and verification steps need to be performed 
+to determine if the transaction can be added to the Mempool and determine which of the component pools should be responsible 
+for that particular transaction. Only when the new transaction has passed these checks can it be added to the Mempool and 
+should it be propagated to the connected peers.</p>
+<p>Functional behavior required of the Mempool:</p>
+<ul>
+<li>If a duplicate transaction is received, that already exist in the Mempool, then the duplicate copy MUST be discarded.</li>
+<li>When considering transactions that attempt to double spend UTXOs, the highest priority transaction MUST be kept and any 
+other transactions that spend the same UTXO MUST be discarded.</li>
+<li>When the storage limit of the Mempool has been reached, new incoming transactions SHOULD be prioritized according to the 
+Priority metric.</li>
+<li>Lower priority Mempool transactions MUST be discarded to make room for higher priority incoming transactions.</li>
+<li>Incoming transactions with lower priorities than the minimum transaction priority in the Mempool MUST be discarded.</li>
+<li>The Mempool MUST verify that incoming transactions do not have duplicate outputs.</li>
+<li>It MUST check that all coinbase outputs that will be spent have matured sufficiently.</li>
+<li>The distribution of storage space allocated to each component pool in the memory pool MAY be configured and adjusted.</li>
+<li>The memory pool SHOULD have a mechanism to estimate fee categories from the current Mempool state. As an example, 
+a priority fee can be estimated that will ensure that a new transactions will have the appropriate priority to be added 
+into a new block in a timely manner.</li>
+</ul>
+<p>Functional behavior required for distributing incoming transactions to the component pools:</p>
+<ul>
+<li>Verified transactions that have passed all checks such as spending of valid UTXOs and expired time-locks MUST be 
+placed in the Transaction Pool</li>
+<li>All transactions that attempt to spend UTXOs with valid time-locks MUST be added to the Pending Pool.</li>
+<li>Incoming transactions with time-locks prohibiting them from being included into new blocks should be added to the 
+Pending Pool.</li>
+<li>Newly received verified transaction attempting to spend a UTXO that does not yet exist MUST be added to the Orphan 
+pool.</li>
+<li>Transactions that have been added to blocks and were removed from the Transaction Pool should be added to the Reorg Pool.</li>
+</ul>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                        
+                            <a rel="prev" href="RFC-0172_PeerToPeerMessagingProtocol.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+                        
+
+                        
+                            <a rel="next" href="BaseLayerExtensions.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                
+                    <a href="RFC-0172_PeerToPeerMessagingProtocol.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                
+
+                
+                    <a href="BaseLayerExtensions.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+                
+            </nav>
+
+        </div>
+
+        
+
+        
+
+        
+
+        
+        <script src="elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="searcher.js" type="text/javascript" charset="utf-8"></script>
+        
+
+        <script src="clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Initialize mermaid -->
+        <script src="theme/js/mermaid.min.js" type="text/javascript" charset="utf-8"></script>
+        <script>mermaid.initialize({startOnLoad:true});</script>
+
+        <!-- Custom JS scripts -->
+        
+
+        
+
+    </body>
+</html>

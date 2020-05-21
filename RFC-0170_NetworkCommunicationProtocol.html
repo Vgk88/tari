@@ -1,0 +1,445 @@
+<!DOCTYPE HTML>
+<html lang="en" class="sidebar-visible no-js">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>RFC-0170: Network Communication Protocol - The Tari Network: RFC library</title>
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="The Tari network RFC library and documentation">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="shortcut icon" href="favicon.png">
+        <link rel="stylesheet" href="css/variables.css">
+        <link rel="stylesheet" href="css/general.css">
+        <link rel="stylesheet" href="css/chrome.css">
+        <link rel="stylesheet" href="css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css">
+        <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro:500" rel="stylesheet" type="text/css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="highlight.css">
+        <link rel="stylesheet" href="tomorrow-night.css">
+        <link rel="stylesheet" href="ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        
+
+        
+        <!-- MathJax -->
+        <script async type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script type="text/x-mathjax-config">
+          MathJax.Hub.Config({
+            tex2jax: {
+            inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+            displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+            processEscapes: true
+            }
+          });
+        </script>
+        
+    </head>
+    <body class="light">
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">var path_to_root = "";</script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme = 'light';
+            document.body.className = theme;
+            document.querySelector('html').className = theme + ' js';
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <img src="theme/images/tari-splash.png" class="tlu">
+
+            <ol class="chapter"><li class="expanded affix "><a href="about.html">About the Tari RFC documents</a></li><li class="expanded "><a href="RFC-0001_overview.html"><strong aria-hidden="true">1.</strong> RFC-0001: An overview of the Tari network</a></li><li class="expanded "><a href="RFC-0010_CodeStructure.html"><strong aria-hidden="true">2.</strong> RFC-0010: Tari code structure and organisation</a></li><li class="expanded "><a href="RFC-0100_BaseLayer.html"><strong aria-hidden="true">3.</strong> RFC-0100: The Tari Base Layer</a></li><li><ol class="section"><li class="expanded "><a href="RFC-0110_BaseNodes.html"><strong aria-hidden="true">3.1.</strong> RFC-0110: Base nodes</a></li><li class="expanded "><a href="RFC-0111_BaseNodeArchitecture.html"><strong aria-hidden="true">3.2.</strong> RFC-0111: Base node architecture</a></li><li class="expanded "><a href="RFC-0120_Consensus.html"><strong aria-hidden="true">3.3.</strong> RFC-0120: Consensus rules</a></li><li class="expanded "><a href="RFC-0130_Mining.html"><strong aria-hidden="true">3.4.</strong> RFC-0130: Mining</a></li><li class="expanded "><a href="RFC-0140_Syncing_and_seeding.html"><strong aria-hidden="true">3.5.</strong> RFC-0140: Sync and Seeding</a></li><li class="expanded "><a href="RFC-0150_Wallets.html"><strong aria-hidden="true">3.6.</strong> RFC-0150: Wallets</a></li><li class="expanded "><a href="RFC-0151_TransactionProtocol.html"><strong aria-hidden="true">3.7.</strong> RFC-0151: Transaction protocol</a></li><li class="expanded "><a href="RFC-0152_EmojiId.html"><strong aria-hidden="true">3.8.</strong> RFC-0152: Emoji ID</a></li><li class="expanded "><a href="RFC-0170_NetworkCommunicationProtocol.html" class="active"><strong aria-hidden="true">3.9.</strong> RFC-0170: Network Communication Protocol</a></li><li><ol class="section"><li class="expanded "><a href="RFC-0171_MessageSerialisation.html"><strong aria-hidden="true">3.9.1.</strong> RFC-0171: Message Serialisation</a></li><li class="expanded "><a href="RFC-0172_PeerToPeerMessagingProtocol.html"><strong aria-hidden="true">3.9.2.</strong> RFC-0172: Peer to Peer Messaging Protocol</a></li></ol></li><li class="expanded "><a href="RFC-0190_Mempool.html"><strong aria-hidden="true">3.10.</strong> RFC-0190: Mempool</a></li><li class="expanded "><a href="BaseLayerExtensions.html"><strong aria-hidden="true">3.11.</strong> Tari-specific extensions to Mimblewimble</a></li><li><ol class="section"><li class="expanded "><a href="RFC-0230_HTLC.html"><strong aria-hidden="true">3.11.1.</strong> RFC-0230: Hash time locked contracts</a></li><li class="expanded "><a href="RFC-0322_VNRegistration.html"><strong aria-hidden="true">3.11.2.</strong> RFC-0322: Validator Node Registration</a></li><li class="expanded "><a href="RFC-0341_AssetRegistration.html"><strong aria-hidden="true">3.11.3.</strong> RFC-0341: Asset registration</a></li></ol></li></ol></li><li class="expanded "><a href="RFC-0300_DAN.html"><strong aria-hidden="true">4.</strong> RFC-0300: The Digital Assets Network</a></li><li><ol class="section"><li class="expanded "><a href="RFC-0301_NamespaceRegistration.html"><strong aria-hidden="true">4.1.</strong> RFC-0301: Namespace Registration</a></li><li class="expanded "><a href="RFC-0302_ValidatorNodes.html"><strong aria-hidden="true">4.2.</strong> RFC-0302: Validator Nodes</a></li><li class="expanded "><a href="RFC-0304_VNCommittees.html"><strong aria-hidden="true">4.3.</strong> RFC-0304: Validator Node committee selection</a></li><li class="expanded "><a href="AssetManagement.html"><strong aria-hidden="true">4.4.</strong> Asset Management</a></li><li><ol class="section"><li class="expanded "><a href="RFC-0311_AssetTemplates.html"><strong aria-hidden="true">4.4.1.</strong> RFC-0311: Digital Asset templates</a></li><li class="expanded "><a href="RFC-0345_AssetLifeCycle.html"><strong aria-hidden="true">4.4.2.</strong> RFC-0345: Asset Life cycle</a></li></ol></li><li class="expanded "><a href="RFC-0340_VNConsensusOverview.html"><strong aria-hidden="true">4.5.</strong> RFC-0340: Validator Node Consensus</a></li></ol></li><li class="expanded "><a href="RFC-0500_PaymentChannels.html"><strong aria-hidden="true">5.</strong> RFC-0500: Tari payment channels</a></li><li class="expanded "><a href="RFC-1000_TariUseCases.html"><strong aria-hidden="true">6.</strong> RFC-1000: Tari Use Cases</a></li><li class="expanded "><a href="Glossary.html"><strong aria-hidden="true">7.</strong> Glossary</a></li></ol>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                
+                <div id="menu-bar" class="menu-bar">
+                    <div id="menu-bar-sticky-container">
+                        <div class="left-buttons">
+                            <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                                <i class="fa fa-bars"></i>
+                            </button>
+                            
+                            <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                                <i class="fa fa-search"></i>
+                            </button>
+                            
+                        </div>
+
+                        <h1 class="menu-title"><img src="theme/images/tari-horizontal-logo.png"/> </h1>
+
+                        <div class="right-buttons">
+                            <a href="print.html" title="Print this book" aria-label="Print this book">
+                                <i id="print-button" class="fa fa-print"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" name="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+                
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1><a class="header" href="#rfc-0170networkcommunicationprotocol" id="rfc-0170networkcommunicationprotocol">RFC-0170/NetworkCommunicationProtocol</a></h1>
+<h2><a class="header" href="#the-tari-communication-network-and-network-communication-protocol" id="the-tari-communication-network-and-network-communication-protocol">The Tari Communication Network and Network Communication Protocol</a></h2>
+<p><img src="theme/images/status-draft.svg" alt="status: draft" /></p>
+<p><strong>Maintainer(s)</strong>: <a href="https://github.com/neonknight64">Yuko Roodt</a></p>
+<h1><a class="header" href="#license" id="license">License</a></h1>
+<p><a href="https://opensource.org/licenses/BSD-3-Clause"> The 3-Clause BSD License</a>.</p>
+<p>Copyright 2018 The Tari Development Community</p>
+<p>Redistribution and use in source and binary forms, with or without modification, are permitted provided that the
+following conditions are met:</p>
+<ol>
+<li>Redistributions of this document must retain the above copyright notice, this list of conditions and the following
+disclaimer.</li>
+<li>Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following
+disclaimer in the documentation and/or other materials provided with the distribution.</li>
+<li>Neither the name of the copyright holder nor the names of its contributors may be used to endorse or promote products
+derived from this software without specific prior written permission.</li>
+</ol>
+<p>THIS DOCUMENT IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS IS&quot; AND ANY EXPRESS OR IMPLIED WARRANTIES,
+INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
+THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</p>
+<h2><a class="header" href="#language" id="language">Language</a></h2>
+<p>The key words &quot;MUST&quot;, &quot;MUST NOT&quot;, &quot;REQUIRED&quot;, &quot;SHALL&quot;, &quot;SHALL NOT&quot;, &quot;SHOULD&quot;, &quot;SHOULD NOT&quot;, &quot;RECOMMENDED&quot;, 
+&quot;NOT RECOMMENDED&quot;, &quot;MAY&quot;, and &quot;OPTIONAL&quot; in this document are to be interpreted as described in 
+<a href="https://tools.ietf.org/html/bcp14">BCP 14</a> (covering RFC2119 and RFC8174) when, and only when, they appear in all capitals, as 
+shown here.</p>
+<h2><a class="header" href="#disclaimer" id="disclaimer">Disclaimer</a></h2>
+<p>The purpose of this document and its content is for information purposes only and may be subject to change or update
+without notice.</p>
+<p>This document may include preliminary concepts that may or may not be in the process of being developed by the Tari
+community. The release of this document is intended solely for review and discussion by the community regarding the
+technological merits of the potential system outlined herein.</p>
+<h2><a class="header" href="#goals" id="goals">Goals</a></h2>
+<p>This document will introduce the Tari communication network and the communication protocol used to select, establish and maintain connections between peers on the network.
+<a href="Glossary.html#communication-node">Communication Node</a>s and <a href="Glossary.html#communication-client">Communication Client</a>s will be introduced and their required functionality will be proposed.</p>
+<h2><a class="header" href="#related-rfcs" id="related-rfcs">Related RFCs</a></h2>
+<ul>
+<li><a href="RFC-0100_BaseLayer.html">RFC-0100: The Tari Base Layer</a></li>
+<li><a href="RFC-0300_DAN.html">RFC-0300: Digital asset network</a></li>
+</ul>
+<h2><a class="header" href="#description" id="description">Description</a></h2>
+<h3><a class="header" href="#assumptions" id="assumptions">Assumptions</a></h3>
+<ul>
+<li>A communication channel can be established between two peers once their online communication addresses are known to each other.</li>
+<li>A <a href="Glossary.html#validator-node">Validator Node</a> is able to derive a <a href="Glossary.html#node-id">node ID</a> from the Validator Node registration transaction on the Base Layer.</li>
+</ul>
+<h3><a class="header" href="#abstract" id="abstract">Abstract</a></h3>
+<p>The backbone of the Tari communication network consists of a large number of nodes that maintain peer connections between each other.
+These nodes forward and propagate encrypted and unencrypted data messages through the network such as joining requests, discovery requests, <a href="Glossary.html#transaction">transaction</a>s and completed <a href="Glossary.html#block">block</a>s.
+Network clients, not responsible for maintaining the network, are able to create ad hoc connections with nodes on the network to perform joining and discovery requests.
+The majority of communication between clients and nodes will be performed using direct Peer-to-peer (P2P) communication once the discovery process was used to obtain the online communication addresses of peers.
+Where possible the efficient Kademlia based directed forwarding of encrypted data messages can be used to perform quick node discovery and joining of clients and nodes on the Tari communication network. 
+Where messages are of importance to a wide variety of entities on the network, Gossip protocol based message propagation can be performed to distribute the message to the entire network.</p>
+<h3><a class="header" href="#overview" id="overview">Overview</a></h3>
+<p>The Tari communication network is a variant of a <a href="https://en.wikipedia.org/wiki/Kademlia">Kademlia</a> network that allows for fast discovery of nodes, with an added ability to perform Gossip protocol based broadcasting of data messages to the entire network.
+The majority of the communication required on the <a href="Glossary.html#base-layer">Base Layer</a> and <a href="Glossary.html#digital-asset-network">Digital Asset Network</a> (DAN) will be performed via direct P2P communication between known clients and nodes.
+Alternatively, the Tari communication network can be used for broadcasting joining requests, discovery requests and propagating data messages such as completed blocks, transactions and data messages that are of interest to a large part of the Tari communication network. </p>
+<p>The Tari communication network consists of a number of different entities that need to communicate in a distributed and ad-hoc manner. 
+The primary entities that need to communicate are Validator Nodes (VN), <a href="Glossary.html#base-node">Base Node</a>s (BN), <a href="Glossary.html#wallet">Wallet</a>s (W) and <a href="Glossary.html#token-wallet">Token Wallet</a>s (TW).
+Here are some examples of different communication tasks that need to be performed by these entities on the Tari Communication network:</p>
+<ul>
+<li>Base Nodes on the Base Layer need to propagate completed blocks and transactions to other Base Nodes using Gossip protocol based broadcasting.</li>
+<li>Validator Nodes need to efficiently discover other Validator Nodes in the process of forming Validator Node committees. </li>
+<li>Wallets need to communicate and negotiate with other Wallets to create transactions. They also need the ability to submit transactions to the <a href="Glossary.html#mempool">mempool</a> of Base Nodes.</li>
+<li>Token Wallets need to communicate with Validator Node <a href="Glossary.html#committee">committee</a>s and other Token Wallets to construct and send DAN instructions.</li>
+</ul>
+<p>Here is an overview communication matrix that show which source entities SHOULD initiate communication with destination entities on the Tari Communication network:</p>
+<table><thead><tr><th>        \Destination<br>Source</th><th>Validator Node</th><th>Base Node</th><th>Wallet</th><th>Token Wallet</th></tr></thead><tbody>
+<tr><td>Validator Node</td><td>Yes</td><td>Yes</td><td>Yes</td><td>Yes</td></tr>
+<tr><td>Base Node</td><td>No</td><td>Yes</td><td>No</td><td>No</td></tr>
+<tr><td>Wallet</td><td>No</td><td>Yes</td><td>Yes</td><td>No</td></tr>
+<tr><td>Token Wallet</td><td>Yes</td><td>No</td><td>Yes</td><td>Yes</td></tr>
+</tbody></table>
+<h4><a class="header" href="#communication-nodes-and-communication-clients" id="communication-nodes-and-communication-clients">Communication Nodes and Communication Clients</a></h4>
+<p>To simplify the description of the Tari communication network, the different entities with similar behaviour were grouped into two groups: Communication Nodes and Communication Clients.
+Validator Nodes and Base Nodes are Communication Nodes (CN).
+Wallets and Token Wallets are Communication Clients (CC).
+CNs form the core communication infrastructure of the Tari communication network and are responsible for maintaining the Tari communication network by receiving, forwarding and distributing joining requests, discovery requests, data messages and routing information.
+CCs are different from CNs in that they do not maintain the network and they are not responsible for propagating any joining requests, discovery requests, data messages and routing information.
+They do make use of the network to submit their own joining requests and perform discovery request of other specific CNs and CCs when they need to communicate with them.
+Once a CC has discovered the CC or CN they want to communicate with, they will establish a direct P2P channel with them.
+The Tari communication network is unaware of this direct P2P communication once discovery is completed.</p>
+<p>The different entity types MUST be grouped into the different communication node types as follows:</p>
+<table><thead><tr><th>Entity Type</th><th>Communication Node Type</th></tr></thead><tbody>
+<tr><td>Validator Node</td><td>Communication Node</td></tr>
+<tr><td>Base Node</td><td>Communication Node</td></tr>
+<tr><td>Wallet</td><td>Communication Client</td></tr>
+<tr><td>Token Wallet</td><td>Communication Client</td></tr>
+</tbody></table>
+<h4><a class="header" href="#unique-identification-of-communication-nodes-and-communication-clients" id="unique-identification-of-communication-nodes-and-communication-clients">Unique identification of Communication Nodes and Communication Clients</a></h4>
+<p>In the Tari communication network, each CN or CC makes use of a node ID to determine their position in the network.
+This node ID is either assigned based on registration on the Base Layer or can be derived from the CNs or CCs identification public key.
+The method used to obtain a node ID will either enhance or limit the trustworthiness of that entity when propagating messages through them on the Tari communication network.
+When performing the broadcasting of data messages or propagating discovery requests, nodes with registration assigned node IDs are considered more trustworthy compared to nodes with derived node IDs. </p>
+<p>Obtaining a node ID from registration on the Base Layer is important as it will limit the potential of some parties performing <a href="https://eprint.iacr.org/2015/263.pdf">Eclipse attacks</a> on the network.
+Registration makes it more difficult for <a href="Glossary.html#bad-actor">Bad Actor</a>s to position themselves in ideal patterns on the network to perform disruptive operations and actions. 
+In sensitive situations or situations where the Kademlia-style directed propagation of messages are vulnerable, gossip protocol-based broadcasting of messages can be performed as a less efficient, but safer alternative to ensure that the message will successfully reach the rest of the network.</p>
+<p>The similarity or distance between different node IDs can be calculated by performing the <a href="https://en.wikipedia.org/wiki/Hamming_distance">Hamming distance</a> between the bits of the two node ID numbers.
+The Hamming distance can be implemented as an Exclusive OR (XOR) between the bits of the numbers and the summation of the resulting true bits.
+CCs and/or CNs that have similar node IDs, that produce a small Hamming distance, are located in similar regions of the Tari communication network.
+This does not mean that their geographic locations are near each other, but rather that their location in the network is similar.
+A thresholding scheme can be applied to the Hamming distance to ensure that only neighboring CNs with similar node IDs are allowed to share and propagate specific information.
+As an example, only routing table information that contains similar node IDs to the requesting CCs or CNs node ID should be shared with them.
+Limiting the sharing of routing table information makes it more difficult to map the entire Tari communication network.</p>
+<p>The recommended method of node ID assignment for each Tari communication network entity type MUST be implemented as follows:</p>
+<table><thead><tr><th>Entity Type</th><th>Communication Node Type</th><th>Node ID Assignment</th></tr></thead><tbody>
+<tr><td>Validator Node</td><td>Communication Node</td><td>Registration</td></tr>
+<tr><td>Base Node</td><td>Communication Node</td><td>Derived</td></tr>
+<tr><td>Wallet</td><td>Communication Client</td><td>Derived</td></tr>
+<tr><td>Token Wallet</td><td>Communication Client</td><td>Derived</td></tr>
+</tbody></table>
+<p>Note that <a href="Glossary.html#mining-server">Mining Server</a>s and <a href="Glossary.html#mining-worker">Mining Worker</a>s are excluded from the Tari communication network.
+A Mining Worker will have a local or remote P2P connection with a Mining Server.
+A Mining Server will have a local or remote P2P connection with a Base Node.
+They do not need to make use of the communication network and they are not responsible for propagating any messages on the network.
+The parent Base Node will perform any communication tasks on the Tari communication network on their behalf.</p>
+<h4><a class="header" href="#online-communication-address-peer-address-and-routing-table" id="online-communication-address-peer-address-and-routing-table">Online Communication Address, Peer Address and Routing Table</a></h4>
+<p>Each CC and CN on the Tari communication network will have identification cryptographic keys, a node ID and an online communication address.
+The online communication address SHOULD be either an IPv4, IPv6, URL, Tor (Base32) or I2P (Base32) address and can be stored using the network address type as follows:</p>
+<table><thead><tr><th align="left">Description</th><th align="left">Data type</th><th align="left">Comments</th></tr></thead><tbody>
+<tr><td align="left">address type</td><td align="left">uint4</td><td align="left">Specify if IPv4/IPv6/Url/Tor/I2P</td></tr>
+<tr><td align="left">address</td><td align="left">char array</td><td align="left">IPv4, IPv6, URL, Tor (Base32), I2P (Base32) address</td></tr>
+<tr><td align="left">port</td><td align="left">uint16</td><td align="left">port number</td></tr>
+</tbody></table>
+<p>The address type is used to determine how to interpret the address characters. An I2P address can be interpreted as &quot;{52
+address characters}.b32.i2p&quot;. The Tor address should be interpreted as &quot;http://{16_or_52_address_chars}.onion/&quot;. The
+IPv4 and IPv6 address can be stored in the address field without modification. URL addresses can be used for nodes with
+dynamic IP addresses.</p>
+<p>A Tor or I2P address can be used when anonymity is important for a CC or CN.
+The IPv4, IPv6 and URL address types do not provide any privacy features but do provide increased bandwidth. </p>
+<p>Each CC or CN has a local routing table that contains the online communication addresses of all CCs and CNs on the Tari communication network known to that CC or CN.
+When a CC or CN wants to join the Tari communication network, the online communication address of at least one other CN that is part of the network needs to be known.
+The online communication address of the initial CN can either be manually provided or a bootstrapped list of &quot;reliable&quot; and persistent CNs can be provided with the Validator Node, Base Node, Wallet or Token Wallet software.
+The new CC or CN can then request additional peer contact information of other CNs from the initial peers to extend their own routing table.</p>
+<p>The routing table consists of a list of peer addresses that link node IDs, public identification keys and online communication addresses of each known CC and CN.</p>
+<p>The Peer Address stored in the routing table MAY be implemented as follows:</p>
+<table><thead><tr><th align="left">Description</th><th align="left">Data type</th><th align="left">Comments</th></tr></thead><tbody>
+<tr><td align="left">network address</td><td align="left">network_address</td><td align="left">The online communication address of the CC or CN</td></tr>
+<tr><td align="left">node_ID</td><td align="left">node_ID</td><td align="left">Registration Assigned for VN, Self selected for BN, W and TW</td></tr>
+<tr><td align="left">public_key</td><td align="left">public_key</td><td align="left">The public key of the identification cryptographic key of the CC or CN</td></tr>
+<tr><td align="left">node_type</td><td align="left">node_type</td><td align="left">VN, BN, W or TW</td></tr>
+<tr><td align="left">linked asset IDs</td><td align="left">list of asset IDs</td><td align="left">Asset IDs can be used as an address on Tari network similar to a node ID</td></tr>
+<tr><td align="left">last_connection</td><td align="left">timestamp</td><td align="left">Time of last successful connection with peer</td></tr>
+<tr><td align="left">update_timestamp</td><td align="left">timestamp</td><td align="left">A timestamp for the last peer address update</td></tr>
+</tbody></table>
+<p>When a new CC or CN wants to join the Tari communication network they need to submit a joining request to the rest of the network.
+The joining request contains the peer address of the new CC or CN.
+Each CN that receives the joining request can decide if they want to add the new CCs or CNs contact information to their local routing table.
+When a CN, that received the joining request, has a similar node ID to the new CC or CN then that node must add the peer address to their routing table.
+All CNs with similar node IDs to the new CC or CN should have a copy of the new peer address in their routing tables.</p>
+<p>To limit potential attacks, only one registration for a specific node type with the same online communication address can be stored in the routing table of a CN.
+This restriction will limit Bad Actors from spinning up multiple CNs on a single computer.</p>
+<h4><a class="header" href="#joining-the-network-using-a-joining-request" id="joining-the-network-using-a-joining-request">Joining the Network using a Joining Request</a></h4>
+<p>A new CC or CN needs to register their peer address on the Tari communication network.
+This is achieved by submitting a network joining request to a subset of CNs selected from the routing table of the new CC or CN.
+These peers will forward the joining request, with the peer address, to the rest of the network until CNs with similar node IDs have been reached.
+CNs with similar node IDs will then add the new peer address of the new node to their routing table, allowing for fast discovery of the new CC or CN. </p>
+<p>Other CCs and CNs will then be able to retrieve the new CCs or CNs peer address by submitting discovery requests.
+Once the peer address of the desired CC or CN has been discovered then a direct P2P communication channel can be established between the two parties for any future communication.
+After discovery, the rest of the Tari communication network will be unaware of any further communication between the two parties.</p>
+<h4><a class="header" href="#sending-data-messages-and-discovery-requests" id="sending-data-messages-and-discovery-requests">Sending Data Messages and Discovery Requests</a></h4>
+<p>The majority of all communication on the Tari communication network will be performed using direct P2P channels established between different CCs and CNs once they are aware of the peer addresses of each other that contain their online communication addresses.
+Message propagation on the network will typically consist only of joining and discovery requests where a CC or CN wants to join the network or retrieve the peer address of another CC or CN so that a direct P2P channel can be established.</p>
+<p>Messages can be transmitted in this network in either an unencrypted or encrypted form.
+Typically messages that have been sent in unencrypted form are of interest to a number of CNs on the network and should be propagated so that every CN that is interested in that data message obtains a copy.
+Block and Transaction propagation are examples of data messages where multiple entities on the Tari communication network are interested in that data message; this requires propagation through the entire Tari communication network in unencrypted form.</p>
+<p>Encrypted data messages make use of the source and destinations identification cryptographic keys to construct a shared secret with which the message can be encoded and decoded.
+This ensures that only the two parties are able to decode the data message as it is propagated through the communication network.
+This mechanism can be used to perform private discovery requests, where the online communication address of the source node is encrypted and propagated through the network until it reached the destination node.
+Private discovery requests can only be performed if both parties are online at the same time.
+Encryption of the data message ensures that only the destination node is able to view the online address of the source node as the data message moves through the network.
+Once the destination node receives and decrypts the data message, that node is then able to establish a P2P communication channel with the source node for any further communication.</p>
+<p>Propagation of completely private discovery request, hidden as an encrypted data message, can be performed as a broadcast through the entire network using the Gossip protocol.
+Propagation of public discovery requests can be performed using more efficient directed propagation using the Kademlia protocol.
+As encrypted message with visible destinations tend to not be of interest to the rest of the network, directed propagation using the Kademlia protocol to forward these messages to the correct parties are preferred.
+Privacy of a CCs online address, whom is sending a transaction to a Base Node, may be enhanced if the transaction is encrypted and sent to a Base Node with a node ID that is not the closest to the CCs node ID. This should prevent linking a transaction to the originating online address.</p>
+<p>This same encryption technique can be used to send encrypted messages to a single node or a group of nodes, where the group of nodes have shared identification keys.
+A Validation Committee is an example of a group of CNs that have shared identification keys for the committee.
+The shared identification keys ensure that all members of that committee are able to receive and decrypt data messages that were sent to the committee.</p>
+<h4><a class="header" href="#maintaining-connections-with-peers" id="maintaining-connections-with-peers">Maintaining connections with peers</a></h4>
+<p>CCs and CNs establish and maintain connections with peers differently.
+CCs only create a few short-lived ad hoc channels and CNs create and maintain long-lived channels with a number of peers.</p>
+<p>If a CC is unaware of a destination CNs or CCs online communication address then the address first needs to be obtained using a discovery request.
+When a CC already knows the communication address of the CC or CN that he wants to communicate with, then a direct P2P channel can be established between the two peers for the duration of the communication task.
+The communication channel can then be closed as soon as the communication task has been completed.</p>
+<p>CNs consisting of VNs and BNs typically attempt to maintain communication channels with a large number of peers.
+The distribution of peers (VNs vs BNs) that a single CN keeps communication channels open with can change depending on the type of node.
+A CN that is also a BN should maintain more peer connections with other BNs, but should also have some connections with other VNs.</p>
+<p>Having some connections with VNs are important as BNs have derived node IDs and not registered node IDs such as VNs, making it possible for the CN to be separated from the main network and become victim to an <a href="https://www.radixdlt.com/post/what-is-an-eclipse-attack">Eclipse attack</a>.
+Having some connections with VNs will make it more difficult to separate the CN from the network and will ensure successful propagation of transactions and completed blocks from that CN. </p>
+<p>A CN that is also a VN should maintain more peer connections with other VNs, but also have some connections with BNs.
+CNs that are part of Validator Node committees should attempt to maintain permanent connections with the other members of the committee to ensure that quick consensus can be achieved.</p>
+<p>To maintain connections with peers, the following process can be performed.
+Discover peers using discovery requests, and add their details to the local routing table.
+The CN can decide how the peer connections should be selected from the routing table by either:</p>
+<ul>
+<li>manually selecting a subset,</li>
+<li>automatically selecting a random subset or</li>
+<li>selecting a subset of neighbouring nodes with similar node IDs. </li>
+</ul>
+<p>Maintaining communication channels is important and the following process can be followed in an attempt to keep peer connections alive:
+For an existing peer connection.
+When more than 30 minutes have passed since the last communication with that peer, then a heartbeat message should be sent to the peer in an attempt to keep the connection with the peer alive.
+If the peer connection was not established for a specific purpose, such as with the connections between committee members, then a new replacement peer can be selected from the local routing table.
+A new connection can then be established and maintained between the current node and the newly selected node.
+If that specific connection is important, such as with the connections between committee members, then the current CN or CC must wait and attempt to create a new connection with that same peer.
+If more than 90 minutes have passed since the last successful communication with the peer node, a new discovery request can be sent on the Tari communication network in an attempt to locate that peer again.
+Losing of a peer might happen in cases where the CN or CC went temporarily offline and their dynamic communication address changed, requiring the discovery process to be performed again before a direct P2P communication channel can be established.</p>
+<h4><a class="header" href="#functionality-required-of-communication-nodes" id="functionality-required-of-communication-nodes">Functionality Required of Communication Nodes</a></h4>
+<ul>
+<li>It MUST select a cryptographic key pair used for identification on the Tari Communication network.</li>
+<li>A CN MAY request the peer addresses of CNs with similar node IDs from other CNs to extend their local routing table. </li>
+<li>If a CN is a VN, then a node ID MUST be obtained by registering on the Base layer.</li>
+<li>If a CN is a BN, then a node ID MUST be derived from the nodes identification public key.</li>
+<li>A new CN MUST submit a joining request to the Tari communication network so that the nodes peer address can be added to the routing table of neighbouring peers in the network.</li>
+<li>If a CN receives a new joining request with a similar node ID (within a network selected threshold), then the peer address specified in the joining request MUST be added to its local routing table.</li>
+<li>When a CN receives an encrypted message, the node MUST attempt to open the message.</li>
+<li>When a CN receives an encrypted message that the node is unable to open, and the destination node ID is known then the CN MUST forward it to all connected peers that have node IDs that are closer to the destination.</li>
+<li>When a CN receives an encrypted message that the node is unable to open and the destination node is unknown then the CN MUST forward the message to all connected peers.</li>
+<li>A CN MUST have the ability to verify the content of unencrypted messages to limit the propagation of spam messages.</li>
+<li>If an unencrypted message is received by the CN with a unspecified destination node ID, then the node MUST verify the content of the message and forward the message to all connected peers.</li>
+<li>If an unencrypted message is received by the CN with an specified destination node ID, then the node MUST verify the content of the message and forward the message to all connected peers that have closer node IDs.</li>
+<li>A CN MUST have the ability to select a set of peer connections from its routing table.</li>
+<li>Connections with the selected set of peers MUST be maintained by the CN.</li>
+<li>A CN MUST have a mechanism to construct encrypted and unencrypted joining requests, discovery requests or data messages.</li>
+<li>A CN MUST construct and provide a list of peer addresses from its routing table that is similar to a requested node ID so that other CCs and CNs can extend their routing tables.</li>
+<li>A CN MUST keep its routing table up to date by removing unreachable peer addresses and adding newly received addresses.</li>
+<li>It MUST have a mechanism to determine if a node ID was obtained through registration or was derived from an identification public key.</li>
+<li>A CN MUST calculate the similarity between different node IDs by calculating the Hamming distance between the bits of the two node ID numbers.</li>
+</ul>
+<h4><a class="header" href="#functionality-required-of-communication-clients" id="functionality-required-of-communication-clients">Functionality Required of Communication Clients</a></h4>
+<ul>
+<li>It MUST select a cryptographic key pair used for identification on the Tari Communication network.</li>
+<li>It MUST have a mechanism to derive a node ID from the self-selected identification public key.</li>
+<li>A CC must have the ability to construct a peer address that links its identification public key, node ID and an online communication address.</li>
+<li>A new CC MUST broadcast a joining request with its peer address to the Tari communication network so that CNs with similar node IDs can add the peer address of the new CC to their routing tables.</li>
+<li>A CC MAY request the peer addresses of CNs with similar node IDs from other CNs to extend their local routing table.</li>
+<li>A CC MUST have a mechanism to construct encrypted and unencrypted joining and discovery requests.</li>
+<li>A CC MUST maintain a small persistent routing table of Tari Communication network peers with which ad hoc connections can be established.</li>
+<li>As the CC becomes aware of other CNs and CCs on the communication network, the CC SHOULD extend its local routing table by including the newly discovered CCs or CNs contact information.</li>
+<li>Peers from the CCs routing table that have been unreachable for a number of attempts SHOULD be removed from the its routing table.</li>
+<li>A CC MUST calculate the similarity between different node IDs by calculating the Hamming distance between the bits of the two node ID numbers.</li>
+</ul>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                        
+                            <a rel="prev" href="RFC-0152_EmojiId.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+                        
+
+                        
+                            <a rel="next" href="RFC-0171_MessageSerialisation.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                
+                    <a href="RFC-0152_EmojiId.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                
+
+                
+                    <a href="RFC-0171_MessageSerialisation.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+                
+            </nav>
+
+        </div>
+
+        
+
+        
+
+        
+
+        
+        <script src="elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="searcher.js" type="text/javascript" charset="utf-8"></script>
+        
+
+        <script src="clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Initialize mermaid -->
+        <script src="theme/js/mermaid.min.js" type="text/javascript" charset="utf-8"></script>
+        <script>mermaid.initialize({startOnLoad:true});</script>
+
+        <!-- Custom JS scripts -->
+        
+
+        
+
+    </body>
+</html>

@@ -1,0 +1,405 @@
+<!DOCTYPE HTML>
+<html lang="en" class="sidebar-visible no-js">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>RFC-0151: Transaction protocol - The Tari Network: RFC library</title>
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="The Tari network RFC library and documentation">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="shortcut icon" href="favicon.png">
+        <link rel="stylesheet" href="css/variables.css">
+        <link rel="stylesheet" href="css/general.css">
+        <link rel="stylesheet" href="css/chrome.css">
+        <link rel="stylesheet" href="css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css">
+        <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro:500" rel="stylesheet" type="text/css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="highlight.css">
+        <link rel="stylesheet" href="tomorrow-night.css">
+        <link rel="stylesheet" href="ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        
+
+        
+        <!-- MathJax -->
+        <script async type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script type="text/x-mathjax-config">
+          MathJax.Hub.Config({
+            tex2jax: {
+            inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+            displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+            processEscapes: true
+            }
+          });
+        </script>
+        
+    </head>
+    <body class="light">
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">var path_to_root = "";</script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme = 'light';
+            document.body.className = theme;
+            document.querySelector('html').className = theme + ' js';
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <img src="theme/images/tari-splash.png" class="tlu">
+
+            <ol class="chapter"><li class="expanded affix "><a href="about.html">About the Tari RFC documents</a></li><li class="expanded "><a href="RFC-0001_overview.html"><strong aria-hidden="true">1.</strong> RFC-0001: An overview of the Tari network</a></li><li class="expanded "><a href="RFC-0010_CodeStructure.html"><strong aria-hidden="true">2.</strong> RFC-0010: Tari code structure and organisation</a></li><li class="expanded "><a href="RFC-0100_BaseLayer.html"><strong aria-hidden="true">3.</strong> RFC-0100: The Tari Base Layer</a></li><li><ol class="section"><li class="expanded "><a href="RFC-0110_BaseNodes.html"><strong aria-hidden="true">3.1.</strong> RFC-0110: Base nodes</a></li><li class="expanded "><a href="RFC-0111_BaseNodeArchitecture.html"><strong aria-hidden="true">3.2.</strong> RFC-0111: Base node architecture</a></li><li class="expanded "><a href="RFC-0120_Consensus.html"><strong aria-hidden="true">3.3.</strong> RFC-0120: Consensus rules</a></li><li class="expanded "><a href="RFC-0130_Mining.html"><strong aria-hidden="true">3.4.</strong> RFC-0130: Mining</a></li><li class="expanded "><a href="RFC-0140_Syncing_and_seeding.html"><strong aria-hidden="true">3.5.</strong> RFC-0140: Sync and Seeding</a></li><li class="expanded "><a href="RFC-0150_Wallets.html"><strong aria-hidden="true">3.6.</strong> RFC-0150: Wallets</a></li><li class="expanded "><a href="RFC-0151_TransactionProtocol.html" class="active"><strong aria-hidden="true">3.7.</strong> RFC-0151: Transaction protocol</a></li><li class="expanded "><a href="RFC-0152_EmojiId.html"><strong aria-hidden="true">3.8.</strong> RFC-0152: Emoji ID</a></li><li class="expanded "><a href="RFC-0170_NetworkCommunicationProtocol.html"><strong aria-hidden="true">3.9.</strong> RFC-0170: Network Communication Protocol</a></li><li><ol class="section"><li class="expanded "><a href="RFC-0171_MessageSerialisation.html"><strong aria-hidden="true">3.9.1.</strong> RFC-0171: Message Serialisation</a></li><li class="expanded "><a href="RFC-0172_PeerToPeerMessagingProtocol.html"><strong aria-hidden="true">3.9.2.</strong> RFC-0172: Peer to Peer Messaging Protocol</a></li></ol></li><li class="expanded "><a href="RFC-0190_Mempool.html"><strong aria-hidden="true">3.10.</strong> RFC-0190: Mempool</a></li><li class="expanded "><a href="BaseLayerExtensions.html"><strong aria-hidden="true">3.11.</strong> Tari-specific extensions to Mimblewimble</a></li><li><ol class="section"><li class="expanded "><a href="RFC-0230_HTLC.html"><strong aria-hidden="true">3.11.1.</strong> RFC-0230: Hash time locked contracts</a></li><li class="expanded "><a href="RFC-0322_VNRegistration.html"><strong aria-hidden="true">3.11.2.</strong> RFC-0322: Validator Node Registration</a></li><li class="expanded "><a href="RFC-0341_AssetRegistration.html"><strong aria-hidden="true">3.11.3.</strong> RFC-0341: Asset registration</a></li></ol></li></ol></li><li class="expanded "><a href="RFC-0300_DAN.html"><strong aria-hidden="true">4.</strong> RFC-0300: The Digital Assets Network</a></li><li><ol class="section"><li class="expanded "><a href="RFC-0301_NamespaceRegistration.html"><strong aria-hidden="true">4.1.</strong> RFC-0301: Namespace Registration</a></li><li class="expanded "><a href="RFC-0302_ValidatorNodes.html"><strong aria-hidden="true">4.2.</strong> RFC-0302: Validator Nodes</a></li><li class="expanded "><a href="RFC-0304_VNCommittees.html"><strong aria-hidden="true">4.3.</strong> RFC-0304: Validator Node committee selection</a></li><li class="expanded "><a href="AssetManagement.html"><strong aria-hidden="true">4.4.</strong> Asset Management</a></li><li><ol class="section"><li class="expanded "><a href="RFC-0311_AssetTemplates.html"><strong aria-hidden="true">4.4.1.</strong> RFC-0311: Digital Asset templates</a></li><li class="expanded "><a href="RFC-0345_AssetLifeCycle.html"><strong aria-hidden="true">4.4.2.</strong> RFC-0345: Asset Life cycle</a></li></ol></li><li class="expanded "><a href="RFC-0340_VNConsensusOverview.html"><strong aria-hidden="true">4.5.</strong> RFC-0340: Validator Node Consensus</a></li></ol></li><li class="expanded "><a href="RFC-0500_PaymentChannels.html"><strong aria-hidden="true">5.</strong> RFC-0500: Tari payment channels</a></li><li class="expanded "><a href="RFC-1000_TariUseCases.html"><strong aria-hidden="true">6.</strong> RFC-1000: Tari Use Cases</a></li><li class="expanded "><a href="Glossary.html"><strong aria-hidden="true">7.</strong> Glossary</a></li></ol>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                
+                <div id="menu-bar" class="menu-bar">
+                    <div id="menu-bar-sticky-container">
+                        <div class="left-buttons">
+                            <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                                <i class="fa fa-bars"></i>
+                            </button>
+                            
+                            <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                                <i class="fa fa-search"></i>
+                            </button>
+                            
+                        </div>
+
+                        <h1 class="menu-title"><img src="theme/images/tari-horizontal-logo.png"/> </h1>
+
+                        <div class="right-buttons">
+                            <a href="print.html" title="Print this book" aria-label="Print this book">
+                                <i id="print-button" class="fa fa-print"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" name="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+                
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1><a class="header" href="#transactionprotocol" id="transactionprotocol">TransactionProtocol</a></h1>
+<h2><a class="header" href="#transaction-protocol" id="transaction-protocol">Transaction Protocol</a></h2>
+<p><img src="theme/images/status-draft.svg" alt="status: draft" /></p>
+<p><strong>Maintainer(s)</strong>: Cayle Sharrock <CjS77></p>
+<h1><a class="header" href="#licence" id="licence">Licence</a></h1>
+<p><a href="https://opensource.org/licenses/BSD-3-Clause"> The 3-Clause BSD Licence</a>.</p>
+<p>Copyright 2019 The Tari Development Community</p>
+<p>Redistribution and use in source and binary forms, with or without modification, are permitted provided that the
+following conditions are met:</p>
+<ol>
+<li>Redistributions of this document must retain the above copyright notice, this list of conditions and the following
+disclaimer.</li>
+<li>Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following
+disclaimer in the documentation and/or other materials provided with the distribution.</li>
+<li>Neither the name of the copyright holder nor the names of its contributors may be used to endorse or promote products
+derived from this software without specific prior written permission.</li>
+</ol>
+<p>THIS DOCUMENT IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS IS&quot;, AND ANY EXPRESS OR IMPLIED WARRANTIES,
+INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+SPECIAL, EXEMPLARY OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+SERVICES; LOSS OF USE, DATA OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+WHETHER IN CONTRACT, STRICT LIABILITY OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
+THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</p>
+<h2><a class="header" href="#language" id="language">Language</a></h2>
+<p>The keywords &quot;MUST&quot;, &quot;MUST NOT&quot;, &quot;REQUIRED&quot;, &quot;SHALL&quot;, &quot;SHALL NOT&quot;, &quot;SHOULD&quot;, &quot;SHOULD NOT&quot;, &quot;RECOMMENDED&quot;, 
+&quot;NOT RECOMMENDED&quot;, &quot;MAY&quot; and &quot;OPTIONAL&quot; in this document are to be interpreted as described in 
+<a href="https://tools.ietf.org/html/bcp14">BCP 14</a> (covering RFC2119 and RFC8174) when, and only when, they appear in all capitals, as 
+shown here.</p>
+<h2><a class="header" href="#disclaimer" id="disclaimer">Disclaimer</a></h2>
+<p>This document and its content are intended for information purposes only and may be subject to change or update
+without notice.</p>
+<p>This document may include preliminary concepts that may or may not be in the process of being developed by the Tari
+community. The release of this document is intended solely for review and discussion by the community of the
+technological merits of the potential system outlined herein.</p>
+<h2><a class="header" href="#goals" id="goals">Goals</a></h2>
+<p>This Request for Comment (RFC) describes the transaction protocol for peer-to-peer Tari payments using 
+the Mimblewimble protocol. It also considers some attacks that may be launched against the protocol and offers some 
+discussion around those attacks and potential alternatives to the protocol.</p>
+<p>The goal is to describe a transaction protocol that:</p>
+<ul>
+<li>permits multiple recipients;</li>
+<li>preserves privacy regarding how many parties are involved in the transaction; and</li>
+<li>is secure against all reasonable attacks.</li>
+</ul>
+<h2><a class="header" href="#related-requests-for-comment" id="related-requests-for-comment">Related Requests for Comment</a></h2>
+<ul>
+<li><a href="RFC-0100_BaseLayer.html">RFC-0100: The Base Layer</a></li>
+</ul>
+<h2><a class="header" href="#description" id="description">Description</a></h2>
+<p>The Tari base layer is built using <a href="https://tlu.tarilabs.com/protocols/grin-protocol-overview/MainReport.html" title="Mimblewimble on TLU">Mimblewimble</a>, which requires that all parties involved in a Tari transfer must interact
+to construct a valid <a href="https://tlu.tarilabs.com/protocols/mimblewimble-1/MainReport.html" title="Mimblewimble
+transactions on TLU">Mimblewimble transaction</a>.</p>
+<p>A valid transaction involves:</p>
+<ul>
+<li>a set of one or more inputs being spent by the Sender;</li>
+<li>a set of zero or more outputs being sent to the Sender;</li>
+<li>a set of recipients, each of whom MUST construct exactly one output; and</li>
+<li>a set of partial Schnorr signatures which, when aggregated, validates the transaction construction and indicates every
+party's satisfaction with the terms.</li>
+</ul>
+<h3><a class="header" href="#the-issue-with-multiple-recipients" id="the-issue-with-multiple-recipients">The Issue with Multiple Recipients</a></h3>
+<p>Each party involved in a Tari transaction must produce a partial signature, signing the same challenge. This challenge is
+defined as</p>
+<p>$$ e = H(\Sigma R_i \Vert \Sigma P_i \Vert m) $$</p>
+<p>where \(R_i\) are public nonces generated by each party for this signature; \(P_i\) are the public <a href="Glossary.html#spending-key">Spending Key</a>s;
+and <em>m</em> is the additional metadata for the transaction. \(\Sigma P_i\) is the value of the (pre-offset) excess that is
+stored in the transaction kernel.</p>
+<p>Notice that every signing party needs to know the sum of all the nonces and public spending keys. This suggests that
+every party knows how many parties are involved in the transaction, which is not an ideal privacy scenario. It would be
+preferable if a secure scheme could be found where each recipient interacts only with the sender and does not need to
+calculate these sums themselves.</p>
+<p>Unfortunately, as discussed below, it seems that using any known scheme, it's not possible to satisfy this
+privacy goal while achieving the desired security level.</p>
+<h3><a class="header" href="#the-issue-with-multiple-senders" id="the-issue-with-multiple-senders">The Issue with Multiple Senders</a></h3>
+<p>To increase privacy, the public excess values are <a href="https://github.com/mimblewimble/grin/blob/master/doc/intro.md#kernel-offsets">offset</a> by a constant random value. The choice of this value, as well
+as fee selection, can only be set once per transaction. The privilege of selecting these values is generally bestowed on
+the sender, since the sender pays the fee. Allowing multiple sending parties (or equivalently, allowing recipients to provide
+inputs) would require a negotiation round to set the fee and offset before the transaction could be constructed. This is
+a complication we don't want to deal with, and so all schemes presented here allow exactly one sender.</p>
+<h3><a class="header" href="#two-party-transactions" id="two-party-transactions">Two-party Transactions</a></h3>
+<p>Two-party transactions are fairly straightforward and are described in detail by Tari Labs University (TLU). (Refer to 
+<a href="https://tlu.tarilabs.com/protocols/mimblewimble-1/MainReport.html" title="Mimblewimble
+transactions on TLU">Mimblewimble Transaction</a>.)</p>
+<p>It is proposed that Tari implement this single-round two-party transaction scheme as a special case to support both online
+two-party transactions as well as &quot;offline&quot; transactions such as via email, text message and carrier pigeon.</p>
+<h3><a class="header" href="#multiple-recipient-transaction-scheme" id="multiple-recipient-transaction-scheme">Multiple-recipient Transaction Scheme</a></h3>
+<div class="mermaid">
+sequenceDiagram
+    participant Sender
+    participant Receivers
+# Sender Initializes the transaction
+    activate Sender
+        Sender-->>Sender: initialize
+    deactivate Sender
+# Sender transmits initial data to all receivers
+    activate Sender
+        Sender-->>+Receivers: [tx_id, amt_i,H(Rs||Xs),m]
+        note left of Sender: CollectingCommitments
+        note right of Receivers: SendingCommitment
+        Receivers-->>-Sender: [tx_id, H(Ri||Pi)]
+     deactivate Sender
+# Receiving Outputs
+     activate Sender
+        Sender-->>+Receivers: [tx_id, [Hashed commitments]]
+        note left of Sender: CollectingPubKeys
+        note right of Receivers: SendingOutput
+        Receivers-->>-Sender: [tx_id, Pi, Ri, C_i, RP_i]
+    deactivate Sender
+    alt inflation_error()?
+        Sender--XReceivers: [tx-id, failed]
+    end
+# Signature collection
+    activate Sender
+        Sender-->>+Receivers: [tx_id, [Rs, Ri] [Xs, Pi]]
+        note left of Sender: CollectingSignatures
+        note right of Receivers: Signing
+        Receivers-->>Receivers: validate nonces, pubkeys and pubkey sum
+        alt invalid
+           Receivers--XSender: failed
+        end
+        Receivers-->>Receivers: Sign
+        Receivers-->>-Sender: [tx_id, s_i]
+    deactivate Sender
+# Sender sends final notification of result
+    note left of Sender: Finalizing
+    alt is_valid()
+      Sender-->>Receivers: [tx_id, OK]
+    else invalid
+      Sender--XReceivers: [tx_id, Failed]
+    end
+</div>
+<p>** Legend **</p>
+<table><thead><tr><th align="left">Symbol</th><th align="left">Meaning</th></tr></thead><tbody>
+<tr><td align="left">tx_id</td><td align="left">Transaction identifier</td></tr>
+<tr><td align="left">amt_i</td><td align="left">Amount sent to i-th recipient</td></tr>
+<tr><td align="left">Rs, Ri</td><td align="left">Public nonce</td></tr>
+<tr><td align="left">Xs, Pi</td><td align="left">Public excess/key</td></tr>
+<tr><td align="left">m</td><td align="left">Message metadata</td></tr>
+<tr><td align="left">C_i</td><td align="left">Commitment</td></tr>
+<tr><td align="left">RP_i</td><td align="left">Range proof</td></tr>
+<tr><td align="left">[..]</td><td align="left">Vector of data</td></tr>
+</tbody></table>
+<h2><a class="header" href="#transaction-id" id="transaction-id">Transaction ID</a></h2>
+<p>The scheme above makes use of a <code>tx_id</code> field in every peer-to-peer message. Since all messages are stateless and
+asynchronous, peers need some way of figuring out which message refers to which transaction. The transaction ID fulfils
+this role.</p>
+<p>The ID does not appear on the blockchain in any manner; is purely used to disambiguate Tari transaction messages and
+can be discarded after the transaction is broadcast to the network.</p>
+<p>The <code>tx_id</code> is unique for every receiver so that any observers of the communication will not be able to group receivers
+together (however, the communication should be over secure channels in general).</p>
+<p>The format of the transaction ID is a four-byte, little-endian integer (u64) and is
+calculated as</p>
+<pre><code class="language-text">H(Rs||i)[0..4]
+</code></pre>
+<p>where <code>i</code> is the i-th recipient in the transaction. The sender can use the <code>tx_id</code> as a hash map key to identify and
+differentiate recipients.</p>
+<h2><a class="header" href="#replay-attacks" id="replay-attacks">Replay Attacks</a></h2>
+<p>If any party can be convinced to sign a different message with the same nonce, its private keys will be lost. One way
+of achieving this would be if a virtual machine could be &quot;snapshotted&quot; or otherwise cloned at any point between sharing
+the public nonce and signing the message. Both copies of the victim's machine will now continue, unaware that there's a
+copy participating in a signature round. What then happens is:</p>
+<p>$$
+\begin{align}
+&amp;\text{Clone A} &amp; &amp;\text{Clone B} \\
+e_1 &amp;= H(r_1 \Vert r_s \Vert \dots) &amp; e_2 &amp;= H(r_1 \Vert r_s^* \Vert \dots) \\
+s_1 &amp;= r_1 + e_1 \cdot k_1 &amp; s_2 &amp;= r_1 + e_2 \cdot k_1 \\
+\end{align}
+$$</p>
+<p>The attacker receives both signatures and trivially calculates the secret key:</p>
+<p>$$
+\begin{align}
+\Delta s &amp;= s_1 - s_2 \\
+&amp;= k_1(e_1 - e_2) = k_1\Delta e \\
+\Rightarrow k_1 &amp;= \frac{\Delta s}{\Delta e}
+\end{align}
+$$</p>
+<p>We've demonstrated this with the attacker changing their nonce, but literally any alteration to the challenge will provide
+a new challenge \(e_2\), enabling the attack.</p>
+<p>What can we do about this? In fact, it's not possible to eliminate this attack at all! The reason sits with the proof
+that the Schnorr scheme works as a zero-knowledge protocol; the demonstration of this proof is precisely the attack
+we're trying to avoid [<a href="https://medium.com/magicofc/interactive-proofs-and-zero-knowledge-b32f6c8d66c3" title="On Interactive Proofs and
+Zero-Knowledge: A Primer [Section 3]">GOL19</a>]. If we could eliminate this attack, we'd need to come up with a completely different way
+of proving the zero-knowledge property.</p>
+<p>So we can't stop it, but we can make it as tricky as possible for the attacker to trick the receiver into replaying the
+signature. MuSig does this by requiring parties to share the hash of their nonces beforehand. At its extreme: in the
+two-party, single-round scheme, for example, the attacker would need to be able to control the victim's machine code
+execution (like running a debugger), at which point one might think the attacker could read the private key directly
+from memory anyway.</p>
+<h2><a class="header" href="#rogue-key-attacks" id="rogue-key-attacks">Rogue Key Attacks</a></h2>
+<p><a href="https://tlu.tarilabs.com/cryptography/digital_signatures/introduction_schnorr_signatures.html#key-cancellation-attack">Rogue Key attacks</a>
+are another type of attack that can occur in multi-signature schemes.</p>
+<p>In this case, the attacker has the freedom to choose a key or nonce <em>after</em> the victim has already disclosed theirs. This
+may allow the attacker to forge a valid signature on behalf of the victim. A recent paper, [<a href="https://eprint.iacr.org/2018/417.pdf" title="On the Security of Two-Round Multi-Signatures">DRI19</a>], suggests that
+<em>any</em> Schnorr-based, two-round multi-signature scheme is vulnerable to a rogue key attack.</p>
+<p>How this might apply in an insecure two-round Tari multi-signature scheme is as follows: A receiver sends their public
+nonce; output commitment and range proof; and public spending key to the sender, but then decides to cancel the
+transaction by refusing to provide a signature and sending an &quot;Abort&quot; message to the sender instead. The sender could,
+if they wanted, forge the 2-of-2 signature using this rogue key attack and broadcast the transaction anyway.</p>
+<p><strong>Note:</strong> This attack is not applicable in the one-round, two-party scheme, since the receiver returns their information in an
+all-or-nothing manner. However, the <em>receiver</em> could attempt to forge a signature, since they have the Sender's public
+nonce, but there's nothing they can really do with this signature; they certainly cannot broadcast a transaction with it
+because they don't have any of the transaction data at this stage.</p>
+<p>We avoid rogue-key attacks in the Tari multi-recipient scheme by employing three rounds. In the first round, parties share a
+hash of their public nonces, which each party can later use to verify that no nonces were changed after the actual
+public nonces were shared.</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                        
+                            <a rel="prev" href="RFC-0150_Wallets.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+                        
+
+                        
+                            <a rel="next" href="RFC-0152_EmojiId.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                
+                    <a href="RFC-0150_Wallets.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                
+
+                
+                    <a href="RFC-0152_EmojiId.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+                
+            </nav>
+
+        </div>
+
+        
+
+        
+
+        
+
+        
+        <script src="elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="searcher.js" type="text/javascript" charset="utf-8"></script>
+        
+
+        <script src="clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Initialize mermaid -->
+        <script src="theme/js/mermaid.min.js" type="text/javascript" charset="utf-8"></script>
+        <script>mermaid.initialize({startOnLoad:true});</script>
+
+        <!-- Custom JS scripts -->
+        
+
+        
+
+    </body>
+</html>

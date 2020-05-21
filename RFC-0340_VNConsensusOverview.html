@@ -1,0 +1,424 @@
+<!DOCTYPE HTML>
+<html lang="en" class="sidebar-visible no-js">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>RFC-0340: Validator Node Consensus - The Tari Network: RFC library</title>
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="The Tari network RFC library and documentation">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="shortcut icon" href="favicon.png">
+        <link rel="stylesheet" href="css/variables.css">
+        <link rel="stylesheet" href="css/general.css">
+        <link rel="stylesheet" href="css/chrome.css">
+        <link rel="stylesheet" href="css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css">
+        <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro:500" rel="stylesheet" type="text/css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="highlight.css">
+        <link rel="stylesheet" href="tomorrow-night.css">
+        <link rel="stylesheet" href="ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        
+
+        
+        <!-- MathJax -->
+        <script async type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script type="text/x-mathjax-config">
+          MathJax.Hub.Config({
+            tex2jax: {
+            inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+            displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+            processEscapes: true
+            }
+          });
+        </script>
+        
+    </head>
+    <body class="light">
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">var path_to_root = "";</script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme = 'light';
+            document.body.className = theme;
+            document.querySelector('html').className = theme + ' js';
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <img src="theme/images/tari-splash.png" class="tlu">
+
+            <ol class="chapter"><li class="expanded affix "><a href="about.html">About the Tari RFC documents</a></li><li class="expanded "><a href="RFC-0001_overview.html"><strong aria-hidden="true">1.</strong> RFC-0001: An overview of the Tari network</a></li><li class="expanded "><a href="RFC-0010_CodeStructure.html"><strong aria-hidden="true">2.</strong> RFC-0010: Tari code structure and organisation</a></li><li class="expanded "><a href="RFC-0100_BaseLayer.html"><strong aria-hidden="true">3.</strong> RFC-0100: The Tari Base Layer</a></li><li><ol class="section"><li class="expanded "><a href="RFC-0110_BaseNodes.html"><strong aria-hidden="true">3.1.</strong> RFC-0110: Base nodes</a></li><li class="expanded "><a href="RFC-0111_BaseNodeArchitecture.html"><strong aria-hidden="true">3.2.</strong> RFC-0111: Base node architecture</a></li><li class="expanded "><a href="RFC-0120_Consensus.html"><strong aria-hidden="true">3.3.</strong> RFC-0120: Consensus rules</a></li><li class="expanded "><a href="RFC-0130_Mining.html"><strong aria-hidden="true">3.4.</strong> RFC-0130: Mining</a></li><li class="expanded "><a href="RFC-0140_Syncing_and_seeding.html"><strong aria-hidden="true">3.5.</strong> RFC-0140: Sync and Seeding</a></li><li class="expanded "><a href="RFC-0150_Wallets.html"><strong aria-hidden="true">3.6.</strong> RFC-0150: Wallets</a></li><li class="expanded "><a href="RFC-0151_TransactionProtocol.html"><strong aria-hidden="true">3.7.</strong> RFC-0151: Transaction protocol</a></li><li class="expanded "><a href="RFC-0152_EmojiId.html"><strong aria-hidden="true">3.8.</strong> RFC-0152: Emoji ID</a></li><li class="expanded "><a href="RFC-0170_NetworkCommunicationProtocol.html"><strong aria-hidden="true">3.9.</strong> RFC-0170: Network Communication Protocol</a></li><li><ol class="section"><li class="expanded "><a href="RFC-0171_MessageSerialisation.html"><strong aria-hidden="true">3.9.1.</strong> RFC-0171: Message Serialisation</a></li><li class="expanded "><a href="RFC-0172_PeerToPeerMessagingProtocol.html"><strong aria-hidden="true">3.9.2.</strong> RFC-0172: Peer to Peer Messaging Protocol</a></li></ol></li><li class="expanded "><a href="RFC-0190_Mempool.html"><strong aria-hidden="true">3.10.</strong> RFC-0190: Mempool</a></li><li class="expanded "><a href="BaseLayerExtensions.html"><strong aria-hidden="true">3.11.</strong> Tari-specific extensions to Mimblewimble</a></li><li><ol class="section"><li class="expanded "><a href="RFC-0230_HTLC.html"><strong aria-hidden="true">3.11.1.</strong> RFC-0230: Hash time locked contracts</a></li><li class="expanded "><a href="RFC-0322_VNRegistration.html"><strong aria-hidden="true">3.11.2.</strong> RFC-0322: Validator Node Registration</a></li><li class="expanded "><a href="RFC-0341_AssetRegistration.html"><strong aria-hidden="true">3.11.3.</strong> RFC-0341: Asset registration</a></li></ol></li></ol></li><li class="expanded "><a href="RFC-0300_DAN.html"><strong aria-hidden="true">4.</strong> RFC-0300: The Digital Assets Network</a></li><li><ol class="section"><li class="expanded "><a href="RFC-0301_NamespaceRegistration.html"><strong aria-hidden="true">4.1.</strong> RFC-0301: Namespace Registration</a></li><li class="expanded "><a href="RFC-0302_ValidatorNodes.html"><strong aria-hidden="true">4.2.</strong> RFC-0302: Validator Nodes</a></li><li class="expanded "><a href="RFC-0304_VNCommittees.html"><strong aria-hidden="true">4.3.</strong> RFC-0304: Validator Node committee selection</a></li><li class="expanded "><a href="AssetManagement.html"><strong aria-hidden="true">4.4.</strong> Asset Management</a></li><li><ol class="section"><li class="expanded "><a href="RFC-0311_AssetTemplates.html"><strong aria-hidden="true">4.4.1.</strong> RFC-0311: Digital Asset templates</a></li><li class="expanded "><a href="RFC-0345_AssetLifeCycle.html"><strong aria-hidden="true">4.4.2.</strong> RFC-0345: Asset Life cycle</a></li></ol></li><li class="expanded "><a href="RFC-0340_VNConsensusOverview.html" class="active"><strong aria-hidden="true">4.5.</strong> RFC-0340: Validator Node Consensus</a></li></ol></li><li class="expanded "><a href="RFC-0500_PaymentChannels.html"><strong aria-hidden="true">5.</strong> RFC-0500: Tari payment channels</a></li><li class="expanded "><a href="RFC-1000_TariUseCases.html"><strong aria-hidden="true">6.</strong> RFC-1000: Tari Use Cases</a></li><li class="expanded "><a href="Glossary.html"><strong aria-hidden="true">7.</strong> Glossary</a></li></ol>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                
+                <div id="menu-bar" class="menu-bar">
+                    <div id="menu-bar-sticky-container">
+                        <div class="left-buttons">
+                            <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                                <i class="fa fa-bars"></i>
+                            </button>
+                            
+                            <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                                <i class="fa fa-search"></i>
+                            </button>
+                            
+                        </div>
+
+                        <h1 class="menu-title"><img src="theme/images/tari-horizontal-logo.png"/> </h1>
+
+                        <div class="right-buttons">
+                            <a href="print.html" title="Print this book" aria-label="Print this book">
+                                <i id="print-button" class="fa fa-print"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" name="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+                
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1><a class="header" href="#rfc-0340vnconsensusoverview" id="rfc-0340vnconsensusoverview">RFC-0340/VNConsensusOverview</a></h1>
+<h2><a class="header" href="#validator-node-consensus-algorithm" id="validator-node-consensus-algorithm">Validator node consensus algorithm</a></h2>
+<p><img src="theme/images/status-draft.svg" alt="status: draft" /></p>
+<p><strong>Maintainer(s)</strong>: Cayle Sharrock <CjS77></p>
+<h1><a class="header" href="#license" id="license">License</a></h1>
+<p><a href="https://opensource.org/licenses/BSD-3-Clause"> The 3-Clause BSD License</a>.</p>
+<p>Copyright 2019. The Tari Development Community</p>
+<h2><a class="header" href="#validator-node-consensus-algorithm-1" id="validator-node-consensus-algorithm-1">Validator node consensus algorithm</a></h2>
+<p><img src="theme/images/status-draft.svg" alt="status: draft" /></p>
+<p><strong>Maintainer(s)</strong>: Cayle Sharrock <CjS77></p>
+<h1><a class="header" href="#license-1" id="license-1">License</a></h1>
+<p><a href="https://opensource.org/licenses/BSD-3-Clause"> The 3-Clause BSD License</a>.</p>
+<p>Copyright 2019. The Tari Development Community</p>
+<p>Redistribution and use in source and binary forms, with or without modification, are permitted provided that the
+following conditions are met:</p>
+<ol>
+<li>Redistributions of this document must retain the above copyright notice, this list of conditions and the following
+disclaimer.</li>
+<li>Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following
+disclaimer in the documentation and/or other materials provided with the distribution.</li>
+<li>Neither the name of the copyright holder nor the names of its contributors may be used to endorse or promote products
+derived from this software without specific prior written permission.</li>
+</ol>
+<p>THIS DOCUMENT IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS IS&quot; AND ANY EXPRESS OR IMPLIED WARRANTIES,
+INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
+THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</p>
+<p>Redistribution and use in source and binary forms, with or without modification, are permitted provided that the
+following conditions are met:</p>
+<ol>
+<li>Redistributions of this document must retain the above copyright notice, this list of conditions and the following
+disclaimer.</li>
+<li>Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following
+disclaimer in the documentation and/or other materials provided with the distribution.</li>
+<li>Neither the name of the copyright holder nor the names of its contributors may be used to endorse or promote products
+derived from this software without specific prior written permission.</li>
+</ol>
+<p>THIS DOCUMENT IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS IS&quot; AND ANY EXPRESS OR IMPLIED WARRANTIES,
+INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
+THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</p>
+<h2><a class="header" href="#language" id="language">Language</a></h2>
+<p>The key words &quot;MUST&quot;, &quot;MUST NOT&quot;, &quot;REQUIRED&quot;, &quot;SHALL&quot;, &quot;SHALL NOT&quot;, &quot;SHOULD&quot;, &quot;SHOULD NOT&quot;, &quot;RECOMMENDED&quot;,
+&quot;NOT RECOMMENDED&quot;, &quot;MAY&quot;, and &quot;OPTIONAL&quot; in this document are to be interpreted as described in
+<a href="https://tools.ietf.org/html/bcp14">BCP 14</a> (covering RFC2119 and RFC8174) when, and only when, they appear in all capitals, as
+shown here.</p>
+<h2><a class="header" href="#disclaimer" id="disclaimer">Disclaimer</a></h2>
+<p>The purpose of this document and its content is for information purposes only and may be subject to change or update
+without notice.</p>
+<p>This document may include preliminary concepts that may or may not be in the process of being developed by the Tari
+community. The release of this document is intended solely for review and discussion by the community regarding the
+technological merits of the potential system outlined herein.</p>
+<h2><a class="header" href="#goals" id="goals">Goals</a></h2>
+<p>This document describes at a high level how smart contract state is managed on the Tari Digital Assets Network.</p>
+<h2><a class="header" href="#related-rfcs" id="related-rfcs">Related RFCs</a></h2>
+<ul>
+<li><a href="RFC-0300_DAN.html">RFC-0300: The Tari Digital Assets Network</a></li>
+<li><a href="RFC-0302_ValidatorNodes.html">RFC-0302: Validator Nodes</a></li>
+<li><a href="RFC-0304_VNCommittees.html">RFC-0304: Validator Node committee selection</a></li>
+<li><a href="RFC-0341_AssetRegistration.html">RFC-0341: Asset Registration</a></li>
+</ul>
+<h2><a class="header" href="#description" id="description">Description</a></h2>
+<h3><a class="header" href="#overview" id="overview">Overview</a></h3>
+<p>The primary problem under consideration here is for multiple machines running the same program (in the form of a Tari
+smart contract) to maintain agreement on what the state of the program is, often under adverse conditions, including
+unreliable network communication, malicious third parties, or even malicious peers running the smart contract.</p>
+<p>In computer science terms, the problem is referred to as
+<a href="https://en.wikipedia.org/wiki/State_machine_replication">State Machine Replication</a>, or SMR. If we want our honest
+machines (referred to as <em>replicas</em> in SMR parlance) to reach agreement in the face of arbitrary failures, then we talk
+about our system being
+<a href="https://tlu.tarilabs.com/consensus-mechanisms/BFT-consensusmechanisms/sources/PITCHME.link.html">Byzantine Fault Tolerant</a>.</p>
+<p>Tari Asset <a href="Glossary.html#committee">committees</a> are chosen by the asset issuer according to <a href="RFC-0304_VNCommittees.html">RFC-0304</a>. The committees
+form a fixed set of replicas, at the very least from checkpoint to checkpoint, and will typically be limited in size,
+usually less than ten, and almost always under 100. <em>Note</em>: These numbers are highly speculative based on an intuitive
+guess about the main use cases for Tari DAs, where we have</p>
+<ul>
+<li>many 1-3-sized committees where the asset issuer and the VN committee are the same entity,</li>
+<li>semi-decentralised assets of ±4-10 where speed trumps censorship-resistance,</li>
+<li>a small number of 50-100 VNs where censorship-resistance trumps speed.</li>
+</ul>
+<p>Because nodes cannot join and leave the committees at will, robust yet slow and expensive consensus approaches such as
+Nakamoto consensus can be dropped in favour of something more performant.</p>
+<p>There is a good survey of consensus mechanisms on
+<a href="https://tlu.tarilabs.com/consensus-mechanisms/consensus-mechanisms.html">Tari Labs University</a>.</p>
+<p>From the point of view of a DAN committee, the ideal consensus algorithm is one that</p>
+<ol>
+<li>Allows a high number of transactions per second, and doesn't have unnecessary pauses (i.e. a partially synchronous or
+asynchronous model).</li>
+<li>Is Byzantine Fault tolerant.</li>
+<li>Is relatively efficient from a network communication point of view (number of messages passed per state agreement).</li>
+<li>Is relatively simple to implement (to reduce the bug and vulnerability surface in implementations).</li>
+</ol>
+<p>A summary of some of the most well-known BFT algorithms is presented in
+<a href="https://tlu.tarilabs.com/consensus-mechanisms/BFT-consensus-mechanisms-applications/MainReport.html#summary-of-findings">this table</a>.</p>
+<p>A close reading of the algorithms presented suggest that <a href="https://arxiv.org/pdf/1807.01829.pdf">LinBFT</a>, which is based
+on <a href="https://arxiv.org/pdf/1803.05069" title="Hotstuff BFT">HotStuff</a> BFT provide the best trade-offs for the goals that a DAN committee is trying to achieve:</p>
+<ol>
+<li>The algorithm is optimistic, i.e. as soon as quorum is reached on a particular state, the committee can move onto the
+next one. There is no need to wait for the &quot;timeout&quot; period as we do in e.g. Tendermint. This allows instructions to
+be executed almost as quickly as they are received.</li>
+<li>The algorithm is efficient in communication, requiring O(n) messages per state agreement in most practical cases.
+This is compared to e.g. PBFT which requires O(n<sup>4</sup>) messages.</li>
+<li>The algorithm is modular and relatively simple to implement.</li>
+</ol>
+<p>Potential drawbacks to using HotStuff include:</p>
+<ol>
+<li>Each round required the election of a <em>leader</em>. Having a leader dramatically simplifies the consensus algorithm; it
+allows a linear number of messages to be sent between the leader and the other replicas in order to agree on the
+current state; and it allows a strict ordering to be established on instructions without having to resort to e.g.
+proof of work. However, if the choice of leader is deterministic, attackers can identify and potentially DDOS the
+leader for a given round, causing the algorithm to time out. There are ways to mitigate this attack for a <em>specific
+round</em>, as suggested in the LinBFT paper, such as using Verifiable Random Functions, but DDOSing a single replica
+means that, on average, the algorithm will time out every 1/n rounds.</li>
+<li>The attack described above only pauses progress in Hotstuff for the timeout period. In similar protocols, e.g.
+Tendermint it can be shown to <a href="https://arxiv.org/pdf/1803.05069">delay progress indefinitely</a>.</li>
+</ol>
+<p>Given these trade-offs, there is strong evidence to suggest that <a href="https://arxiv.org/pdf/1803.05069" title="Hotstuff BFT">HotStuff</a> BFT, when implemented on the Tari DAN will
+provide BFT security guarantees with liveness performance in the sub-second scale and throughput on the order of
+thousands of instructions per second, if the benchmarks presented in the <a href="https://arxiv.org/pdf/1803.05069" title="Hotstuff BFT">HotStuff</a> paper are representative.</p>
+<h3><a class="header" href="#implementation" id="implementation">Implementation</a></h3>
+<p>The <a href="https://arxiv.org/pdf/1803.05069" title="Hotstuff BFT">HotStuff</a> BFT algorithm provides a detailed description of the consensus algorithm. Only a summary of it is
+presented here. To reduce confusion, we adopt the HotStuff nomenclature to describe state changes, rounds and function
+names where appropriate.</p>
+<p>Every proposed state change, as a result of replicas receiving instructions from clients is called a <em>view</em>. There is a
+<a href="#leader-selection">function that every node can call</a> that will tell it which replica will be the <em>leader</em> for a given
+view. Every view goes through three phases (<code>Prepare</code>, <code>PreCommit</code>, <code>Commit</code>) before final consensus is reached. Once a
+view reaches the <code>Commit</code> phase, it is finalised and will never be reversed.</p>
+<p>As part of their normal operation, every replica broadcasts <a href="Glossary.html#instructions">instructions</a> it receives for its contract to its peers.
+These instructions are stored in a replica's instruction mempool.</p>
+<p>When the <a href="#leader-selection">leader selection</a> function designates a replica as leader for the next view, it will try
+and execute <em>all</em> the instructions it currently has in its mempool to update the state for the next view. Following this
+it compiles a tuple of &lt;<em>valid-instructions</em>, <em>rejected-instructions</em>, <em>new-state</em>&gt;. This tuple represents the <code>CMD</code>
+structure described in <a href="https://arxiv.org/pdf/1803.05069" title="Hotstuff BFT">HotStuff</a>.</p>
+<p>In parallel with this, the leader expects a set of <code>NewView</code> messages from the other replicas, indicating that the other
+replicas know that this replica is the leader for the next view.</p>
+<p>Once a super-majority of these messages have been received, the leader composes a proposal for the next state by adding
+a new node to the state history graph (I'm calling it a state history graph to avoid naming confusion, but it's really a
+blockchain). It composes a message containing the new proposal, and broadcasts it to the other replicas.</p>
+<p>Replicas, on receipt of the proposal, decide whether the proposal is valid, both from a protocol point of view (i.e. did
+the leader provide a well-formed proposal) as well as whether they agree on the new state (e.g. by executing the
+instructions as given and comparing the resulting state with that of the proposal). If there is agreement, they vote on
+the proposal by signing it, and sending their partial signature back to the leader.</p>
+<p>When the leader has received a super-majority of votes, it sends a message back to the replicas with the (aggregated)
+set of signatures.</p>
+<p>Replicas can validate this signature and provide another partial signature indicating that they've received the first
+aggregated signature for the proposal.</p>
+<p>At this point, all replicas know that enough other replicas have received the proposal and are in agreement that it is
+valid.</p>
+<p>In Tendermint, replicas would now wait for the timeout period to make sure that the proposal wasn't going to be
+superseded before finalising the proposal. But there is an attack described in the <a href="https://arxiv.org/pdf/1803.05069" title="Hotstuff BFT">HotStuff</a> paper that could stall
+progress at this point.</p>
+<p>The HotStuff protocol prevents this by having a final round of confirmations with the leader. This prevents the stalling
+attack and <em>also</em> lets replicas finalise the proposal <em>immediately</em> on receipt of the final confirmation from the
+leader. This lets HotStuff proceed at &quot;network&quot; speed, rather than with a heartbeat dictated by the BFT synchronicity
+parameter.</p>
+<p>Although there are 4 round trips of communication between replicas and the leader, the number of messages sent are O(n).
+It's also possible to stagger and layer these rounds on top of each other, so that there are always four voting rounds
+happening simultaneously, rather than waiting for one to complete in its entirety before moving onto the next one.
+Further details are given in the <a href="https://arxiv.org/pdf/1803.05069" title="Hotstuff BFT">HotStuff</a> paper.</p>
+<h4><a class="header" href="#forks-and-byzantine-failures" id="forks-and-byzantine-failures">Forks and byzantine failures</a></h4>
+<p>The summary of the HotStuff protocol given above describes the &quot;Happy Path&quot;, when there are no breakdowns in
+communication, or when the leader is an honest node. In cases where the leader is unavailable, the protocol will time
+out, the current view will be abandoned, and all replicas will move onto the next view.</p>
+<p>If a leader is not honest, replicas will reject its proposal, and move onto the next view.</p>
+<p>If there is a temporary network partition, the chain may fork (up to a depth of three), but the protocol guarantees
+safety via the voting mechanism, and the chain will reconcile once the partition resolves.</p>
+<h4><a class="header" href="#leader-selection" id="leader-selection">Leader selection</a></h4>
+<p><a href="https://arxiv.org/pdf/1803.05069" title="Hotstuff BFT">HotStuff</a> leaves the leader selection algorithm to the application. Usually, a round-robin approach is suggested for
+its simplicity. However, this requires the replicas to <em>reliably</em> self-order themselves before starting with SMR, which
+is a non-trivial exercise in byzantine conditions.</p>
+<p>For Tari DAN committees, the following algorithm is proposed:</p>
+<ol>
+<li>Every replica knows the <a href="Glossary.html#node-id">Node ID</a> of every other replica in the committee.</li>
+<li>For a given <em>view number</em>, the Node ID with the closest XOR distance to the hash of the <em>view number</em> will be the
+leader for that view, where the hash function provides a uniformly random value of the same length as the Node ID.</li>
+</ol>
+<h4><a class="header" href="#quorum-certificate" id="quorum-certificate">Quorum Certificate</a></h4>
+<p>A Quorum certificate, or QC is proof that a super-majority of replicas have agreed on a given state. In particular, a QC
+consists of</p>
+<ul>
+<li>The type of QC (depending on the phase in which the HotStuff pipeline the QC was signed),</li>
+<li>The <em>view number</em> for the QC</li>
+<li>A reference to the node in the state tree being ratified,</li>
+<li>A signature from a super-majority of replicas.</li>
+</ul>
+<h3><a class="header" href="#tari-specific-considerations" id="tari-specific-considerations">Tari-specific considerations</a></h3>
+<p>As soon as a state is finalised, replicas can inform clients as to the result of instructions they have submitted (in
+the affirmative or negative). Given that HotStuff proceeds optimistically, and finalisation happens after 4 rounds of
+communication, it's anticipated that clients can receive a final response from the validator committee in under 500 ms
+for reasonably-sized committees (this value is speculation at present and will be updated once exploratory experiments
+have been carried out).</p>
+<p>The Tari communication platform was designed to handle peer-to-peer messaging of the type described in <a href="https://arxiv.org/pdf/1803.05069" title="Hotstuff BFT">HotStuff</a>, and
+therefore the protocol implementation should be relatively straightforward.</p>
+<p>The &quot;state&quot; agreed upon by the VN committee will not only include the smart-contract state, but instruction fee
+allocations and periodic checkpoints onto the base layer.</p>
+<p>Checkpoints onto the base layer achieve several goals:</p>
+<ul>
+<li>Offers a proof-of-work backstop against &quot;evil committees&quot;. Without proof of work, there's nothing stopping an evil
+committee (one that controls a super-majority of replicas) from rewriting history. Proof-of-work is the only reliable
+and practical method that currently exists to make it expensive to change the history of a chain of records. Tari
+gives us a &quot;best of both worlds&quot; scenario wherein an evil committee would have to rewrite the base layer history
+(which <em>does</em> use proof-of-work) before they could rewrite the digital asset history (which does not).</li>
+<li>They allow the asset issuer to authorise changes in the VN committee replica set.</li>
+<li>It allows asset owners to have an immutable proof of asset ownership long after the VN committee has dissolved after
+the useful end-of-life of a smart contract.</li>
+<li>Provides a means for an asset issuer to resurrect a smart contract long after the original contract has terminated.</li>
+</ul>
+<p>When Validator Nodes run smart contracts, they should be run in a separate thread so that if a smart contract crashes,
+it does not bring the consensus algorithm down with it.</p>
+<p>Furthermore, VNs should be able to quickly revert state to at least four views back in order to handle temporary forks.
+Nodes should also be able to initialise/resume a smart contract (e.g. from a crash) given a state, view number, and view
+history.</p>
+<p>This implies that VNs, in addition to passing around HotStuff BFT messages, will expose additional APIs in order to</p>
+<ul>
+<li>allow lagging replicas to catch up in the execution state.</li>
+<li>Provide information to (authorised) clients regarding the most recent finalised state of the smart contract via a
+read-only API.</li>
+<li>Accept smart-contract instructions from clients and forward these onto the other replicas in the VN committee.</li>
+</ul>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                        
+                            <a rel="prev" href="RFC-0345_AssetLifeCycle.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+                        
+
+                        
+                            <a rel="next" href="RFC-0500_PaymentChannels.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                
+                    <a href="RFC-0345_AssetLifeCycle.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                
+
+                
+                    <a href="RFC-0500_PaymentChannels.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+                
+            </nav>
+
+        </div>
+
+        
+
+        
+
+        
+
+        
+        <script src="elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="searcher.js" type="text/javascript" charset="utf-8"></script>
+        
+
+        <script src="clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Initialize mermaid -->
+        <script src="theme/js/mermaid.min.js" type="text/javascript" charset="utf-8"></script>
+        <script>mermaid.initialize({startOnLoad:true});</script>
+
+        <!-- Custom JS scripts -->
+        
+
+        
+
+    </body>
+</html>

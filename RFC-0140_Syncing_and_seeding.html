@@ -1,0 +1,307 @@
+<!DOCTYPE HTML>
+<html lang="en" class="sidebar-visible no-js">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>RFC-0140: Sync and Seeding - The Tari Network: RFC library</title>
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="The Tari network RFC library and documentation">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="shortcut icon" href="favicon.png">
+        <link rel="stylesheet" href="css/variables.css">
+        <link rel="stylesheet" href="css/general.css">
+        <link rel="stylesheet" href="css/chrome.css">
+        <link rel="stylesheet" href="css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css">
+        <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro:500" rel="stylesheet" type="text/css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="highlight.css">
+        <link rel="stylesheet" href="tomorrow-night.css">
+        <link rel="stylesheet" href="ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        
+
+        
+        <!-- MathJax -->
+        <script async type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        <script type="text/x-mathjax-config">
+          MathJax.Hub.Config({
+            tex2jax: {
+            inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+            displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+            processEscapes: true
+            }
+          });
+        </script>
+        
+    </head>
+    <body class="light">
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">var path_to_root = "";</script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme = 'light';
+            document.body.className = theme;
+            document.querySelector('html').className = theme + ' js';
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <img src="theme/images/tari-splash.png" class="tlu">
+
+            <ol class="chapter"><li class="expanded affix "><a href="about.html">About the Tari RFC documents</a></li><li class="expanded "><a href="RFC-0001_overview.html"><strong aria-hidden="true">1.</strong> RFC-0001: An overview of the Tari network</a></li><li class="expanded "><a href="RFC-0010_CodeStructure.html"><strong aria-hidden="true">2.</strong> RFC-0010: Tari code structure and organisation</a></li><li class="expanded "><a href="RFC-0100_BaseLayer.html"><strong aria-hidden="true">3.</strong> RFC-0100: The Tari Base Layer</a></li><li><ol class="section"><li class="expanded "><a href="RFC-0110_BaseNodes.html"><strong aria-hidden="true">3.1.</strong> RFC-0110: Base nodes</a></li><li class="expanded "><a href="RFC-0111_BaseNodeArchitecture.html"><strong aria-hidden="true">3.2.</strong> RFC-0111: Base node architecture</a></li><li class="expanded "><a href="RFC-0120_Consensus.html"><strong aria-hidden="true">3.3.</strong> RFC-0120: Consensus rules</a></li><li class="expanded "><a href="RFC-0130_Mining.html"><strong aria-hidden="true">3.4.</strong> RFC-0130: Mining</a></li><li class="expanded "><a href="RFC-0140_Syncing_and_seeding.html" class="active"><strong aria-hidden="true">3.5.</strong> RFC-0140: Sync and Seeding</a></li><li class="expanded "><a href="RFC-0150_Wallets.html"><strong aria-hidden="true">3.6.</strong> RFC-0150: Wallets</a></li><li class="expanded "><a href="RFC-0151_TransactionProtocol.html"><strong aria-hidden="true">3.7.</strong> RFC-0151: Transaction protocol</a></li><li class="expanded "><a href="RFC-0152_EmojiId.html"><strong aria-hidden="true">3.8.</strong> RFC-0152: Emoji ID</a></li><li class="expanded "><a href="RFC-0170_NetworkCommunicationProtocol.html"><strong aria-hidden="true">3.9.</strong> RFC-0170: Network Communication Protocol</a></li><li><ol class="section"><li class="expanded "><a href="RFC-0171_MessageSerialisation.html"><strong aria-hidden="true">3.9.1.</strong> RFC-0171: Message Serialisation</a></li><li class="expanded "><a href="RFC-0172_PeerToPeerMessagingProtocol.html"><strong aria-hidden="true">3.9.2.</strong> RFC-0172: Peer to Peer Messaging Protocol</a></li></ol></li><li class="expanded "><a href="RFC-0190_Mempool.html"><strong aria-hidden="true">3.10.</strong> RFC-0190: Mempool</a></li><li class="expanded "><a href="BaseLayerExtensions.html"><strong aria-hidden="true">3.11.</strong> Tari-specific extensions to Mimblewimble</a></li><li><ol class="section"><li class="expanded "><a href="RFC-0230_HTLC.html"><strong aria-hidden="true">3.11.1.</strong> RFC-0230: Hash time locked contracts</a></li><li class="expanded "><a href="RFC-0322_VNRegistration.html"><strong aria-hidden="true">3.11.2.</strong> RFC-0322: Validator Node Registration</a></li><li class="expanded "><a href="RFC-0341_AssetRegistration.html"><strong aria-hidden="true">3.11.3.</strong> RFC-0341: Asset registration</a></li></ol></li></ol></li><li class="expanded "><a href="RFC-0300_DAN.html"><strong aria-hidden="true">4.</strong> RFC-0300: The Digital Assets Network</a></li><li><ol class="section"><li class="expanded "><a href="RFC-0301_NamespaceRegistration.html"><strong aria-hidden="true">4.1.</strong> RFC-0301: Namespace Registration</a></li><li class="expanded "><a href="RFC-0302_ValidatorNodes.html"><strong aria-hidden="true">4.2.</strong> RFC-0302: Validator Nodes</a></li><li class="expanded "><a href="RFC-0304_VNCommittees.html"><strong aria-hidden="true">4.3.</strong> RFC-0304: Validator Node committee selection</a></li><li class="expanded "><a href="AssetManagement.html"><strong aria-hidden="true">4.4.</strong> Asset Management</a></li><li><ol class="section"><li class="expanded "><a href="RFC-0311_AssetTemplates.html"><strong aria-hidden="true">4.4.1.</strong> RFC-0311: Digital Asset templates</a></li><li class="expanded "><a href="RFC-0345_AssetLifeCycle.html"><strong aria-hidden="true">4.4.2.</strong> RFC-0345: Asset Life cycle</a></li></ol></li><li class="expanded "><a href="RFC-0340_VNConsensusOverview.html"><strong aria-hidden="true">4.5.</strong> RFC-0340: Validator Node Consensus</a></li></ol></li><li class="expanded "><a href="RFC-0500_PaymentChannels.html"><strong aria-hidden="true">5.</strong> RFC-0500: Tari payment channels</a></li><li class="expanded "><a href="RFC-1000_TariUseCases.html"><strong aria-hidden="true">6.</strong> RFC-1000: Tari Use Cases</a></li><li class="expanded "><a href="Glossary.html"><strong aria-hidden="true">7.</strong> Glossary</a></li></ol>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                
+                <div id="menu-bar" class="menu-bar">
+                    <div id="menu-bar-sticky-container">
+                        <div class="left-buttons">
+                            <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                                <i class="fa fa-bars"></i>
+                            </button>
+                            
+                            <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                                <i class="fa fa-search"></i>
+                            </button>
+                            
+                        </div>
+
+                        <h1 class="menu-title"><img src="theme/images/tari-horizontal-logo.png"/> </h1>
+
+                        <div class="right-buttons">
+                            <a href="print.html" title="Print this book" aria-label="Print this book">
+                                <i id="print-button" class="fa fa-print"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" name="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+                
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1><a class="header" href="#rfc-0140syncandseeding" id="rfc-0140syncandseeding">RFC-0140/SyncAndSeeding</a></h1>
+<h2><a class="header" href="#syncing-strategies-and-objectives" id="syncing-strategies-and-objectives">Syncing Strategies and Objectives</a></h2>
+<p><img src="theme/images/status-draft.svg" alt="status: draft" /></p>
+<p><strong>Maintainer(s)</strong>: <a href="https://github.com/SWvheerden">S W van Heerden</a></p>
+<h1><a class="header" href="#licence" id="licence">Licence</a></h1>
+<p><a href="https://opensource.org/licenses/BSD-3-Clause"> The 3-Clause BSD Licence</a>.</p>
+<p>Copyright 2018 The Tari Development Community</p>
+<p>Redistribution and use in source and binary forms, with or without modification, are permitted provided that the
+following conditions are met:</p>
+<ol>
+<li>Redistributions of this document must retain the above copyright notice, this list of conditions and the following
+disclaimer.</li>
+<li>Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following
+disclaimer in the documentation and/or other materials provided with the distribution.</li>
+<li>Neither the name of the copyright holder nor the names of its contributors may be used to endorse or promote products
+derived from this software without specific prior written permission.</li>
+</ol>
+<p>THIS DOCUMENT IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS IS&quot;, AND ANY EXPRESS OR IMPLIED WARRANTIES,
+INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+SPECIAL, EXEMPLARY OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+SERVICES; LOSS OF USE, DATA OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+WHETHER IN CONTRACT, STRICT LIABILITY OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
+THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</p>
+<h2><a class="header" href="#language" id="language">Language</a></h2>
+<p>The keywords &quot;MUST&quot;, &quot;MUST NOT&quot;, &quot;REQUIRED&quot;, &quot;SHALL&quot;, &quot;SHALL NOT&quot;, &quot;SHOULD&quot;, &quot;SHOULD NOT&quot;, &quot;RECOMMENDED&quot;, 
+&quot;NOT RECOMMENDED&quot;, &quot;MAY&quot; and &quot;OPTIONAL&quot; in this document are to be interpreted as described in 
+<a href="https://tools.ietf.org/html/bcp14">BCP 14</a> (covering RFC2119 and RFC8174) when, and only when, they appear in all capitals, as 
+shown here.</p>
+<h2><a class="header" href="#disclaimer" id="disclaimer">Disclaimer</a></h2>
+<p>This document and its content are intended for information purposes only and may be subject to change or update
+without notice.</p>
+<p>This document may include preliminary concepts that may or may not be in the process of being developed by the Tari
+community. The release of this document is intended solely for review and discussion by the community of the
+technological merits of the potential system outlined herein.</p>
+<h2><a class="header" href="#goals" id="goals">Goals</a></h2>
+<p>The aim of this Request for Comment (RFC) is to describe the syncing, seeding, pruning and cut-through process.</p>
+<h2><a class="header" href="#related-requests-for-comment" id="related-requests-for-comment">Related Requests for Comment</a></h2>
+<ul>
+<li><a href="RFC-0110_BaseNodes.html">RFC-0110: Base Nodes</a></li>
+</ul>
+<h2><a class="header" href="#descriptions" id="descriptions">Descriptions</a></h2>
+<h3><a class="header" href="#syncing" id="syncing">Syncing</a></h3>
+<p>When a new node comes online, loses connection or encounters a chain reorganization that is longer than it can tolerate, 
+it must enter syncing mode. This will allow it to recover its state to the newest up-to-date state. Syncing can be 
+divided into two <a href="Glossary.html#synchronisationstrategy">SynchronizationStrategy</a>s: complete sync and sync. Complete sync means that the node communicates with 
+an archive node to get the complete history of every single block from genesis block. Sync involves the node getting 
+every block from its <a href="Glossary.html#pruning-horizon">pruning horizon</a> to <a href="Glossary.html#current-head">current head</a>, as well as every block header 
+from genesis block. </p>
+<h4><a class="header" href="#complete-sync" id="complete-sync">Complete Sync</a></h4>
+<p>Complete sync is only available from archive nodes, as these will be the only nodes that will be able to supply the 
+complete history required to sync every block with every transaction from genesis block up onto <a href="Glossary.html#current-head">current head</a>. </p>
+<h4><a class="header" href="#syncing-process" id="syncing-process">Syncing Process</a></h4>
+<p>The syncing process MUST be done in the following steps:</p>
+<ol>
+<li>Set <a href="Glossary.html#synchronisationstate">SynchronizationState</a> to <code>Synchronizing</code>.</li>
+<li>Ask peers for their latest block, so it can get the total Proof-of-Work (PoW). </li>
+<li>Choose the longest chain based on total PoW done on that chain.</li>
+<li>Select a connected peer with the longest chain to sync from. This is based on the following criteria:
+<ul>
+<li>Does the peer have a high enough <a href="Glossary.html#pruning-horizon">pruning horizon</a>?</li>
+<li>Does the peer allow syncing?</li>
+<li>Does the peer have a low latency?</li>
+</ul>
+</li>
+<li>Download all headers from genesis block up onto <a href="Glossary.html#current-head">current head</a>, and validate the headers as you receive them.</li>
+<li>Download Unspent Transaction Output (<a href="Glossary.html#unspent-transaction-outputs">UTXO</a>) set at <a href="Glossary.html#pruning-horizon">pruning horizon</a>. </li>
+<li>Download all blocks from <a href="Glossary.html#pruning-horizon">pruning horizon</a> up to <a href="Glossary.html#current-head">current head</a>. If the node is doing a 
+complete sync, the <a href="Glossary.html#pruning-horizon">pruning horizon</a> will be infinite, which means you will download all blocks ever 
+created.</li>
+<li>Validate blocks as if they were just mined and then received, in chronological order. </li>
+</ol>
+<p>After this process, the node will be in sync, and will be able to process blocks and transactions normally. </p>
+<h4><a class="header" href="#keeping-in-sync" id="keeping-in-sync">Keeping in Sync</a></h4>
+<p>The node SHOULD periodically test its peers with ping messages to ensure that they are alive. When a node sends a ping 
+message, it MUST include the current total PoW, hash of the <a href="Glossary.html#current-head">current head</a> and genesis block hash of its 
+own current longest chain in the ping message. The receiving node MUST reply with a pong message, also including the total 
+PoW, <a href="Glossary.html#current-head">current head</a> and genesis block hash of its longest chain. If the two chains do not match up, the node 
+with the lowest PoW is responsible for asking the peer for syncing information and set <a href="Glossary.html#synchronisationstate">SynchronizationState</a> to <code>Synchronizing</code>. </p>
+<p>If the genesis block hashes do not match, the node is removed from its peer list, as this node is running a different 
+blockchain. </p>
+<p>This will be handled by the node asking for each block header from the <a href="Glossary.html#current-head">current head</a>, going backward for 
+older blocks, until a known block is found. If a known block is found, and if it has missing blocks, it MUST set 
+<a href="Glossary.html#synchronisationstate">SynchronizationState</a> to <code>Synchronizing</code> while it is busy catching up those blocks.</p>
+<p>If no block is found, the node will enter sync mode and resync. It cannot recover from its state, as the fork is older 
+than its <a href="Glossary.html#pruning-horizon">pruning horizon</a>.</p>
+<h4><a class="header" href="#chain-forks" id="chain-forks">Chain Forks</a></h4>
+<p>Chain forks can be a problem, since in Mimblewimble not all nodes keep the complete transaction history. The design 
+philosophy is more along the lines of only keeping the current [Blockchain state]. However, if such a 
+node only maintains the current [Blockchain state], it is not possible for the node to &quot;rewind&quot; its 
+state to handle forks in the chain history. In this case, a mode must resync its chain to recover the necessary 
+transaction history up onto its <a href="Glossary.html#pruning-horizon">pruning horizon</a>.</p>
+<p>To counter this problem, we use <a href="Glossary.html#pruning-horizon">pruning horizon</a>. This allows every node (<a href="Glossary.html#base-node">Base Node</a>) to be a &quot;light&quot; 
+<a href="archivenode">archival node</a>. This in effect means that the node will keep a full history for a short while. If the node 
+encounters a fork, it can easily rewind its state to apply the fork. If the fork is longer than the <a href="Glossary.html#pruning-horizon">pruning horizon</a>, 
+the node will enter a sync state, where it will resync. </p>
+<h3><a class="header" href="#pruning-and-cut-through" id="pruning-and-cut-through">Pruning and Cut-through</a></h3>
+<p>In Mimblewimble, the state can be completely verified using the current <a href="Glossary.html#unspent-transaction-outputs">UTXO</a> set 
+(which contains the output commitments and range proofs), the set of excess signatures (contained in the transaction kernels) 
+and the PoW. The full block and transaction history is not required. This allows base layer nodes to remove old used 
+inputs from the <a href="Glossary.html#blockchain">blockchain</a> and or the <a href="Glossary.html#mempool">mempool</a>. <a href="RFC-0110_BaseNodes.html#Pruning-and-cut-through">Cut-through</a> happens in the <a href="Glossary.html#mempool">mempool</a> while pruning 
+happens in the <a href="Glossary.html#blockchain">blockchain</a> with already confirmed transactions. This will remove the spent inputs and outputs, but will 
+retain the excesses of each <a href="Glossary.html#transaction">transaction</a>. </p>
+<p>Pruning is only for the benefit of the local Base Node, as it reduces the local blockchain size. Pruning only happens 
+after the block is older than the <a href="Glossary.html#pruning-horizon">pruning horizon</a> height. A Base Node will either run in archive mode 
+or prune mode. If the Base Node is running in archive mode, it MUST NOT prune. </p>
+<p>When running in pruning mode, <a href="Glossary.html#base-node">Base Node</a>s MUST remove all spent outputs that are older than the 
+<a href="Glossary.html#pruning-horizon">pruning horizon</a>in their current stored <a href="Glossary.html#unspent-transaction-outputs">UTXO</a> when a new block is received from another <a href="Glossary.html#base-node">Base Node</a>.</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                        
+                            <a rel="prev" href="RFC-0130_Mining.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+                        
+
+                        
+                            <a rel="next" href="RFC-0150_Wallets.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                
+                    <a href="RFC-0130_Mining.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                
+
+                
+                    <a href="RFC-0150_Wallets.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+                
+            </nav>
+
+        </div>
+
+        
+
+        
+
+        
+
+        
+        <script src="elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="searcher.js" type="text/javascript" charset="utf-8"></script>
+        
+
+        <script src="clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Initialize mermaid -->
+        <script src="theme/js/mermaid.min.js" type="text/javascript" charset="utf-8"></script>
+        <script>mermaid.initialize({startOnLoad:true});</script>
+
+        <!-- Custom JS scripts -->
+        
+
+        
+
+    </body>
+</html>
